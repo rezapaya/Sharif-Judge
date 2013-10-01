@@ -219,10 +219,9 @@ do {
 	}
 
 
-	$stat = 'OK';
 	$score = ($output<0?0:$output);
+	$stat = 'SCORE';
 	switch($output){
-		case 0:  $stat = 'WRONG'; break;
 		case -1: $stat = 'Compilation Error'; break;
 		case -2: $stat = 'Syntax Error'; break;
 		case -3: $stat = 'Bad System Call'; break;

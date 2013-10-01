@@ -267,7 +267,24 @@ $finish = strtotime($assignment['finish_time']);
 						<?php if (substr($item['status'],0,8) == 'Uploaded'): ?>
 							<?php echo $item['status'] ?>
 						<?php else: ?>
-							<div class="btn <?php echo strtolower($item['status']) ?>" code="0" ><?php echo $item['status'] ?></div>
+							<?php
+								$class = strtolower($item['status']);
+								if ($class=='score')
+								{
+									if ($item['pre_score']==10000)
+										$class='ok';
+									else
+										$class='wrong';
+								}
+							?>
+							<div class="btn <?php echo $class ?>" code="0" >
+								<?php
+									if ($item['status']==='SCORE')
+										echo $final_score;
+									else
+										echo $item['status'];
+								?>
+							</div>
 						<?php endif ?>
 					</td>
 					<td>
