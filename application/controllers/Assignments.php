@@ -55,7 +55,7 @@ class Assignments extends CI_Controller
 			'error_messages' => $this->error_messages
 		);
 
-		$this->form_validation->set_rules('assignment_select', 'Assignment', 'integer|greater_than[0]');
+		$this->form_validation->set_rules('assignment_select', 'Assignment', 'required|integer|greater_than[0]');
 
 		if ($this->form_validation->run())
 		{
@@ -83,7 +83,7 @@ class Assignments extends CI_Controller
 		if ( ! $this->input->is_ajax_request() )
 			show_404();
 
-		$this->form_validation->set_rules('assignment_select', 'Assignment', 'integer|greater_than[0]');
+		$this->form_validation->set_rules('assignment_select', 'Assignment', 'required|integer|greater_than[0]');
 
 		if ($this->form_validation->run())
 		{
