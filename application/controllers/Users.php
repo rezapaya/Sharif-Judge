@@ -72,28 +72,14 @@ class Users extends CI_Controller
 		$this->form_validation->set_rules('new_users', 'New Users', 'required');
 		if ($this->form_validation->run()) {
 			list($ok , $error) = $this->user_model->add_users($this->input->post('new_users'), $this->input->post('send_mail'), $this->input->post('delay'));
-			if (count($ok) > 0){
-				echo '<p class="shj_ok">These users added successfully:</p>';
-				echo '<ol>';
-				foreach ($ok as $item){
-					echo '<li>Usename: '.$item[0].' Email: '.$item[1].' Password: '.$item[2].' Role: '.$item[3].'</li>';
-				}
-				echo '</ol>';
-			}
-			if (count($error) > 0){
-				echo '<p class="shj_error">Error adding these users:</p>';
-				echo '<ol>';
-				foreach ($error as $item){
-					echo '<li>Usename: '.$item[0].' Email: '.$item[1].' Password: '.$item[2].' Role: '.$item[3].' ('.$item[4].')</li>';
-				}
-				echo '</ol>';
-			}
-			exit;
+			$this->load->view('pages/admin/add_user_result', array('ok'=>$ok, 'error'=>$error));
 		}
-
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/admin/add_user', $data);
-		$this->load->view('templates/footer');
+		else
+		{
+			$this->load->view('templates/header', $data);
+			$this->load->view('pages/admin/add_user', $data);
+			$this->load->view('templates/footer');
+		}
 	}
 
 
