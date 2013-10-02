@@ -353,11 +353,24 @@ class Assignments extends CI_Controller
 		$config['allowed_types'] = 'zip';
 		$this->upload->initialize($config);
 
-		if ($this->upload->do_upload('tests'))
+		$assignment_dir = $config['upload_path']."/assignment_{$the_id}";
+
+
+		// If all problems are Upload-Only, we do not need a zip file
+		if (count($this->input->post('is_upload_only')) == $this->input->post('number_of_problems'))
+		{
+			// Remove previous test cases
+			shell_exec('cd '.$assignment_dir.'; rm -r */in; rm -r */out; rm -r */tester.cpp;');
+
+			$this->assignment_model->add_assignment($the_id, $this->edit);
+			$this->success_messages[] = 'Assignment '.($this->edit?'updated':'added').' successfully.';
+			return TRUE;
+		}
+
+		elseif ($this->upload->do_upload('tests'))
 		{
 			$this->load->library('unzip');
 			$this->unzip->allow(array('txt', 'cpp'));
-			$assignment_dir = $config['upload_path']."/assignment_{$the_id}";
 			if ( ! file_exists($assignment_dir))
 				mkdir($assignment_dir, 0700);
 			$u_data = $this->upload->data();
