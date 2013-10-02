@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="login2">
 				<p style="margin:0;">
 					<?php echo anchor("login","Login") ?>
-					<input type="submit" value="Get New Password" id="sharif_submit"/>
+					<input type="submit" value="Reset Password" id="sharif_submit"/>
 				</p>
 			</div>
 		</div>
