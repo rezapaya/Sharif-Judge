@@ -83,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		<?php echo form_open_multipart($edit?'assignments/edit/'.$edit_assignment['id']:'assignments/add') ?>
 		<div class="panel_left">
-			<input type="hidden" name="number_of_problems" id="nop" value="<?php echo $edit?$edit_assignment['problems']:1; ?>"/>
+			<input type="hidden" name="number_of_problems" id="nop" value="<?php echo $edit?$edit_assignment['problems']:count($problems); ?>"/>
 			<p class="input_p">
 				<label for="assignment_name">Assignment Name</label>
 				<input type="text" name="assignment_name" class="sharif_input medium" value="<?php
