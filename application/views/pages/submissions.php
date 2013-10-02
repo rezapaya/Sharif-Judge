@@ -21,9 +21,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				window.location = '<?php echo site_url('submissions') ?>/download_file/'+row.attr('u')+'/'+row.attr('a')+'/'+row.attr('p')+'/'+row.attr('s');
 				return;
 			}
-			var view_code_request = $.post(
-				'<?php echo site_url('submissions/view_code') ?>',
-				{
+			var view_code_request = $.ajax({
+				cache: true,
+				type: 'POST',
+				url: '<?php echo site_url('submissions/view_code') ?>',
+				data: {
 					code: button.attr('code'),
 					username: row.attr('u'),
 					assignment: row.attr('a'),
@@ -31,14 +33,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					submit_id: row.attr('s'),
 					<?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'
 				},
-				function(data){
+				success: function(data){
 					$(".modal_inside").html(data);
 					$.syntax({
 						blockLayout: 'fixed',
 						theme: 'paper'
 					});
 				}
-			);
+			});
 			$('#shj_modal').reveal(
 				{
 					on_close_modal: function(){
