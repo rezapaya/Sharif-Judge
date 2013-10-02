@@ -440,6 +440,10 @@ select.sharif_time {
 	border: 1px solid #a9a9a9;
 }
 
+#problems_table .delete_problem {
+	cursor: pointer;
+}
+
 #ui-datepicker-div {
 	font-size: 11px !important;
 }

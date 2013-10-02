@@ -26,17 +26,23 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<td><input type="text" name="diff_cmd[]" class="sharif_input tiny" value="diff"/></td>\
 		<td><input type="text" name="diff_arg[]" class="sharif_input tiny" value="-bB"/></td>\
 		<td><input type="checkbox" name="is_upload_only[]" class="check" value="';
-	var row3='"/></td>\
+	var row3='"/><td><i class="splashy-gem_remove delete_problem"></i></td></td>\
 	</tr>';
 	$(document).ready(function(){
 		$("#add").click(function(){
-			$("#problems_table").children().last().after(row1+(numOfProblems+1)+row2+(numOfProblems+1)+row3);
+			$('#problems_table>tbody').children().last().after(row1+(numOfProblems+1)+row2+(numOfProblems+1)+row3);
 			numOfProblems++;
 			$('#nop').attr('value',numOfProblems);
 		});
-		$("#remove").click(function(){
+		$(document).on('click','.delete_problem',function(){
 			if (numOfProblems==1) return;
-			$("#problems_table tr:last").remove();
+			var row = $(this).parents('tr');
+			var id = row.children(':first').html();
+			row.remove();
+			var i = 0;
+			$('#problems_table>tbody').children('tr').each(function(){
+				$(this).children(':first').html(++i);
+			});
 			numOfProblems--;
 			$('#nop').attr('value',numOfProblems);
 		});
@@ -173,7 +179,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php echo form_error('late_rule','<div class="shj_error">','</div>'); ?>
 			</p>
 		</div>
-		<p class="input_p" id="add_problems">Problems <i class="splashy-add" id="add"></i> <i class="splashy-remove_minus_sign" id="remove"></i>
+		<p class="input_p" id="add_problems">Problems <i class="splashy-add" id="add"></i>
 		<table id="problems_table">
 			<thead>
 			<tr>
@@ -186,11 +192,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<th rowspan="2">Diff<br>Command (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#diff_command">?</a>)</th>
 				<th rowspan="2">Diff<br>Argument (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#diff_arguments">?</a>)</th>
 				<th rowspan="2">Upload<br>Only (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#upload_only">?</a>)</th>
+				<th rowspan="2"></th>
 			</tr>
 			<tr>
 				<th>C/C++</th><th>Python</th><th>Java</th>
 			</tr>
 			</thead>
+			<tbody>
 			<?php foreach ($problems as $problem): ?>
 				<tr>
 					<td><?php echo $problem['id']?></td>
@@ -204,8 +212,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td><input type="text" name="diff_cmd[]" class="sharif_input tiny" value="<?php echo $problem['diff_cmd'] ?>"/></td>
 					<td><input type="text" name="diff_arg[]" class="sharif_input tiny" value="<?php echo $problem['diff_arg'] ?>"/></td>
 					<td><input type="checkbox" name="is_upload_only[]" class="check" value="<?php echo $problem['id'] ?>" <?php if ($problem['is_upload_only']) echo "checked" ?>/></td>
+					<td><i class="splashy-gem_remove delete_problem"></i></td>
 				</tr>
 			<?php endforeach ?>
+			</tbody>
 		</table>
 		</p>
 		<?php echo form_error('name[]','<div class="shj_error">','</div>'); ?>
