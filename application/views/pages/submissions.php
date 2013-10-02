@@ -298,7 +298,7 @@ $finish = strtotime($assignment['finish_time']);
 					</td>
 					<?php if($view === 'final' && $user_level>0): ?>
 						<td>
-							<?php if ($item['file_type'] === 'zip'): ?>
+							<?php if ($item['file_type'] === 'zip' OR $item['file_type'] === 'pdf'): ?>
 								---
 							<?php else: ?>
 								<div class="btn" code="2" >Log</div>
