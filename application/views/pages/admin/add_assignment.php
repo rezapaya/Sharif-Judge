@@ -42,6 +42,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			var i = 0;
 			$('#problems_table>tbody').children('tr').each(function(){
 				$(this).children(':first').html(++i);
+				$(this).find('[type="checkbox"]').attr('value',i);
 			});
 			numOfProblems--;
 			$('#nop').attr('value',numOfProblems);
