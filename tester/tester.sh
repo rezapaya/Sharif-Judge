@@ -283,9 +283,9 @@ for((i=1;i<=TST;i++)); do
 	if [ "$EXT" = "java" ]; then
 		cp ../java.policy java.policy
 		if $PERL_EXISTS; then
-			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT ./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT java -mx"$MEMLIMIT"k $JAVA_POLICY $MAINFILENAME  <$PROBLEMPATH/in/input$i.txt >out 2>err
+			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT java -mx${MEMLIMIT}k $JAVA_POLICY $MAINFILENAME"
 		else
-			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT java -mx"$MEMLIMIT"k $JAVA_POLICY $MAINFILENAME  <$PROBLEMPATH/in/input$i.txt >out 2>err
+			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "java -mx${MEMLIMIT}k $JAVA_POLICY $MAINFILENAME"
 		fi
 		EXITCODE=$?
 		if grep -iq "Too small initial heap" out; then
@@ -298,9 +298,9 @@ for((i=1;i<=TST;i++)); do
 		if $SANDBOX_ON; then
 			#LD_PRELOAD=./EasySandbox.so ./$FILENAME <$PROBLEMPATH/in/input$i.txt >out 2>/dev/null
 			if $PERL_EXISTS; then
-				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT ./timeout --just-kill --sandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT ./$FILENAME <$PROBLEMPATH/in/input$i.txt >out 2>err
+				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill --sandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT ./$FILENAME"
 			else
-				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT LD_PRELOAD=./EasySandbox.so ./$FILENAME <$PROBLEMPATH/in/input$i.txt >out 2>err
+				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "LD_PRELOAD=./EasySandbox.so ./$FILENAME"
 			fi
 			EXITCODE=$?
 			# remove <<entering SECCOMP mode>> from beginning of output:
@@ -308,26 +308,26 @@ for((i=1;i<=TST;i++)); do
 		else
 			#./$FILENAME <$PROBLEMPATH/in/input$i.txt >out 2>/dev/null
 			if $PERL_EXISTS; then
-				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT ./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT ./$FILENAME <$PROBLEMPATH/in/input$i.txt >out 2>err
+				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT ./$FILENAME"
 			else
-				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT ./$FILENAME <$PROBLEMPATH/in/input$i.txt >out 2>err
+				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./$FILENAME"
 			fi
 			EXITCODE=$?
 		fi
 
 	elif [ "$EXT" = "py2" ]; then
 		if $PERL_EXISTS; then
-			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT ./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT python -O $FILENAME.py <$PROBLEMPATH/in/input$i.txt >out 2>err
+			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT python -O $FILENAME.py"
 		else
-			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT python -O $FILENAME.py <$PROBLEMPATH/in/input$i.txt >out 2>err
+			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "python -O $FILENAME.py"
 		fi
 		EXITCODE=$?
 
 	elif [ "$EXT" = "py3" ]; then
 		if $PERL_EXISTS; then
-			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT ./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT python3 -O $FILENAME.py <$PROBLEMPATH/in/input$i.txt >out 2>err
+			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT python3 -O $FILENAME.py"
 		else
-			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT python3 -O $FILENAME.py <$PROBLEMPATH/in/input$i.txt >out 2>err
+			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "python3 -O $FILENAME.py"
 		fi
 		EXITCODE=$?
 
@@ -424,7 +424,7 @@ for((i=1;i<=TST;i++)); do
 done
 
 cd ..
-rm -r $JAIL >/dev/null 2>/dev/null # removing files
+#rm -r $JAIL >/dev/null 2>/dev/null # removing files
 ((SCORE=PASSEDTESTS*10000/TST)) # give score from 10,000
 judge_log "\nScore from 10000: $SCORE"
 echo $SCORE
