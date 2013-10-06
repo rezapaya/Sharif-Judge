@@ -69,7 +69,7 @@ class Login extends CI_Controller
 	 */
 	public function _registration_code($code){
 		$rc = $this->settings_model->get_setting('registration_code');
-		if ($rc == 0)
+		if ($rc == '0')
 			return TRUE;
 		if ($rc == $code)
 			return TRUE;
@@ -138,7 +138,7 @@ class Login extends CI_Controller
 		$data = array(
 			'title' => 'Register',
 			'style' => 'login.css',
-			'registration_code_required' => $this->settings_model->get_setting('registration_code')==0?FALSE:TRUE
+			'registration_code_required' => $this->settings_model->get_setting('registration_code')=='0'?FALSE:TRUE
 		);
 		$this->load->view('templates/header', $data);
 		if ($this->form_validation->run()){
