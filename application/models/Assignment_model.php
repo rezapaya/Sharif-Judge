@@ -80,8 +80,12 @@ class Assignment_model extends CI_Model{
 				elseif ($item2 === 'pdf')
 					$item = 'PDF';
 				$item2 = strtolower($item);
-				if (in_array($item2, array('c','c++','python 2','python 3','java','zip','pdf')))
-					$ft[$i-1] .= $item.",";
+				if ( ! in_array($item2, array('c','c++','python 2','python 3','java','zip','pdf')))
+					continue;
+				// If the problem is not Upload-Only, its language should be one of {C,C++,Python 2, Python 3,Java}
+				if ( ! in_array($i, $uo) && ! in_array($item2, array('c','c++','python 2','python 3','java')) )
+					continue;
+				$ft[$i-1] .= $item.",";
 			}
 			$ft[$i-1] = substr($ft[$i-1],0,strlen($ft[$i-1])-1); // remove last ','
 			$problem = array(
