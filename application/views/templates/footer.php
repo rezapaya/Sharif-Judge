@@ -7,7 +7,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <script>
-	var check_for_notifications = false;
+	var check_for_notifications = false; // Set to true if you want to enable checking for new notifications
 	var notif_check_time = null;
 	var notif_check_delay = 30; //checks for new notifications every 30 seconds
 	function check_notifs(){
