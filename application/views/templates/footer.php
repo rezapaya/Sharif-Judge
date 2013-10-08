@@ -7,6 +7,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <script>
+	var check_for_notifications = false;
 	var notif_check_time = null;
 	var notif_check_delay = 30; //checks for new notifications every 30 seconds
 	function check_notifs(){
@@ -32,7 +33,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$('#main_content').resize(function(){
 			$('body').nanoScroller();
 		});
-		window.setInterval(check_notifs,(notif_check_delay*1000));
+		if ( check_for_notifications )
+			window.setInterval(check_notifs,(notif_check_delay*1000));
 	});
 </script>
 </div>
