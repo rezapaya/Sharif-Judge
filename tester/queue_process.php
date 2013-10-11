@@ -68,7 +68,7 @@ function addJudgeResultToDB($sr, $type){
 		if ( $type === 'judge' OR ($type === 'rejudge' && $sid === $submit_id) ){
 			$db->query(
 				"UPDATE {$prefix}final_submissions
-				SET submit_id='$submit_id', time='$time', status='$status', pre_score='$pre_score', submit_count='$submit_count', file_name='$file_name', main_file_name='$main_file_name', file_type='$file_type'
+				SET submit_id='$submit_id', time='$time', status='$status', pre_score='$pre_score', file_name='$file_name', main_file_name='$main_file_name', file_type='$file_type'
 				WHERE username='$username' AND assignment='$assignment' AND problem='$problem' "
 			);
 		}
