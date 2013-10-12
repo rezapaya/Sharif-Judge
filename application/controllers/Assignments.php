@@ -357,7 +357,7 @@ class Assignments extends CI_Controller
 
 
 		// If all problems are Upload-Only, we do not need a zip file
-		if (count($this->input->post('is_upload_only')) == $this->input->post('number_of_problems'))
+		if ( ! $this->edit && count($this->input->post('is_upload_only')) == $this->input->post('number_of_problems'))
 		{
 			if ( ! file_exists($assignment_dir))
 				mkdir($assignment_dir, 0700);
