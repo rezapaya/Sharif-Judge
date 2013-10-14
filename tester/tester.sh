@@ -219,10 +219,10 @@ if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 		cp ../shield/def$EXT.h def.h
 		# adding define to beginning of code
 		echo '#define main themainmainfunction' | cat - code.c > thetemp && mv thetemp code.c
-		$COMPILER shield.$EXT -lm -O2 -o $FILENAME >/dev/null 2>cerr
+		$COMPILER shield.$EXT -fno-asm -Dasm=error -lm -O2 -o $FILENAME >/dev/null 2>cerr
 	else
 		mv code.c code.$EXT
-		$COMPILER code.$EXT -lm -O2 -o $FILENAME >/dev/null 2>cerr
+		$COMPILER code.$EXT -fno-asm -Dasm=error -lm -O2 -o $FILENAME >/dev/null 2>cerr
 	fi
 	EXITCODE=$?
 	judge_log "Compiled. Exit Code=$EXITCODE"
