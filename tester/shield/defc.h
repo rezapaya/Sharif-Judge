@@ -16,3 +16,6 @@ Put the message displayed to user after // in each line
 #define ifstream errorNo8    //File operation is not allowed
 #define ofstream errorNo9    //File operation is not allowed
 #define goto errorNo10       //"goto" is not allowed
+#define fork errorNo11       //Fork is not allowed
+#define clone errorNo12      //Clone is not allowed
+#define sleep errorNo13      //Sleep is not allowed
