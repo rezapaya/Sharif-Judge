@@ -159,7 +159,7 @@ class Submit extends CI_Controller
 			show_error('This file type is not allowed for this problem.');
 		if ( ! $this->_match($this->filetype, $this->ext) )
 			show_error('This file type does not match your selected language.');
-		if ( preg_match('/[^\x20-\x7f]/', $_FILES['userfile']['name']))
+		if ( ! preg_match('/^[a-zA-Z0-9_\-()]+$/', $this->file_name) )
 			show_error('Invalid characters in file name.');
 
 		$user_dir = rtrim($this->assignment_root, '/').'/assignment_'.$this->assignment['id'].'/p'.$this->problem['id'].'/'.$this->username;
