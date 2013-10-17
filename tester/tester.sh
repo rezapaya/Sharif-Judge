@@ -202,6 +202,10 @@ if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 	if [ "$EXT" = "cpp" ]; then
 		COMPILER="g++"
 	fi
+	EXEFILE=$(echo $FILENAME | sed 's/[^a-zA-Z0-9]//g') # Name of executable file
+	if [ "$EXEFILE" = "" ]; then
+		EXEFILE="exefile"
+	fi
 	cp $PROBLEMPATH/$UN/$FILENAME.$EXT code.c
 	judge_log "Compiling as $EXT"
 	if $SANDBOX_ON; then
@@ -219,10 +223,10 @@ if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 		cp ../shield/def$EXT.h def.h
 		# adding define to beginning of code
 		echo '#define main themainmainfunction' | cat - code.c > thetemp && mv thetemp code.c
-		$COMPILER shield.$EXT -fno-asm -Dasm=error -lm -O2 -o $FILENAME >/dev/null 2>cerr
+		$COMPILER shield.$EXT -fno-asm -Dasm=error -lm -O2 -o $EXEFILE >/dev/null 2>cerr
 	else
 		mv code.c code.$EXT
-		$COMPILER code.$EXT -fno-asm -Dasm=error -lm -O2 -o $FILENAME >/dev/null 2>cerr
+		$COMPILER code.$EXT -fno-asm -Dasm=error -lm -O2 -o $EXEFILE >/dev/null 2>cerr
 	fi
 	EXITCODE=$?
 	judge_log "Compiled. Exit Code=$EXITCODE"
@@ -298,9 +302,9 @@ for((i=1;i<=TST;i++)); do
 		if $SANDBOX_ON; then
 			#LD_PRELOAD=./EasySandbox.so ./$FILENAME <$PROBLEMPATH/in/input$i.txt >out 2>/dev/null
 			if $PERL_EXISTS; then
-				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill --sandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT ./$FILENAME"
+				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill --sandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT ./$EXEFILE"
 			else
-				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "LD_PRELOAD=./EasySandbox.so ./$FILENAME"
+				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "LD_PRELOAD=./EasySandbox.so ./$EXEFILE"
 			fi
 			EXITCODE=$?
 			# remove <<entering SECCOMP mode>> from beginning of output:
@@ -308,9 +312,9 @@ for((i=1;i<=TST;i++)); do
 		else
 			#./$FILENAME <$PROBLEMPATH/in/input$i.txt >out 2>/dev/null
 			if $PERL_EXISTS; then
-				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT ./$FILENAME"
+				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT -m $MEMLIMIT ./$EXEFILE"
 			else
-				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./$FILENAME"
+				./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./$EXEFILE"
 			fi
 			EXITCODE=$?
 		fi
