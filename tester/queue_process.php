@@ -186,7 +186,7 @@ do {
 
 	$time_limit_int = floor($time_limit) +1;
 	
-	$cmd = "cd $tester_path;\n./tester.sh $problemdir $username $main_filename $raw_filename $file_type $time_limit $time_limit_int $memory_limit $output_size_limit $diff_cmd $diff_arg $op1 $op2 $op3 $op4";
+	$cmd = "cd $tester_path;\n./tester.sh $problemdir $username ".escapeshellarg($main_filename)." ".escapeshellarg($raw_filename)." $file_type $time_limit $time_limit_int $memory_limit $output_size_limit $diff_cmd $diff_arg $op1 $op2 $op3 $op4";
 
 	file_put_contents($userdir.'/log', $cmd);
 
