@@ -27,12 +27,9 @@ Download the latest release from [http://sharifjudge.ir/download](http://sharifj
   * Rejudge
   * Scoreboard
   * Notifications
+  * ...
 
-## Installation
-
-Sharif Judge doesn't need root privileges to install. It has a simple installation.
-
-### Requirements
+## Requirements
 
 For running Sharif Judge, a Linux server with following requirements is needed:
 
@@ -43,7 +40,7 @@ For running Sharif Judge, a Linux server with following requirements is needed:
   * Tools for compiling and running submitted codes (`gcc`, `g++`, `javac`, `java`, `python` and `python3` commands)
   * It is better to have `perl` installed for more precise time and memory limit and imposing size limit on output of submitted code.
 
-### Installation
+## Installation
 
   1. Download the latest release from [download page](http://sharifjudge.ir/download) and unpack downloaded file in your public html directory.
   2. Create a MySql database for Sharif Judge.
@@ -52,6 +49,6 @@ For running Sharif Judge, a Linux server with following requirements is needed:
   5. Log in with your admin account.
   6. **[IMPORTANT]** Move folders `tester` and `assignments` somewhere outside your public directory. Then save their full path in `Settings` page. **These two folders must be writable by PHP.** Submitted files will be stored in `assignments` folder. So it should be somewhere not publicly accessible.
 
-### After Installation
+## After Installation
 
   * Read the [documentation](http://docs.sharifjudge.ir/installation#after_installation)
