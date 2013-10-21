@@ -48,6 +48,7 @@ For running Sharif Judge, a Linux server with following requirements is needed:
   4. Open Sharif Judge main page in a web browser and follow the installation process.
   5. Log in with your admin account.
   6. **[IMPORTANT]** Move folders `tester` and `assignments` somewhere outside your public directory. Then save their full path in `Settings` page. **These two folders must be writable by PHP.** Submitted files will be stored in `assignments` folder. So it should be somewhere not publicly accessible.
+  7. **[IMPORTANT]** [Secure Sharif Judge](http://docs.sharifjudge.ir/security)
 
 ## After Installation
 
