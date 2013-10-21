@@ -408,6 +408,9 @@ select.sharif_time {
 }
 
 .check {
+	transition: all ease 0.3s;
+	-webkit-transition: all ease 0.3s;
+	-moz-transition: all ease 0.3s;
 	width: 22px;
 	height: 22px;
 	border: none;
