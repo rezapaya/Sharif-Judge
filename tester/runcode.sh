@@ -34,7 +34,7 @@ ulimit -t $TIMELIMITINT
 
 # Run the command
 $CMD <$IN >out 2>err
-# You can run submitted codes with another user:
+# You can run submitted codes as another user:
 #
 #sudo -u another_user $CMD <$IN >out 2>err
 #
