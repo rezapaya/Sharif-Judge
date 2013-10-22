@@ -18,12 +18,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="login1">
 				<p>
 					<label for="username">Username</label><br/>
-					<input type="text" name="username" class="sharif_input" value="<?php echo set_value('username'); ?>" autofocus="autofocus" />
+					<input type="text" name="username" required="required" pattern="[0-9A-Za-z]{3,20}" title="The Username field must be between 3 and 20 characters in length, and contain only alpha-numeric characters" class="sharif_input" value="<?php echo set_value('username'); ?>" autofocus="autofocus"/>
 					<?php echo form_error('username','<div class="shj_error">','</div>'); ?>
 				</p>
 				<p>
 					<label for="password">Password</label><br/>
-					<input type="password" name="password" class="sharif_input"/>
+					<input type="password" name="password" required="required" pattern="[0-9A-Za-z]{6,20}" title="The Password field must be between 6 and 30 characters in length, and contain only alpha-numeric characters" class="sharif_input"/>
 					<?php echo form_error('password','<div class="shj_error">','</div>'); ?>
 				</p>
 				<?php if ($error): ?>
