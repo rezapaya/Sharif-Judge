@@ -7,12 +7,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<script>
-	$(document).ready(function(){
-		$("#username").focus();
-	});
-</script>
-
 <?php echo form_open('login') ?>
 	<div class="box login">
 
@@ -24,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<div class="login1">
 				<p>
 					<label for="username">Username</label><br/>
-					<input type="text" id="username" name="username" class="sharif_input" value="<?php echo set_value('username'); ?>"/>
+					<input type="text" name="username" class="sharif_input" value="<?php echo set_value('username'); ?>" autofocus="autofocus" />
 					<?php echo form_error('username','<div class="shj_error">','</div>'); ?>
 				</p>
 				<p>
