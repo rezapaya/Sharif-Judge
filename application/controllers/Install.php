@@ -229,7 +229,7 @@ class Install extends CI_Controller
 			$config_path = rtrim(APPPATH,'/').'/config/config.php';
 			$config_content = file_get_contents($config_path);
 			$random_key = random_string('alnum', 32);
-			$res = @file_put_contents($config_path, str_replace('919RgokTjymS34AhPzF76tcLjTVYMV8T', $random_key, $config_content));
+			$res = file_put_contents($config_path, str_replace('919RgokTjymS34AhPzF76tcLjTVYMV8T', $random_key, $config_content));
 			if ($res === FALSE)
 				$data['key_changed'] = FALSE;
 			else
