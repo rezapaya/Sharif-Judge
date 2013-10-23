@@ -35,22 +35,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php echo form_open('install') ?>
 		<p class="input_p">
 			<label for="username">Admin username:</label>
-			<input class="sharif_input" type="text" name="username"  value="<?php echo set_value('username'); ?>"/>
+			<input class="sharif_input" type="text" name="username" required="required" pattern="[0-9A-Za-z]{3,20}" title="The Username field must be between 3 and 20 characters in length, and contain only alpha-numeric characters" value="<?php echo set_value('username'); ?>"/>
 			<?php echo form_error('username','<div class="shj_error">','</div>'); ?>
 		</p>
 		<p class="input_p">
 			<label for="email">Admin email:</label>
-			<input class="sharif_input" type="text" name="email" value="<?php echo set_value('email'); ?>"/>
+			<input type="email" autocomplete="off" name="email" required="required" class="sharif_input" value="<?php echo set_value('email'); ?>"/>
 			<?php echo form_error('email','<div class="shj_error">','</div>'); ?>
 		</p>
 		<p class="input_p">
 			<label for="username">Admin password:</label>
-			<input class="sharif_input" type="password" name="password"/>
+			<input type="password" name="password" required="required" pattern="[0-9A-Za-z]{6,20}" title="The Password field must be between 6 and 30 characters in length, and contain only alpha-numeric characters" class="sharif_input"/>
 			<?php echo form_error('password','<div class="shj_error">','</div>'); ?>
 		</p>
 		<p class="input_p">
 			<label for="username">Password, again:</label>
-			<input class="sharif_input" type="password" name="password_again"/>
+			<input type="password" name="password_again" required="required" class="sharif_input"/>
 			<?php echo form_error('password_again','<div class="shj_error">','</div>'); ?>
 		</p>
 		<p class="input_p">
