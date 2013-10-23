@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					So, for security, you should change the encryption key manually.<br>
 					Open <code>application/config/config.php</code> and change the encryption key in this line:
 				</p>
-				<pre>$config['encryption_key'] = '919RgokTjymS34AhPzF76tcLjTVYMV8T';</pre>
+				<pre>$config['encryption_key'] = '<?php echo $this->config->item('encryption_key'); ?>';</pre>
 				<p>
 					The key should be a 32-characters string as random as possible, with numbers and uppercase and lowercase letters.<br>
 					You can use this random string: <code><?php echo random_string('alnum',32) ?></code>
