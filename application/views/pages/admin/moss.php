@@ -65,9 +65,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<li>Problem <?php echo $i ?>:
 				<?php
 					if ($moss_problems[$i]===FALSE)
-						echo "link not found";
+						echo 'Link Not Found.';
+					elseif (trim($moss_problems[$i])==='')
+						echo 'Link Not Found. Maybe you have entered wrong user id.';
 					else
-						echo anchor($moss_problems[$i],$moss_problems[$i],'target="_blank"')
+						echo '<a href="'.$moss_problems[$i].'" target="_black">'.$moss_problems[$i].'</a>';
 				?></li>
 			<?php endfor ?>
 			</ul>
