@@ -49,7 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<p>
 		<?php echo form_open('moss/detect/'.$moss_assignment['id']) ?>
 		You can send final submissions of assignment "<?php echo $moss_assignment['name'] ?>" to Moss by clicking on this button.<br>
-		Zip files will not be sent.<br>
+		Zip and PDF files will not be sent.<br>
 		It may take a minute. Please be patient.<br>
 		<input type="submit" class="sharif_input" value="Detect similar codes"/>
 		</form>
