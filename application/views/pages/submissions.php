@@ -88,7 +88,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							$(".set_final#sf"+submit_id+"_"+problem).addClass('checked');
 						}
 						else if (a == "shj_finished" ){
-							alert("This assignment is finished. You cannot change your final submissions.");
+							noty({
+								text: 'This assignment is finished. You cannot change your final submissions.',
+								layout: 'bottomRight',
+								type: 'warning',
+								timeout: 3000,
+								closeWith: ['click','button'],
+								animation: {
+									open: {height: 'toggle'},
+									close: {height: 'toggle'},
+									easing: 'swing',
+									speed: 300
+								}
+							});
 						}
 					}
 				);
