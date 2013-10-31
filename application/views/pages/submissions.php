@@ -224,7 +224,7 @@ $finish = strtotime($assignment['finish_time']);
 						<td><?php echo $j; ?></td>
 					<?php endif ?>
 
-					<td><a title="Filter Submissions by This Username" href="<?php echo site_url('submissions/'.$view.'/user/'.$item['username'].($filter_problem?'/problem/'.$filter_problem:'')) ?>"><?php echo $item['username'] ?></a></td>
+					<td><a href="<?php echo site_url('submissions/'.$view.'/user/'.$item['username'].($filter_problem?'/problem/'.$filter_problem:'')) ?>"><?php echo $item['username'] ?></a></td>
 					<td><?php
 						if(!isset($name[$item['username']]))
 							$name[$item['username']]=$this->user_model->get_user($item['username'])->display_name;
@@ -233,7 +233,7 @@ $finish = strtotime($assignment['finish_time']);
 				<?php endif ?>
 					<td><?php
 						$pi = $this->assignment_model->problem_info($assignment['id'],$item['problem']);
-						echo '<a title="Filter Submissions by This Problem" href="'.site_url('submissions/'.$view.($filter_user?'/user/'.$filter_user:'').'/problem/'.$item['problem']).'"><span dir>'.$pi['name'].'</span> <span>('.$item['problem'].')</span></a>';
+						echo '<a href="'.site_url('submissions/'.$view.($filter_user?'/user/'.$filter_user:'').'/problem/'.$item['problem']).'"><span dir>'.$pi['name'].'</span> <span>('.$item['problem'].')</span></a>';
 					?></td>
 					<td><?php echo $item['time'] ?></td>
 					<td><?php
