@@ -5,11 +5,10 @@
  * Free to use under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
  *
- * This code has been changed by Mohammad Javad Naderi <mjnaderi@gmail.com>
+ * This code has been changed by Mohammad Javad Naderi <mjnaderi@gmail.com> for Sharif Judge
  */
 
 var modal_open = false;
-
 
 (function ($) {
 
