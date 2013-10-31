@@ -179,7 +179,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php echo form_error('late_rule','<div class="shj_error">','</div>'); ?>
 			</p>
 		</div>
-		<p class="input_p" id="add_problems">Problem1s <i class="splashy-add pointer" id="add"></i>
+		<p class="input_p" id="add_problems">Problems <i class="splashy-add pointer" id="add"></i>
 		<table id="problems_table">
 			<thead>
 			<tr>
