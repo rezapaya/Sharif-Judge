@@ -41,14 +41,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					});
 				}
 			});
-			$('#shj_modal').reveal(
-				{
-					on_close_modal: function(){
-						$(".modal_inside").html('<div style="text-align: center;">Loading<br><img src="<?php echo base_url('assets/images/loading.gif') ?>"/></div>');
-						view_code_request.abort();
+			if ( ! modal_open)
+				$('#shj_modal').reveal(
+					{
+						animationspeed: 300,
+						on_close_modal: function(){ view_code_request.abort(); },
+						on_finish_modal: function(){
+							$(".modal_inside").html('<div style="text-align: center;">Loading<br><img src="<?php echo base_url('assets/images/loading.gif') ?>"/></div>');
+						}
 					}
-				}
-			);
+				);
 
 		});
 		$(".shj_rejudge").click(function(){
