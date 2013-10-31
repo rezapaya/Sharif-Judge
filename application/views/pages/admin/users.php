@@ -17,7 +17,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				text: 'Are you sure you want to delete this user?<br>User ID: '+user_id+'<br>Username: '+username+'<br><input type="checkbox" id="delete_submissions"/> Also delete this user\'s submissions and submitted codes.',
 				layout: 'center',
 				type: 'confirm',
-				closeWith: ['click','button'],
 				animation: {
 					open: {height: 'toggle'},
 					close: {height: 'toggle'},
@@ -57,7 +56,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				text: 'Are you sure you want to delete this user\'s submitted codes?<br>User ID: '+user_id+'<br>Username: '+username+'<br><input type="checkbox" id="delete_results"/> Also delete submission results from database.',
 				layout: 'center',
 				type: 'confirm',
-				closeWith: ['click','button'],
 				animation: {
 					open: {height: 'toggle'},
 					close: {height: 'toggle'},

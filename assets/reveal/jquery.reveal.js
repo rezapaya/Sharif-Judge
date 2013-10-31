@@ -8,8 +8,6 @@
  * This code has been changed by Mohammad Javad Naderi <mjnaderi@gmail.com> for Sharif Judge
  */
 
-var modal_open = false;
-
 (function ($) {
 
 	// Extend and Execute
@@ -19,10 +17,8 @@ var modal_open = false;
 			animationspeed: 300, //how fast animtions are
 			closeonbackgroundclick: true, //if you click background will modal close?
 			dismissmodalclass: 'close-reveal-modal', //the class of a button or element that will close an open modal
-			on_close_modal: function () {
-			},
-			on_finish_modal: function () {
-			}
+			on_close_modal: function () {},
+			on_finish_modal: function () {}
 		};
 
 		//Extend dem' options
@@ -48,7 +44,6 @@ var modal_open = false;
 				$('.' + options.dismissmodalclass).unbind('click.modalEvent');
 				if (!locked) {
 					lockModal();
-					modal_open = true;
 					if (options.animation == "fadeAndPop") {
 						modal.css({'top': $(document).scrollTop() - topOffset, 'opacity': 0, 'visibility': 'visible'});
 						modalBG.fadeIn(options.animationspeed);
@@ -78,32 +73,29 @@ var modal_open = false;
 				if (!locked) {
 					lockModal();
 					if (options.animation == "fadeAndPop") {
-						modalBG.fadeOut(options.animationspeed / 4);
+						modalBG.fadeOut(options.animationspeed);
 						modal.animate({
 							"top": $(document).scrollTop() - topOffset + 'px',
 							"opacity": 0
 						}, options.animationspeed, function () {
 							modal.css({'top': topMeasure, 'opacity': 1, 'visibility': 'hidden'});
 							unlockModal();
-							modal_open = false;
 							options.on_finish_modal();
 						});
 					}
 					else if (options.animation == "fade") {
-						modalBG.fadeOut(options.animationspeed / 4);
+						modalBG.fadeOut(options.animationspeed);
 						modal.animate({
 							"opacity": 0
 						}, options.animationspeed, function () {
 							modal.css({'opacity': 1, 'visibility': 'hidden', 'top': topMeasure});
 							unlockModal();
-							modal_open = false;
 							options.on_finish_modal();
 						});
 					}
 					else if (options.animation == "none") {
 						modal.css({'visibility': 'hidden', 'top': topMeasure});
 						modalBG.css({'display': 'none'});
-						modal_open = false;
 						options.on_finish_modal();
 					}
 					options.on_close_modal();
