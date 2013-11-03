@@ -46,6 +46,9 @@ class Assignment_model extends CI_Model{
 			$this->db->where('id', $id)->update('assignments', $assignment);
 			// each time we edit an assignment, we should update coefficient of all submissions of that assignment
 			$this->_update_coefficients($id, $assignment['extra_time'], $assignment['finish_time'], $assignment['late_rule']);
+			// each time we edit an assignment, we should update scoreboard of that assignment
+			$this->load->model('scoreboard_model');
+			$this->scoreboard_model->update_scoreboard($id);
 		}
 		else
 			$this->db->insert('assignments', $assignment);
@@ -279,8 +282,6 @@ class Assignment_model extends CI_Model{
 			))->update('final_submissions', array('coefficient'=>$coefficient));
 		}
 	}
-
-
 
 
 }

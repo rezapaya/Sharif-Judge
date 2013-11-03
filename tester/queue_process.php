@@ -27,6 +27,9 @@ if ($db->connect_errno > 0){
 }
 
 
+$basepath = $argv[1];
+
+
 // ------------------------------------------------------------------------
 
 
@@ -34,6 +37,7 @@ function addJudgeResultToDB($sr, $type){
 
 	global $db;
 	global $prefix;
+	global $basepath;
 
 	$submit_id = $sr['submit_id'];
 	$username = $sr['username'];
@@ -88,6 +92,8 @@ function addJudgeResultToDB($sr, $type){
 		WHERE submit_id='$submit_id' AND username='$username' AND assignment='$assignment' AND problem='$problem'"
 	);
 
+	// update scoreboard:
+	shell_exec("php ".escapeshellarg($basepath.'../index.php')." scoreboard update $assignment");
 }
 
 
