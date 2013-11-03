@@ -42,13 +42,17 @@ class Assignment_model extends CI_Model{
 			'participants' => $this->input->post('participants')
 		);
 		if($edit){
+			$before = $this->db->get_where('assignments', array('id'=>$id))->row_array();
 			unset($assignment['total_submits']);
 			$this->db->where('id', $id)->update('assignments', $assignment);
-			// each time we edit an assignment, we should update coefficient of all submissions of that assignment
-			$this->_update_coefficients($id, $assignment['extra_time'], $assignment['finish_time'], $assignment['late_rule']);
-			// each time we edit an assignment, we should update scoreboard of that assignment
-			$this->load->model('scoreboard_model');
-			$this->scoreboard_model->update_scoreboard($id);
+			if ($assignment['extra_time']!=$before['extra_time'] OR $assignment['start_time']!=$before['start_time'] OR $assignment['finish_time']!=$before['finish_time'] OR $assignment['late_rule']!=$before['late_rule'])
+			{
+				// each time we edit an assignment, we should update coefficient of all submissions of that assignment
+				$this->_update_coefficients($id, $assignment['extra_time'], $assignment['finish_time'], $assignment['late_rule']);
+				// each time we edit an assignment, we should update scoreboard of that assignment
+				$this->load->model('scoreboard_model');
+				$this->scoreboard_model->update_scoreboard($id);
+			}
 		}
 		else
 			$this->db->insert('assignments', $assignment);
@@ -251,15 +255,17 @@ class Assignment_model extends CI_Model{
 		$all_submissions = $this->db->get_where('all_submissions', array('assignment'=>$assignment_id))->result_array();
 		$final_submissions = $this->db->get_where('final_submissions', array('assignment'=>$assignment_id))->result_array();
 
+		$finish_time = strtotime($finish_time);
+
 		foreach ($all_submissions as $item) {
-			$delay = strtotime($item['time'])-strtotime($finish_time);;
+			$delay = strtotime($item['time'])-$finish_time;
 			ob_start();
 			if ( eval($new_late_rule) === FALSE )
 				$coefficient = "error";
 			if (!isset($coefficient))
 				$coefficient = "error";
 			ob_end_clean();
-			$this->db->where(array(
+			$this->db->where(array( /* todo This runs a bit slow */
 				'assignment'=>$assignment_id,
 				'problem'=>$item['problem'],
 				'username'=>$item['username'],
@@ -267,7 +273,7 @@ class Assignment_model extends CI_Model{
 			))->update('all_submissions', array('coefficient'=>$coefficient));
 		}
 		foreach ($final_submissions as $item) {
-			$delay = strtotime($item['time'])-strtotime($finish_time);;
+			$delay = strtotime($item['time'])-$finish_time;
 			ob_start();
 			if ( eval($new_late_rule) === FALSE )
 				$coefficient = "error";
