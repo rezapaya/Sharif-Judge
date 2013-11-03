@@ -93,8 +93,10 @@ $(document).ready(function(){
 				<?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'
 			},
 			function (data) {
-				if (data == 'success')
-					location.reload();
+				if (data == 'success'){
+					row.children('.status').html('<div class="btn pending" code="0">PENDING</div>');
+					noty({text: 'Rejudge in progress', layout:'bottomRight', type: 'success', timeout: 2500});
+				}
 			}
 		);
 	});
@@ -298,7 +300,7 @@ $finish = strtotime($assignment['finish_time']);
 					<td>
 						<?php echo filetype_to_language($item['file_type']) ?>
 					</td>
-					<td>
+					<td class="status">
 						<?php if (substr($item['status'],0,8) == 'Uploaded'): ?>
 							<?php echo $item['status'] ?>
 						<?php else: ?>
