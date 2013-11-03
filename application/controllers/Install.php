@@ -193,7 +193,8 @@ class Install extends CI_Controller
 				('reset_password_mail', '<p>\nSomeone requested to reset the password for account with this email address at {SITE_URL}.\n</p>\n<p>\nTo change your password, visit this link:\n</p>\n<p>\n<a href=\"{RESET_LINK}\">Reset Password</a>\n</p>\n<p>\nThe link is valid for {VALID_TIME}. If you don''t want to change your password, just ignore this email.\n</p>'),
 				('add_user_mail', '<p>\nHello! You are registered in Sharif Judge at {SITE_URL} as {ROLE}.\n</p>\n<p>\nYour username: {USERNAME}\n</p>\n<p>\nYour password: {PASSWORD}\n</p>\n<p>\nYou can log in at <a href=\"{LOGIN_URL}\">{LOGIN_URL}</a>\n</p>'),
 				('moss_userid', ''),
-				('results_per_page', '40'),
+				('results_per_page_all', '40'),
+				('results_per_page_final', '80'),
 				('week_start', '0');";
 			if ( ! $this->db->simple_query($query))
 				show_error("Error adding data to table 'settings'");
