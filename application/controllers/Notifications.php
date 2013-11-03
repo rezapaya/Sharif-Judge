@@ -127,6 +127,7 @@ class Notifications extends CI_Controller
 		if ($this->input->post('id') === NULL)
 			exit('error');
 		$this->notifications_model->delete_notification($this->input->post('id'));
+		exit('deleted');
 	}
 
 

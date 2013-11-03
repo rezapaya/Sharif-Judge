@@ -37,7 +37,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							function(response){
 								if (response == 'deleted'){
 									row.animate({backgroundColor: '#FF7676'},1000, function(){row.remove();});
-									noty({text: 'User '+username+' deleted.', layout:'bottomRight', type: 'success', timeout: 3000});
+									noty({text: 'User '+username+' deleted.', layout:'bottomRight', type: 'success', timeout: 5000});
 								}
 							}
 						);
