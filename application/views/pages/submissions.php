@@ -98,7 +98,7 @@ $(document).ready(function(){
 							text: 'This assignment is finished. You cannot change your final submissions.',
 							layout: 'bottomRight',
 							type: 'warning',
-							timeout: 3000,
+							timeout: 5000,
 							closeWith: ['click','button'],
 							animation: {
 								open: {height: 'toggle'},
