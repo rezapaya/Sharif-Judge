@@ -41,21 +41,21 @@ shj.update_clock = function(){
 	$("#time_minutes").html(minutes);
 	$("#time_seconds").html(seconds);
 	if(days==1)
-		$("#days_label").css("display","none");
+		$("#days_label").html(shj.time_words[0]);
 	else
-		$("#days_label").css("display","inline");
+		$("#days_label").html(shj.time_words[1]);
 	if(hours==1)
-		$("#hours_label").css("display","none");
+		$("#hours_label").html(shj.time_words[2]);
 	else
-		$("#hours_label").css("display","inline");
+		$("#hours_label").html(shj.time_words[3])
 	if(minutes==1)
-		$("#minutes_label").css("display","none");
+		$("#minutes_label").html(shj.time_words[4]);
 	else
-		$("#minutes_label").css("display","inline");
+		$("#minutes_label").html(shj.time_words[5]);
 	if(seconds==1)
-		$("#seconds_label").css("display","none");
+		$("#seconds_label").html(shj.time_words[6]);
 	else
-		$("#seconds_label").css("display","inline");
+		$("#seconds_label").html(shj.time_words[7]);
 }
 
 shj.sidebar_open = function(time){

@@ -7,6 +7,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <script>
+	shj.time_words = ['day', 'days', 'hour', 'hours', 'minute', 'minutes', 'second' , 'seconds'];
 	$(document).ready(function(){
 		$("#top_bar").hoverIntent({
 			over:function(){
@@ -66,19 +67,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="top_object countdown" id="countdown">
 		<div class="time_block">
 			<span id="time_days"></span><br>
-			<span class="time_label">day</span><span class="time_label" id="days_label">s</span>
+			<span class="time_label" id="days_label"></span>
 		</div>
 		<div class="time_block">
 			<span id="time_hours"></span><br>
-			<span class="time_label">hour</span><span class="time_label" id="hours_label">s</span>
+			<span class="time_label" id="hours_label"></span>
 		</div>
 		<div class="time_block">
 			<span id="time_minutes"></span><br>
-			<span class="time_label">minute</span><span class="time_label" id="minutes_label">s</span>
+			<span class="time_label" id="minutes_label"></span>
 		</div>
 		<div class="time_block">
 			<span id="time_seconds"></span><br>
-			<span class="time_label">second</span><span class="time_label" id="seconds_label">s</span>
+			<span class="time_label" id="seconds_label"></span>
 		</div>
 	</div>
 	<div class="top_object countdown" id="extra_time">
