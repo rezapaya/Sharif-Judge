@@ -99,16 +99,11 @@ class Submissions extends CI_Controller
 			else
 				$checked='*';
 
-			$extra_time = $this->assignment['extra_time'];
 			$delay = strtotime($item['time'])-$finish;
-			ob_start();
-			if ( eval($this->assignment['late_rule']) === FALSE ){
-				$coefficient = 'error';
+			if ($item['coefficient'] === 'error')
 				$final_score = 0;
-			}
 			else
-				$final_score = ceil($pre_score*$coefficient/100);
-			ob_end_clean();
+				$final_score = ceil($pre_score*$item['coefficient']/100);
 
 			if ($delay<0)
 				$delay = 0;
@@ -127,7 +122,7 @@ class Submissions extends CI_Controller
 					$item['time'],
 					$pre_score,
 					$h.':'.$m,
-					$coefficient,
+					$item['coefficient'],
 					$final_score,
 					filetype_to_language($item['file_type']),
 					$item['status'],
@@ -143,7 +138,7 @@ class Submissions extends CI_Controller
 					$item['time'],
 					$pre_score,
 					$h.':'.$m,
-					$coefficient,
+					$item['coefficient'],
 					$final_score,
 					filetype_to_language($item['file_type']),
 					$item['status'],

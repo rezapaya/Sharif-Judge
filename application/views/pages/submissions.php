@@ -241,19 +241,12 @@ $finish = strtotime($assignment['finish_time']);
 						echo $pre_score;
 					?></td>
 					<td><?php
-						$extra_time = $assignment['extra_time'];
 						$delay = strtotime($item['time'])-$finish;
-						ob_start();
-						if ( eval($assignment['late_rule']) === FALSE ){
-							$coefficient = 'error';
+
+						if ($item['coefficient'] === 'error')
 							$final_score = 0;
-						}
-						else {
-							$final_score = ceil($pre_score*$coefficient/100);
-						}
-						if (!isset($coefficient))
-							$coefficient = 'error';
-						ob_end_clean();
+						else
+							$final_score = ceil($pre_score*$item['coefficient']/100);
 
 						$neg = FALSE;
 						if ($delay<0){
@@ -275,7 +268,7 @@ $finish = strtotime($assignment['finish_time']);
 							echo '<span title="Hours">'.$h.'</span>:<span title="Minutes">'.$m.'</span>';
 						echo '</span><br>';
 
-						echo $coefficient;
+						echo $item['coefficient'];
 					?></td>
 					<td style="font-weight: bold;"><?php echo $final_score ?> </td>
 					<td>

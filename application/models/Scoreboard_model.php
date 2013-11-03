@@ -36,16 +36,10 @@ class Scoreboard_model extends CI_Model {
 			$pi = $this->assignment_model->problem_info($this->assignment['id'], $submission['problem']);
 
 			$pre_score = ceil($submission['pre_score']*$pi['score']/10000);
-			$extra_time = $assignment['extra_time'];
-			$delay = strtotime($submission['time'])-$finish;
-			ob_start();
-			if (eval($assignment['late_rule']) === FALSE){
-				$coefficient = 'error';
+			if ($submission['coefficient'] === 'error')
 				$final_score = 0;
-			}
 			else
-				$final_score = ceil($pre_score*$coefficient/100);
-			ob_end_clean();
+				$final_score = ceil($pre_score*$submission['coefficient']/100);
 			$delay = strtotime($submission['time'])-strtotime($assignment['start_time']);
 			$scores[$submission['username']][$submission['problem']]['score'] = $final_score;
 			$scores[$submission['username']][$submission['problem']]['time'] = $delay;
