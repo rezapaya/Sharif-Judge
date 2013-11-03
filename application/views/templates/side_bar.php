@@ -7,51 +7,48 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<script type="text/javascript" src="<?php echo base_url("assets/js/shj_functions.js") ?>"></script>
-
-<script type= "text/javascript">
+<script>
 	// difference of server and browser time:
-	var offset = moment('<?php echo date("Y-m-d H:i:s",shj_now()); ?>').diff(moment());
-	var time; // current time of browser
-	var finish_time; // finish time of assignment
-	var extra_time; // extra time of assignment
-	var sidebar;
+	shj.offset = moment('<?php echo date("Y-m-d H:i:s", shj_now()); ?>').diff(moment());
 
-
-	function sync_server_time() {
+	shj.sync_server_time = function() {
 		$.post('<?php echo site_url('server_time') ?>',
 			{<?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'},
 			function(data) {
-				offset = moment(data).diff(moment());
+				shj.offset = moment(data).diff(moment());
 			}
 		);
 	}
+</script>
 
+<script type="text/javascript" src="<?php echo base_url("assets/js/shj_functions.js") ?>"></script>
+
+<script type= "text/javascript">
 	$(document).ready(function() {
-		if (supports_local_storage())
-			sidebar = localStorage.shj_sidebar;
+		if (shj.supports_local_storage())
+			shj.sidebar = localStorage.shj_sidebar;
 		else
-			sidebar = $.cookie('shj_sidebar');
+			shj.sidebar = $.cookie('shj_sidebar');
 
-		if (sidebar!='open' && sidebar!='close'){
-			sidebar='open';
-			if (supports_local_storage())
+		if (shj.sidebar!='open' && shj.sidebar!='close'){
+			shj.sidebar='open';
+			if (shj.supports_local_storage())
 				localStorage.shj_sidebar = 'open';
 			else
 				$.cookie('shj_sidebar','open',{path:'/', expires: 365});
 		}
-		if (sidebar=="open")
-			sidebar_open(0);
+		if (shj.sidebar=="open")
+			shj.sidebar_open(0);
 		else
-			sidebar_close(0);
+			shj.sidebar_close(0);
 
-		$("#shj_collapse").click(toggle_collapse);
+		$("#shj_collapse").click(shj.toggle_collapse);
 
-		time = moment();
-		finish_time = moment("<?php echo $assignment['finish_time'] ?>");
-		extra_time = moment.duration(<?php echo $assignment['extra_time'] ?>, 'seconds');
-		update_clock();
-		window.setInterval(update_clock,1000);
+		shj.time = moment();
+		shj.finish_time = moment("<?php echo $assignment['finish_time'] ?>");
+		shj.extra_time = moment.duration(<?php echo $assignment['extra_time'] ?>, 'seconds');
+		shj.update_clock();
+		window.setInterval(shj.update_clock,1000);
 	});
 </script>
 

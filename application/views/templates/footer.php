@@ -7,15 +7,15 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <script>
-	var check_for_notifications = false; // Set to true if you want to enable checking for new notifications
-	var notif_check_time = null;
-	var notif_check_delay = 30; //checks for new notifications every 30 seconds
-	function check_notifs(){
-		if (notif_check_time==null)
-			notif_check_time = moment().add('milliseconds',offset-(notif_check_delay*1000));
+	shj.check_for_notifications = false; // Set to true if you want to enable checking for new notifications
+	shj.notif_check_time = null;
+	shj.notif_check_delay = 30; //checks for new notifications every 30 seconds
+	shj.check_notifs = function(){
+		if (shj.notif_check_time==null)
+			shj.notif_check_time = moment().add('milliseconds',shj.offset-(shj.notif_check_delay*1000));
 		$.post("<?php echo site_url('notifications/check') ?>",
 			{
-				time: notif_check_time.format('YYYY-MM-DD HH:mm:ss'),
+				time: shj.notif_check_time.format('YYYY-MM-DD HH:mm:ss'),
 				<?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'
 			},
 			function (data) {
@@ -36,7 +36,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				}
 			}
 		);
-		notif_check_time = moment().add('milliseconds',offset);
+		shj.notif_check_time = moment().add('milliseconds',shj.offset);
 	}
 	$(document).ready(function(){
 		$('body').nanoScroller();
@@ -46,8 +46,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$('#main_content').resize(function(){
 			$('body').nanoScroller();
 		});
-		if ( check_for_notifications )
-			window.setInterval(check_notifs,(notif_check_delay*1000));
+		if ( shj.check_for_notifications )
+			window.setInterval(shj.check_notifs,(shj.notif_check_delay*1000));
 	});
 </script>
 </div>
