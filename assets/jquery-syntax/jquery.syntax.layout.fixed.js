@@ -50,7 +50,10 @@ Syntax.layouts.fixed = function(options, code, container) {
 	
 	fixed.append(numbersColumn);
 	fixed.append(codeColumn);
-	
+
+	b = jQuery('<a id="select_all" href="#">Select All</a>');
+	toolbar.append(b);
+
 	a = jQuery('<a href="#">View Raw Code</a>');
 	a.click(function (event) {
 		event.preventDefault();

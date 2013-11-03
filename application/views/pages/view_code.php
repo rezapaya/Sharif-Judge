@@ -14,7 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?></pre>
 
 <?php if ($code==1): ?>
-	<pre class="syntax <?php echo $file_type ?>"><?php
+	<pre class="code-column syntax <?php echo $file_type ?>"><?php
 		if (file_exists($file_path))
 			echo htmlspecialchars(file_get_contents($file_path));
 		else
