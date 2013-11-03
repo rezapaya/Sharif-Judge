@@ -102,8 +102,10 @@ class Assignments extends CI_Controller
 	/**
 	 * Compressing and downloading test data of an assignment to the browser
 	 */
-	public function downloadtests($assignment_id)
+	public function downloadtests($assignment_id = FALSE)
 	{
+		if ($assignment_id === FALSE)
+			show_404();
 		if ( $this->user_level <= 1)
 			show_error('You have not enough permission to download test data.');
 
@@ -139,8 +141,10 @@ class Assignments extends CI_Controller
 	/**
 	 * Compressing and downloading final codes of an assignment to the browser
 	 */
-	public function download($assignment_id)
+	public function download($assignment_id = FALSE)
 	{
+		if ($assignment_id === FALSE)
+			show_404();
 		if ( $this->user_level == 0)
 			show_error('You have not enough permission to download codes.');
 
@@ -170,8 +174,10 @@ class Assignments extends CI_Controller
 	/**
 	 * Delete assignment
 	 */
-	public function delete($assignment_id)
+	public function delete($assignment_id = FALSE)
 	{
+		if ($assignment_id === FALSE)
+			show_404();
 		if ($this->user_level <= 1)
 			show_error('You have not enough permission to do this.');
 
