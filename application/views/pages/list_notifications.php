@@ -52,8 +52,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php endif ?>
 
 <?php foreach ($notifications as $notification): ?>
-<div class="notif">
-	<div class="notif_title" dir="auto"><?php echo $notification['title']; ?>
+<div class="notif" id="number<?php echo $notification['id'] ?>">
+	<div class="notif_title" dir="auto"><a href="<?php echo site_url('notifications#number'.$notification['id']) ?>"><?php echo $notification['title']; ?></a>
 		<?php if ($type=="all"): ?>
 		<div class="notif_meta">
 		<?php elseif ($type=="latest"): ?>
