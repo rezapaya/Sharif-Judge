@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<td><input type="text" name="memory_limit[]" class="sharif_input tiny" value="50000"/></td>\
 		<td><input type="text" name="languages[]" class="sharif_input short2" value="C,C++,Python 2,Python 3,Java"/></td>\
 		<td><input type="text" name="diff_cmd[]" class="sharif_input tiny" value="diff"/></td>\
-		<td><input type="text" name="diff_arg[]" class="sharif_input tiny" value="-bB"/></td>\
+		<td><input type="text" name="diff_arg[]" class="sharif_input tiny" value="identical"/></td>\
 		<td><input type="checkbox" name="is_upload_only[]" class="check" value="';
 	var row3='"/><td><i class="splashy-gem_remove delete_problem pointer"></i></td></td>\
 	</tr>';

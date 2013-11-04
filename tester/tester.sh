@@ -424,7 +424,7 @@ for((i=1;i<=TST;i++)); do
 			tr -d ' \t\n\r\f' <out >tmp1 && mv tmp1 out;
 			tr -d ' \t\n\r\f' <correctout >tmp1 && mv tmp1 correctout;
 		fi
-		if $DIFFTOOL out correctout $DIFFARGUMENT >/dev/null 2>/dev/null
+		if $DIFFTOOL $DIFFARGUMENT out correctout >/dev/null 2>/dev/null
 		then
 			ACCEPTED=true
 		fi
