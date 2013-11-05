@@ -26,11 +26,15 @@ class Shj_pagination {
 		$this->num_links = $config['num_links'];
 		$this->ul_class = $config['full_ul_class'];
 		$this->cur_li_class = $config['cur_li_class'];
-		$this->total_pages = ceil($config['total_rows']/$config['per_page']);
+		if ($config['per_page'] != 0)
+			$this->total_pages = ceil($config['total_rows']/$config['per_page']);
 	}
 
 	public function create_links()
 	{
+		if ($this->per_page == 0)
+			return '';
+
 		$output = '<ul class="'.$this->ul_class.'">';
 
 		if ($this->cur_page > $this->total_pages)

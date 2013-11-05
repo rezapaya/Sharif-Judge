@@ -53,7 +53,7 @@ class Assignment_model extends CI_Model{
 				$this->load->model('scoreboard_model');
 				$this->scoreboard_model->update_scoreboard($id);
 			}
-			if ($assignment['scoreboard']!=$before['scoreboard'])
+			elseif ($assignment['scoreboard'] && ! $before['scoreboard'])
 			{
 				// each time we enable scoreboard of an assignment, we should update scoreboard of that assignment
 				$this->load->model('scoreboard_model');

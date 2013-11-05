@@ -123,9 +123,12 @@ class Users extends CI_Controller
 		$username!==FALSE OR exit;
 
 		shell_exec("cd {$this->settings_model->get_setting('assignments_root')}; rm -r */*/{$username};");
-		if ($delete_results){// also delete all submissions from database
+		if ($delete_results) {// also delete all submissions from database
 			$this->db->delete('final_submissions', array('username'=>$username));
 			$this->db->delete('all_submissions', array('username'=>$username));
+			// each time we delete a user's submissions, we should update all scoreboards
+			$this->load->model('scoreboard_model');
+			$this->scoreboard_model->update_scoreboards();
 		}
 		exit('deleted');
 	}

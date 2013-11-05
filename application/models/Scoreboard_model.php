@@ -67,6 +67,16 @@ class Scoreboard_model extends CI_Model {
 	// ------------------------------------------------------------------------
 
 
+	public function update_scoreboards() {
+		$assignments = $this->db->select('id')->get('assignments')->result_array();
+		foreach ($assignments as $assignment){
+			$this->update_scoreboard($assignment['id']);
+		}
+	}
+
+	// ------------------------------------------------------------------------
+
+
 	public function update_scoreboard($assignment_id) {
 		$data = array();
 		$scoreboard_enabled = $this->db->select('scoreboard')->get_where('assignments', array('id'=>$assignment_id))->row()->scoreboard;
