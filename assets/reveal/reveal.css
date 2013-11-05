@@ -1,7 +1,6 @@
-/*	--------------------------------------------------
-	Reveal Modals
-	-------------------------------------------------- */
-
+/**
+ * Reveal Modals
+ */
 
 .modal_inside { /* added by mjnaderi */
 	max-height: 550px;
@@ -25,7 +24,7 @@
 	left: 50%;
 	margin-left: -300px;
 	width: 520px;
-	background: #eee url(modal-gloss.png) no-repeat -200px -80px;
+	background-color: #fcfcfc;
 	position: fixed; /* changed by mjnaderi from absolute to fixed */
 	z-index: 101;
 	padding: 5px 20px 10px;
