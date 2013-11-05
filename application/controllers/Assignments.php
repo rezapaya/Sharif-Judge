@@ -415,6 +415,9 @@ class Assignments extends CI_Controller
 		}
 		elseif ($this->edit)
 		{
+			for ($i=1; $i <= $this->input->post('number_of_problems'); $i++)
+				if ( ! file_exists($assignment_dir."/p$i"))
+					mkdir($assignment_dir."/p$i", 0700);
 			$this->assignment_model->add_assignment($the_id, $this->edit);
 			$this->success_messages[] = 'Assignment '.($this->edit?'updated':'added').' successfully.';
 			return TRUE;
