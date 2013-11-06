@@ -67,7 +67,7 @@ class Shj_pagination {
 		if ($this->cur_page != $this->total_pages)
 		{
 			$output .= '<li><a href="'.$this->base_url.'/page/'.($this->cur_page+1).'">&gt;</a></li>';
-			$output .= '<li><a href="'.$this->base_url.'/page/'.$this->total_pages.'">Last &rsaquo;</a></li>';
+			$output .= '<li><a href="'.$this->base_url.'/page/'.$this->total_pages.'">Last ('.$this->total_pages.') &rsaquo;</a></li>';
 		}
 
 		$output .= '</ul>';
