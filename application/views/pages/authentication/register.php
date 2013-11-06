@@ -35,12 +35,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</p>
 			<p>
 				<label for="password">Password</label><br/>
-				<input type="password" name="password" required="required" pattern="[0-9A-Za-z]{6,20}" title="The Password field must be between 6 and 30 characters in length, and contain only alpha-numeric characters" class="sharif_input"/>
+				<input type="password" name="password" required="required" pattern=".{6,20}" title="The Password field must be between 6 and 30 characters in length" class="sharif_input"/>
 				<?php echo form_error('password','<div class="shj_error">','</div>'); ?>
 			</p>
 			<p>
 				<label for="password_again">Password, Again</label><br/>
-				<input type="password" name="password_again" required="required" class="sharif_input"/>
+				<input type="password" name="password_again" required="required" pattern=".{6,20}" title="The Password Confirmation field must be between 6 and 30 characters in length" class="sharif_input"/>
 				<?php echo form_error('password_again','<div class="shj_error">','</div>'); ?>
 			</p>
 		</div>

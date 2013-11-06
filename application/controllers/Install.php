@@ -41,7 +41,7 @@ class Install extends CI_Controller
 		$this->form_validation->set_message('_lowercase', '%s must be lowercase.');
 		$this->form_validation->set_rules('username', 'username', 'required|min_length[3]|max_length[20]|alpha_numeric|callback__lowercase');
 		$this->form_validation->set_rules('email', 'email', 'required|max_length[40]|valid_email|callback__lowercase');
-		$this->form_validation->set_rules('password', 'password', 'required|min_length[6]|max_length[30]|alpha_numeric');
+		$this->form_validation->set_rules('password', 'password', 'required|min_length[6]|max_length[30]');
 		$this->form_validation->set_rules('password_again', 'password confirmation', 'required|matches[password]');
 
 		$data['status'] = '';

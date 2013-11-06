@@ -59,7 +59,7 @@ class Profile extends CI_Controller
 		$this->form_validation->set_message('_password_again_check', 'The Password Confirmation field does not match the Password field.');
 		$this->form_validation->set_rules('display_name', 'Display Name', 'max_length[40]|xss_clean|strip_tags');
 		$this->form_validation->set_rules('email', 'Email Address', 'required|max_length[40]|valid_email|callback__email_check');
-		$this->form_validation->set_rules('password', 'Password', 'callback__password_check|alpha_numeric');
+		$this->form_validation->set_rules('password', 'Password', 'callback__password_check');
 		$this->form_validation->set_rules('password_again', 'Password Confirmation', 'callback__password_again_check');
 		$this->form_validation->set_rules('role', 'Role', 'callback__role_check');
 		if ($this->form_validation->run()){

@@ -978,7 +978,7 @@ class CI_Form_validation {
 	 */
 	public function required($str)
 	{
-		return is_array($str) ? (bool) count($str) : (trim($str) !== '');
+		return is_array($str) ? (bool) count($str) : ($str !== '');
 	}
 
 	// --------------------------------------------------------------------
