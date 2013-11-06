@@ -195,7 +195,7 @@ class Queue_model extends CI_Model {
 		));
 
 		if ($query->num_rows()===0)
-			$this->db->insert('final_submission', $submission_copy);
+			$this->db->insert('final_submissions', $submission_copy);
 		else {
 			$sid = $query->row()->submit_id;
 			if ($type === 'judge') {

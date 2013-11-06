@@ -25,7 +25,7 @@ class Queueprocess extends CI_Controller
 
 	/**
 	 * This is the main function for processing the queue
-	 * This function judges items in queue one by one
+	 * This function judges queue items one by one
 	 */
 	public function run() {
 
