@@ -44,7 +44,7 @@ For running Sharif Judge, a Linux server with following requirements is needed:
   1. Download the latest release from [download page](http://sharifjudge.ir/download) and unpack downloaded file in your public html directory.
   2. Create a MySql database for Sharif Judge.
   3. Set database connection settings in file `application/config/database.php`.
-  4. Open Sharif Judge main page in a web browser and follow the installation process.
+  4. Open the main page of Sharif Judge in a web browser and follow the installation process.
   5. Log in with your admin account.
   6. **[IMPORTANT]** Move folders `tester` and `assignments` somewhere outside your public directory. Then save their full path in `Settings` page. **These two folders must be writable by PHP.** Submitted files will be stored in `assignments` folder. So it should be somewhere not publicly accessible.
   7. **[IMPORTANT]** [Secure Sharif Judge](http://docs.sharifjudge.ir/security)
