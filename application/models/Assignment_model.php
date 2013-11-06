@@ -254,16 +254,23 @@ class Assignment_model extends CI_Model{
 	}
 
 
+
+
 	// ------------------------------------------------------------------------
 
 
+
+
 	private function _update_coefficients($assignment_id, $extra_time, $finish_time, $new_late_rule){
+
 		$all_submissions = $this->db->get_where('all_submissions', array('assignment'=>$assignment_id))->result_array();
 		$final_submissions = $this->db->get_where('final_submissions', array('assignment'=>$assignment_id))->result_array();
 
 		$finish_time = strtotime($finish_time);
 
-		foreach ($all_submissions as $item) {
+
+		// Update Coefficients in table 'all_submissions'
+		foreach ($all_submissions as &$item) {
 			$delay = strtotime($item['time'])-$finish_time;
 			ob_start();
 			if ( eval($new_late_rule) === FALSE )
@@ -271,14 +278,23 @@ class Assignment_model extends CI_Model{
 			if (!isset($coefficient))
 				$coefficient = "error";
 			ob_end_clean();
-			$this->db->where(array( /* todo This runs a bit slow */
-				'assignment'=>$assignment_id,
-				'problem'=>$item['problem'],
-				'username'=>$item['username'],
-				'submit_id'=>$item['submit_id']
-			))->update('all_submissions', array('coefficient'=>$coefficient));
+			$item['coefficient'] = $coefficient;
 		}
-		foreach ($final_submissions as $item) {
+		// For better performance, we update each 1000 rows in one query
+		$size = count($all_submissions);
+		for ($i=0; $i<=($size-1)/1000; $i++) {
+			$query = 'UPDATE '.$this->db->dbprefix('all_submissions')." SET coefficient = CASE\n";
+			for ($j=1000*$i; $j<1000*($i+1) && $j<$size; $j++){
+				$item = $all_submissions[$j];
+				$query.="WHEN assignment='".$assignment_id."' AND problem='".$item['problem']."' AND username='".$item['username']."' AND submit_id='".$item['submit_id']."' THEN ".$item['coefficient']."\n";
+			}
+			$query.="END";
+			$this->db->simple_query($query);
+		}
+
+
+		// Update Coefficients in table 'final_submissions'
+		foreach ($final_submissions as &$item) {
 			$delay = strtotime($item['time'])-$finish_time;
 			ob_start();
 			if ( eval($new_late_rule) === FALSE )
@@ -286,12 +302,18 @@ class Assignment_model extends CI_Model{
 			if (!isset($coefficient))
 				$coefficient = "error";
 			ob_end_clean();
-			$this->db->where(array(
-				'assignment'=>$assignment_id,
-				'problem'=>$item['problem'],
-				'username'=>$item['username'],
-				'submit_id'=>$item['submit_id']
-			))->update('final_submissions', array('coefficient'=>$coefficient));
+			$item['coefficient'] = $coefficient;
+		}
+		// For better performance, we update each 1000 rows in one query
+		$size = count($final_submissions);
+		for ($i=0; $i<=($size-1)/1000; $i++) {
+			$query = 'UPDATE '.$this->db->dbprefix('final_submissions')." SET coefficient = CASE\n";
+			for ($j=1000*$i; $j<1000*($i+1) && $j<$size; $j++){
+				$item = $final_submissions[$j];
+				$query.="WHEN assignment='".$assignment_id."' AND problem='".$item['problem']."' AND username='".$item['username']."' AND submit_id='".$item['submit_id']."' THEN ".$item['coefficient']."\n";
+			}
+			$query.="END";
+			$this->db->simple_query($query);
 		}
 	}
 
