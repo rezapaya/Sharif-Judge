@@ -132,7 +132,7 @@ class Submit_model extends CI_Model {
 		if ($submission->num_rows()==0)
 			return FALSE;
 		$submission = $submission->row_array();
-		unset($submission['submit_number']);
+		unset($submission['submit_count']);
 		$this->db->where(
 			array('username'=>$username,
 			'assignment'=>$assignment,
@@ -178,8 +178,6 @@ class Submit_model extends CI_Model {
 			)->update('final_submissions',$submit_info);
 		}
 
-		$submit_info['submit_number'] = $submit_info['submit_count'];
-		unset ($submit_info['submit_count']);
 		$this->db->insert('all_submissions', $submit_info);
 
 	}

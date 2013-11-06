@@ -68,9 +68,9 @@ class Queue_model extends CI_Model {
 		$submit_info['pre_score'] = 0;
 
 		if ($submit_query->num_rows() == 0)
-			$submit_info['submit_number'] = 1;
+			$submit_info['submit_count'] = 1;
 		else
-			$submit_info['submit_number'] = $submit_query->row()->submit_count + 1;
+			$submit_info['submit_count'] = $submit_query->row()->submit_count + 1;
 
 		$this->db->insert('all_submissions', $submit_info);
 
@@ -151,6 +151,12 @@ class Queue_model extends CI_Model {
 	}
 
 
+	// ------------------------------------------------------------------------
+
+
+	/**
+	 * Returns the first item of the queue
+	 */
 	public function get_first_item(){
 		$query = $this->db->limit(1)->get('queue');
 		if ($query->num_rows() != 1)
@@ -159,6 +165,12 @@ class Queue_model extends CI_Model {
 	}
 
 
+	// ------------------------------------------------------------------------
+
+
+	/**
+	 * Removes an item from the queue
+	 */
 	public function remove_item($username, $assignment, $problem, $submit_id){
 		$this->db->delete('queue', array(
 			'submit_id' => $submit_id,
@@ -169,63 +181,52 @@ class Queue_model extends CI_Model {
 	}
 
 
-	public function add_judge_result_to_db ($submission, $type) {
+	// ------------------------------------------------------------------------
 
-		$submit_id = $submission['submit_id'];
-		$username = $submission['username'];
-		$assignment = $submission['assignment'];
-		$problem = $submission['problem'];
-		$time = $submission['time'];
-		$status = $submission['status'];
-		$pre_score = $submission['pre_score'];
-		$coefficient = $submission['coefficient'];
-		$submit_count = $submission['submit_number'];
-		$file_name = $submission['file_name'];
-		$main_file_name = $submission['main_file_name'];
-		$file_type = $submission['file_type'];
 
-		$submission_copy = $submission;
-		$submission_copy['submit_count'] = $submission_copy['submit_number'];
-		unset($submission_copy['submit_number']);
+	/**
+	 * Saves the result of judge in database
+	 * This function is called from Queueprocess controller
+	 */
+	public function save_judge_result_in_db ($submission, $type) {
 
 		$query = $this->db->get_where('final_submissions', array(
-			'username' => $username,
-			'assignment' => $assignment,
-			'problem' => $problem
+			'username' => $submission['username'],
+			'assignment' => $submission['assignment'],
+			'problem' => $submission['problem']
 		));
 
-		if ($query->num_rows()===0)
-			$this->db->insert('final_submissions', $submission_copy);
+		if ($query->num_rows() === 0)
+			$this->db->insert('final_submissions', $submission);
 		else {
 			$sid = $query->row()->submit_id;
 			if ($type === 'judge') {
 				$this->db->where(array(
-					'username' => $username,
-					'assignment' => $assignment,
-					'problem' => $problem
-				))->update('final_submissions', $submission_copy);
+					'username' => $submission['username'],
+					'assignment' => $submission['assignment'],
+					'problem' => $submission['problem']
+				))->update('final_submissions', $submission);
 			}
-			elseif ($type === 'rejudge' && $sid === $submit_id){
-				unset($submission_copy['submit_count']);
+			elseif ($type === 'rejudge' && $sid === $submission['submit_id']){
+				unset($submission['submit_count']);
 				$this->db->where(array(
-					'username' => $username,
-					'assignment' => $assignment,
-					'problem' => $problem
-				))->update('final_submissions', $submission_copy);
+					'username' => $submission['username'],
+					'assignment' => $submission['assignment'],
+					'problem' => $submission['problem']
+				))->update('final_submissions', $submission);
 			}
 		}
 
 		$this->db->where(array(
-			'submit_id' => $submit_id,
-			'username' => $username,
-			'assignment' => $assignment,
-			'problem' => $problem
-		))->update('all_submissions', array('status' => $status, 'pre_score' => $pre_score));
+			'submit_id' => $submission['submit_id'],
+			'username' => $submission['username'],
+			'assignment' => $submission['assignment'],
+			'problem' => $submission['problem']
+		))->update('all_submissions', array('status' => $submission['status'], 'pre_score' => $submission['pre_score']));
 
 		// update scoreboard:
 		$this->load->model('scoreboard_model');
-		$this->scoreboard_model->update_scoreboard($assignment);
-
+		$this->scoreboard_model->update_scoreboard($submission['assignment']);
 	}
 
 }

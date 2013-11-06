@@ -126,7 +126,7 @@ class Submissions extends CI_Controller
 					$final_score,
 					filetype_to_language($item['file_type']),
 					$item['status'],
-					($view==='final'?$item['submit_count']:$item['submit_number'])
+					$item['submit_count']
 				);
 			else {
 				$row = array(
@@ -142,7 +142,7 @@ class Submissions extends CI_Controller
 					$final_score,
 					filetype_to_language($item['file_type']),
 					$item['status'],
-					($view==='final'?$item['submit_count']:$item['submit_number'])
+					$item['submit_count']
 				);
 				if ($view === 'final'){
 					array_unshift($row,$j);

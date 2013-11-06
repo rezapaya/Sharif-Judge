@@ -30,21 +30,19 @@ class Queueprocess extends CI_Controller
 	public function run() {
 
 		$queue_item = $this->queue_model->get_first_item();
-
 		if ($queue_item === NULL) {
 			$this->settings_model->set_setting('queue_is_working', '0');
 			exit;
 		}
 		if ($this->settings_model->get_setting('queue_is_working'))
 			exit;
+
 		$this->settings_model->set_setting('queue_is_working', '1');
-		
-		$output_size_limit = $this->settings_model->get_setting('output_size_limit') * 1024;
 
 		do {
-
 			if ( ! $this->settings_model->get_setting('queue_is_working') )
 				exit;
+
 			$submit_id = $queue_item['submit_id'];
 			$username = $queue_item['username'];
 			$assignment = $queue_item['assignment'];
@@ -64,10 +62,6 @@ class Queueprocess extends CI_Controller
 			$userdir = "$problemdir/$username";
 			$the_file = "$userdir/$raw_filename.$file_extension";
 
-			// python shield settings
-			$enable_py2_shield = $this->settings_model->get_setting('enable_py2_shield');
-			$enable_py3_shield = $this->settings_model->get_setting('enable_py3_shield');
-
 			$op1 = $this->settings_model->get_setting('enable_log');
 			$op2 = $this->settings_model->get_setting('enable_easysandbox');
 			$op3 = 0;
@@ -75,14 +69,18 @@ class Queueprocess extends CI_Controller
 				$op3 = $this->settings_model->get_setting('enable_c_shield');
 			elseif ($file_type === 'cpp')
 				$op3 = $this->settings_model->get_setting('enable_cpp_shield');
-
-			$op4 = $this->settings_model->get_setting('enable_java_policy');
+			$op4 = 0;
+			if ($file_type === 'py2')
+				$op4 = $this->settings_model->get_setting('enable_py2_shield');
+			elseif ($file_type === 'py3')
+				$op4 = $this->settings_model->get_setting('enable_py3_shield');
+			$op5 = $this->settings_model->get_setting('enable_java_policy');
 
 			if ($file_type === 'c' OR $file_type === 'cpp')
 				$time_limit = $problem['c_time_limit']/1000;
-			else if ($file_type === 'java')
+			elseif ($file_type === 'java')
 				$time_limit = $problem['java_time_limit']/1000;
-			else if ($file_type === 'py2' OR $file_type === 'py3')
+			elseif ($file_extension === 'py')
 				$time_limit = $problem['python_time_limit']/1000;
 			$time_limit = round($time_limit, 3);
 			$time_limit_int = floor($time_limit) + 1;
@@ -90,55 +88,38 @@ class Queueprocess extends CI_Controller
 			$memory_limit = $problem['memory_limit'];
 			$diff_cmd = $problem['diff_cmd'];
 			$diff_arg = $problem['diff_arg'];
+			$output_size_limit = $this->settings_model->get_setting('output_size_limit') * 1024;
 
-			$cmd = "cd $tester_path;\n./tester.sh $problemdir ".escapeshellarg($username).' '.escapeshellarg($main_filename).' '.escapeshellarg($raw_filename)." $file_type $time_limit $time_limit_int $memory_limit $output_size_limit $diff_cmd $diff_arg $op1 $op2 $op3 $op4";
+			$cmd = "cd $tester_path;\n./tester.sh $problemdir ".escapeshellarg($username).' '.escapeshellarg($main_filename).' '.escapeshellarg($raw_filename)." $file_type $time_limit $time_limit_int $memory_limit $output_size_limit $diff_cmd $diff_arg $op1 $op2 $op3 $op4 $op5";
 
 			file_put_contents($userdir.'/log', $cmd);
 
-			// Adding shield to python source if shield is enabled for python
-			if ($file_type === 'py2' && $enable_py2_shield){
-				$source = file_get_contents($the_file);
-				file_put_contents($the_file, file_get_contents($tester_path.'/shield/shield_py2.py').$source);
-			}
-			if ($file_type === 'py3' && $enable_py3_shield){
-				$source = file_get_contents($the_file);
-				file_put_contents($the_file, file_get_contents($tester_path.'/shield/shield_py3.py').$source);
-			}
+			///////////////////////////////////////
+			// Running tester (judging the code) //
+			///////////////////////////////////////
+			$output = trim(shell_exec($cmd));
 
-			// Running tester (judging the code)
-			$output = shell_exec($cmd);
-
-
-			// Removing shield from python source if shield is enabled for python
-			if ($file_type === 'py2' && $enable_py2_shield)
-				file_put_contents($the_file, $source);
-			if ($file_type === 'py3' && $enable_py3_shield)
-				file_put_contents($the_file, $source);
 
 			// Deleting the jail folder, if still exists
 			shell_exec("cd $tester_path; rm -rf jail*");
-
-			$output = trim($output);
 
 			// Saving judge result
 			if ( $output != -4 && $output != -5 && $output != -6 )
 				shell_exec("cp $userdir/result.html $userdir/result-{$submit_id}.html");
 
-			$score = ($output<0?0:$output);
-			$stat = 'SCORE';
+			$submission['pre_score'] = ($output<0?0:$output);
+			$submission['status'] = 'SCORE';
 			switch($output){
-				case -1: $stat = 'Compilation Error'; break;
-				case -2: $stat = 'Syntax Error'; break;
-				case -3: $stat = 'Bad System Call'; break;
-				case -4: $stat = 'Invalid Special Judge'; break;
-				case -5: $stat = 'File Format not Supported'; break;
-				case -6: $stat = 'Judge Error'; break;
+				case -1: $submission['status'] = 'Compilation Error'; break;
+				case -2: $submission['status'] = 'Syntax Error'; break;
+				case -3: $submission['status'] = 'Bad System Call'; break;
+				case -4: $submission['status'] = 'Invalid Special Judge'; break;
+				case -5: $submission['status'] = 'File Format not Supported'; break;
+				case -6: $submission['status'] = 'Judge Error'; break;
 			}
 
-			$submission['status'] = $stat;
-			$submission['pre_score'] = $score;
-
-			$this->queue_model->add_judge_result_to_db($submission, $type);
+			// Save the result
+			$this->queue_model->save_judge_result_in_db($submission, $type);
 
 			// Remove the judged item from queue
 			$this->queue_model->remove_item($username, $assignment, $problem['id'], $submit_id);

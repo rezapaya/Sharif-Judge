@@ -345,13 +345,7 @@ $finish = strtotime($assignment['finish_time']);
 							<a href="#" class="shj_rejudge"><i class="splashy-refresh"></i></a>
 						</td>
 					<?php endif ?>
-					<td><?php
-						if ($view=="final")
-							echo $item['submit_count'];
-						else
-							echo $item['submit_number'];
-						?>
-					</td>
+					<td><?php echo $item['submit_count']; ?></td>
 				</tr>
 			<?php endforeach ?>
 		</table>

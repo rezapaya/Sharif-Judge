@@ -70,7 +70,7 @@ class Install extends CI_Controller
 				`status` varchar(100) NOT NULL,
 				`pre_score` int(11) NOT NULL,
 				`coefficient` varchar(6) NOT NULL,
-				`submit_number` smallint(4) NOT NULL,
+				`submit_count` smallint(4) NOT NULL,
 				`file_name` varchar(30) NOT NULL,
 				`main_file_name` varchar(30) NOT NULL,
 				`file_type` varchar(6) NOT NULL,
