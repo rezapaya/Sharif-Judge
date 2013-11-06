@@ -1,7 +1,7 @@
 <?php
 /**
  * Sharif Judge online judge
- * @file shj.php
+ * @file shj_helper.php
  * @author Mohammad Javad Naderi <mjnaderi@gmail.com>
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 if ( ! function_exists('shj_now'))
 {
-	/*
+	/**
 	 * Returns server time (uses time zone in settings table)
 	 */
 	function shj_now()
@@ -26,7 +26,7 @@ if ( ! function_exists('shj_now'))
 if ( ! function_exists('filetype_to_extension'))
 {
 
-	/*
+	/**
 	 * Converts code type to file extension
 	 */
 	function filetype_to_extension($file_type)
@@ -49,7 +49,7 @@ if ( ! function_exists('filetype_to_extension'))
 if ( ! function_exists('filetype_to_language'))
 {
 
-	/*
+	/**
 	 * Converts code type to language
 	 */
 	function filetype_to_language($file_type)
@@ -69,5 +69,14 @@ if ( ! function_exists('filetype_to_language'))
 }
 
 
-/* End of file shj.php */
-/* Location: ./application/helpers/shj.php */
+if ( ! function_exists('process_the_queue'))
+{
+	function process_the_queue()
+	{
+		shell_exec('php '.escapeshellarg(FCPATH.'index.php').' queueprocess run >/dev/null 2>/dev/null &');
+	}
+}
+
+
+/* End of file shj_helper.php */
+/* Location: ./application/helpers/shj_helper.php */

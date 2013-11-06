@@ -44,7 +44,7 @@ class Queue_model extends CI_Model {
 
 
 	/**
-	 * Returns all the submission queue
+	 * Empties the queue
 	 */
 	public function empty_queue (){
 		return $this->db->empty_table('queue');
@@ -149,4 +149,83 @@ class Queue_model extends CI_Model {
 		}
 		// Now ready for rejudge
 	}
+
+
+	public function get_first_item(){
+		$query = $this->db->limit(1)->get('queue');
+		if ($query->num_rows() != 1)
+			return NULL;
+		return $query->row_array();
+	}
+
+
+	public function remove_item($username, $assignment, $problem, $submit_id){
+		$this->db->delete('queue', array(
+			'submit_id' => $submit_id,
+			'username' => $username,
+			'assignment' => $assignment,
+			'problem' => $problem
+		));
+	}
+
+
+	public function add_judge_result_to_db ($submission, $type) {
+
+		$submit_id = $submission['submit_id'];
+		$username = $submission['username'];
+		$assignment = $submission['assignment'];
+		$problem = $submission['problem'];
+		$time = $submission['time'];
+		$status = $submission['status'];
+		$pre_score = $submission['pre_score'];
+		$coefficient = $submission['coefficient'];
+		$submit_count = $submission['submit_number'];
+		$file_name = $submission['file_name'];
+		$main_file_name = $submission['main_file_name'];
+		$file_type = $submission['file_type'];
+
+		$submission_copy = $submission;
+		$submission_copy['submit_count'] = $submission_copy['submit_number'];
+		unset($submission_copy['submit_number']);
+
+		$query = $this->db->get_where('final_submissions', array(
+			'username' => $username,
+			'assignment' => $assignment,
+			'problem' => $problem
+		));
+
+		if ($query->num_rows()===0)
+			$this->db->insert('final_submission', $submission_copy);
+		else {
+			$sid = $query->row()->submit_id;
+			if ($type === 'judge') {
+				$this->db->where(array(
+					'username' => $username,
+					'assignment' => $assignment,
+					'problem' => $problem
+				))->update('final_submissions', $submission_copy);
+			}
+			elseif ($type === 'rejudge' && $sid === $submit_id){
+				unset($submission_copy['submit_count']);
+				$this->db->where(array(
+					'username' => $username,
+					'assignment' => $assignment,
+					'problem' => $problem
+				))->update('final_submissions', $submission_copy);
+			}
+		}
+
+		$this->db->where(array(
+			'submit_id' => $submit_id,
+			'username' => $username,
+			'assignment' => $assignment,
+			'problem' => $problem
+		))->update('all_submissions', array('status' => $status, 'pre_score' => $pre_score));
+
+		// update scoreboard:
+		$this->load->model('scoreboard_model');
+		$this->scoreboard_model->update_scoreboard($assignment);
+
+	}
+
 }

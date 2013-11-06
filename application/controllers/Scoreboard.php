@@ -57,14 +57,4 @@ class Scoreboard extends CI_Controller
 	}
 
 
-	public function update($assignment_id = FALSE) {
-		if ($assignment_id === FALSE)
-			show_404();
-		if (!$this->input->is_cli_request())
-			show_404();
-		$this->load->model('scoreboard_model');
-		$this->scoreboard_model->update_scoreboard($assignment_id);
-	}
-
-
 }

@@ -30,7 +30,7 @@ class Settings_model extends CI_Model {
 	// ------------------------------------------------------------------------
 
 
-	public function set_setting($key,$value){
+	public function set_setting($key, $value){
 		$this->db->where('shj_key', $key)->update('settings', array('shj_value'=>$value));
 	}
 

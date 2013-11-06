@@ -80,8 +80,7 @@ class Queue extends CI_Controller
 			show_404();
 		if ($input !== FALSE)
 			show_404();
-		// Run queue_process.php
-		shell_exec('php '.rtrim($this->settings_model->get_setting('tester_path'), '/').'/queue_process.php '.BASEPATH.' >/dev/null 2>/dev/null &');
+		process_the_queue();
 		echo 'success';
 	}
 
