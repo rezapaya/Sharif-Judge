@@ -280,7 +280,7 @@ class Assignment_model extends CI_Model{
 			ob_end_clean();
 			$all_submissions[$i]['coefficient'] = $coefficient;
 		}
-		// For better performance, we update each 1000 rows in one query
+		// For better performance, we update each 1000 rows in one SQL query
 		$size = count($all_submissions);
 		for ($i=0; $i<=($size-1)/1000; $i++) {
 			$query = 'UPDATE '.$this->db->dbprefix('all_submissions')." SET coefficient = CASE\n";
@@ -304,7 +304,7 @@ class Assignment_model extends CI_Model{
 			ob_end_clean();
 			$final_submissions[$i]['coefficient'] = $coefficient;
 		}
-		// For better performance, we update each 1000 rows in one query
+		// For better performance, we update each 1000 rows in one SQL query
 		$size = count($final_submissions);
 		for ($i=0; $i<=($size-1)/1000; $i++) {
 			$query = 'UPDATE '.$this->db->dbprefix('final_submissions')." SET coefficient = CASE\n";
