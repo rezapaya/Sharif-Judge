@@ -15,7 +15,7 @@ shj.supports_local_storage = function() {
 shj.update_clock = function(){
 	if (Math.abs(moment().diff(shj.time))>3500){
 		//console.log('moment: '+moment()+' time: '+time+' diff: '+Math.abs(moment().diff(time)));
-		sync_server_time();
+		shj.sync_server_time();
 	}
 	shj.time = moment();
 	var now = moment().add('milliseconds', shj.offset);
