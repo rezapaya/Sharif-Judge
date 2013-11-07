@@ -270,7 +270,7 @@ class Assignment_model extends CI_Model{
 
 
 		// Update Coefficients in table 'all_submissions'
-		foreach ($all_submissions as &$item) {
+		foreach ($all_submissions as $i => $item) {
 			$delay = strtotime($item['time'])-$finish_time;
 			ob_start();
 			if ( eval($new_late_rule) === FALSE )
@@ -278,7 +278,7 @@ class Assignment_model extends CI_Model{
 			if (!isset($coefficient))
 				$coefficient = "error";
 			ob_end_clean();
-			$item['coefficient'] = $coefficient;
+			$all_submissions[$i]['coefficient'] = $coefficient;
 		}
 		// For better performance, we update each 1000 rows in one query
 		$size = count($all_submissions);
@@ -294,7 +294,7 @@ class Assignment_model extends CI_Model{
 
 
 		// Update Coefficients in table 'final_submissions'
-		foreach ($final_submissions as &$item) {
+		foreach ($final_submissions as $i => $item) {
 			$delay = strtotime($item['time'])-$finish_time;
 			ob_start();
 			if ( eval($new_late_rule) === FALSE )
@@ -302,7 +302,7 @@ class Assignment_model extends CI_Model{
 			if (!isset($coefficient))
 				$coefficient = "error";
 			ob_end_clean();
-			$item['coefficient'] = $coefficient;
+			$final_submissions[$i]['coefficient'] = $coefficient;
 		}
 		// For better performance, we update each 1000 rows in one query
 		$size = count($final_submissions);
