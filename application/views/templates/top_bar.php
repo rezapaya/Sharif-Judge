@@ -34,8 +34,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							$(".select_assignment").removeClass('checked');
 							$(".i"+id).addClass('checked');
 							$(".assignment_name").html($("#"+id+" .assignment_item").html());
-							finish_time = moment(a.split(',')[0]);
-							extra_time = moment.duration(parseInt(a.split(',')[1],10), 'seconds');
+							shj.finish_time = moment(a.split(',')[0]);
+							shj.extra_time = moment.duration(parseInt(a.split(',')[1],10), 'seconds');
 						}
 					}
 				);
