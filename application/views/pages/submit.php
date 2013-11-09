@@ -21,12 +21,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	$(document).ready(function(){
 		$("select#problems").change(function(){
 			var v = $(this).val();
-			var text = '<option value="0" selected="selected">-- Select One --</option>\n';
-			if (v!=0)
-				for (var i=0;i<shj.p[v].length;i++){
-					text += '<option value="'+shj.p[v][i]+'">'+shj.p[v][i]+'</option>\n';
-				}
-			$("select#languages").html(text);
+			$('select#languages').empty();
+			$('<option value="0" selected="selected">-- Select One --</option>').appendTo('select#languages');
+			if (v==0)
+				return;
+			for (var i=0;i<shj.p[v].length;i++)
+				$('<option value="'+shj.p[v][i]+'">'+shj.p[v][i]+'</option>').appendTo('select#languages');
 		});
 	});
 </script>
