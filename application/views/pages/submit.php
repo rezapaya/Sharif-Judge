@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <script>
-	shj.p=Array();
+	shj.p={};
 	<?php foreach ($problems as $problem){
 		$languages = explode(',',$problem['allowed_languages']);
 		$items='';
@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			$items = $items."'".trim($language)."',";
 		}
 		$items = substr($items,0,strlen($items)-1);
-		echo "shj.p[{$problem['id']}] = [{$items}];";
+		echo "shj.p[{$problem['id']}]=[{$items}]; ";
 	} ?>
 	$(document).ready(function(){
 		$("select#problems").change(function(){
