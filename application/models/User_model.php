@@ -137,12 +137,28 @@ class User_model extends CI_Model{
 
 		if ($send_mail){ // sending usernames and passwords by email
 			$this->load->library('email');
+			$config = array(
+				'mailtype'  => 'html',
+				'charset'   => 'iso-8859-1'
+			);
+			/*
+			// You can use gmail as smtp server
+			$config = Array(
+				'protocol' => 'smtp',
+				'smtp_host' => 'ssl://smtp.googlemail.com',
+				'smtp_port' => 465,
+				'smtp_user' => 'example@gmail.com',
+				'smtp_pass' => 'your-gmail-password',
+				'mailtype'  => 'html',
+				'charset'   => 'iso-8859-1'
+			);
+			*/
+			$this->email->initialize($config);
+			$this->email->set_newline("\r\n");
 			$count_users = count($users_ok);
 			$counter = 0;
 			foreach ($users_ok as $user){
 				$counter++;
-				$config['mailtype'] = 'html';
-				$this->email->initialize($config);
 				$this->email->from($this->settings_model->get_setting('mail_from'), $this->settings_model->get_setting('mail_from_name'));
 				$this->email->to($user[1]);
 				$this->email->subject('Sharif Judge Username and Password');
@@ -332,8 +348,24 @@ class User_model extends CI_Model{
 
 		// send the email:
 		$this->load->library('email');
-		$config['mailtype'] = 'html';
+		$config = array(
+			'mailtype'  => 'html',
+			'charset'   => 'iso-8859-1'
+		);
+		/*
+		// You can use gmail as smtp server
+		$config = Array(
+			'protocol' => 'smtp',
+			'smtp_host' => 'ssl://smtp.googlemail.com',
+			'smtp_port' => 465,
+			'smtp_user' => 'example@gmail.com',
+			'smtp_pass' => 'your-gmail-password',
+			'mailtype'  => 'html',
+			'charset'   => 'iso-8859-1'
+		);
+		*/
 		$this->email->initialize($config);
+		$this->email->set_newline("\r\n");
 		$this->email->from($this->settings_model->get_setting('mail_from'), $this->settings_model->get_setting('mail_from_name'));
 		$this->email->to($email);
 		$this->email->subject('Password Reset');
