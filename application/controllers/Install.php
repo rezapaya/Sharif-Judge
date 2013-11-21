@@ -164,7 +164,7 @@ class Install extends CI_Controller
 
 			$query = "CREATE TABLE IF NOT EXISTS `".$this->db->dbprefix('scoreboard')."` (
 				`assignment` smallint(4) NOT NULL,
-				`scoreboard` text CHARACTER SET utf8 NOT NULL
+				`scoreboard` text CHARACTER SET utf8 NOT NULL,
 				KEY `assignment` (`assignment`)
 				);";
 			if ( ! $this->db->simple_query($query))
