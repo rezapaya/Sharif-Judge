@@ -46,38 +46,79 @@ class Submissions extends CI_Controller
 	}
 
 
+
+
 	// ------------------------------------------------------------------------
 
 
+	/**
+	 * Uses PHPExcel library to generate excel file of submissions
+	 */
 	private function _download_excel($view)
 	{
 
-		$now=date('Y-m-d H:i:s', shj_now());
-		$this->load->library('excel');
-		$this->excel->set_file_name('judge_'.$view.'_submissions.xls');
-		$this->excel->addHeader(array('Assignment:', $this->assignment['name']));
-		$this->excel->addHeader(array('Time:', $now));
-		if ($this->filter_user)
-			$this->excel->addHeader(array('Username Filter:', $this->filter_user));
-		if ($this->filter_problem)
-			$this->excel->addHeader(array('Problem Filter:', $this->filter_problem));
-		$this->excel->addHeader(NULL); //newline
+		$now=date('Y-m-d H:i:s', shj_now()); // current time
+
+		// Load PHPExcel library
+		$this->load->library('phpexcel');
+
+		// Set document properties
+		$this->phpexcel->getProperties()->setCreator('Sharif Judge')
+			->setLastModifiedBy('Sharif Judge')
+			->setTitle('Sharif Judge Users')
+			->setSubject('Sharif Judge Users')
+			->setDescription('List of Sharif Judge users ('.$now.')');
+
+		// Name of the file sent to browser
+		$output_filename = 'judge_'.$view.'_submissions.xlsx';
+
+		// Set active sheet
+		$this->phpexcel->setActiveSheetIndex(0);
+
+		// Add current assignment, time, username filter, and problem filter to document
+		$this->phpexcel->getActiveSheet()->fromArray(array('Assignment:',$this->assignment['name']), null, 'A1', true);
+		$this->phpexcel->getActiveSheet()->fromArray(array('Time:',$now), null, 'A2', true);
+		$this->phpexcel->getActiveSheet()->fromArray(array('Username Filter:', $this->filter_user?$this->filter_user:'No filter'), null, 'A3', true);
+		$this->phpexcel->getActiveSheet()->fromArray(array('Problem Filter:', $this->filter_problem?$this->filter_problem:'No filter'), null, 'A4', true);
+
+		// Prepare header
 		if ($this->user_level === 0)
-			$row=array('Final','Problem','Submit Time','Score','Delay (HH:MM)','Coefficient','Final Score','Language','Status','#');
+			$header=array('Final','Problem','Submit Time','Score','Delay (HH:MM)','Coefficient','Final Score','Language','Status','#');
 		else{
-			$row=array('Final','Submit ID','Username','Display Name','Problem','Submit Time','Score','Delay (HH:MM)','Coefficient','Final Score','Language','Status','#');
+			$header=array('Final','Submit ID','Username','Display Name','Problem','Submit Time','Score','Delay (HH:MM)','Coefficient','Final Score','Language','Status','#');
 			if ($view === 'final'){
-				array_unshift($row, "#2");
-				array_unshift($row, "#1");
+				array_unshift($header, "#2");
+				array_unshift($header, "#1");
 			}
 		}
-		$this->excel->addRow($row);
+
+		// Add header to document
+		$this->phpexcel->getActiveSheet()->fromArray($header, null, 'A6', true);
+		$highest_column = $this->phpexcel->getActiveSheet()->getHighestColumn();
+
+		// Set custom style for header
+		$this->phpexcel->getActiveSheet()->getStyle('A6:'.$highest_column.'6')->applyFromArray(
+			array(
+				'fill' => array(
+					'type' => PHPExcel_Style_Fill::FILL_SOLID,
+					'color' => array('rgb' => '173C45')
+				),
+				'font'  => array(
+					'bold'  => true,
+					'color' => array('rgb' => 'FFFFFF'),
+					//'size'  => 14
+				)
+			)
+		);
+
+		// Prepare data (in $rows array)
 		if ($view === 'final')
 			$items = $this->submit_model->get_final_submissions($this->assignment['id'], $this->user_level, $this->username, NULL, $this->filter_user, $this->filter_problem);
 		else
 			$items = $this->submit_model->get_all_submissions($this->assignment['id'], $this->user_level, $this->username, NULL, $this->filter_user, $this->filter_problem);
 		$finish = strtotime($this->assignment['finish_time']);
 		$i=0; $j=0; $un='';
+		$rows = array();
 		foreach ($items as $item){
 			$i++;
 			if ($item['username'] != $un)
@@ -149,19 +190,67 @@ class Submissions extends CI_Controller
 					array_unshift($row,$i);
 				}
 			}
-			$this->excel->addRow($row);
+			array_push($rows, $row);
 		}
-		$this->excel->sendFile();
+
+		// Add rows to document
+		$this->phpexcel->getActiveSheet()->fromArray($rows, null, 'A7', true);
+		// Add alternative colors to rows
+		for ($i=7; $i<count($rows)+7; $i++){
+			$this->phpexcel->getActiveSheet()->getStyle('A'.$i.':'.$highest_column.$i)->applyFromArray(
+				array(
+					'fill' => array(
+						'type' => PHPExcel_Style_Fill::FILL_SOLID,
+						'color' => array('rgb' => (($i%2)?'F0F0F0':'FAFAFA'))
+					)
+				)
+			);
+		}
+
+		// Set text align to center
+		$this->phpexcel->getActiveSheet()
+			->getStyle( $this->phpexcel->getActiveSheet()->calculateWorksheetDimension() )
+			->getAlignment()
+			->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+		// Making columns autosize
+		for ($i=2;$i<count($header);$i++)
+			$this->phpexcel->getActiveSheet()->getColumnDimension(chr(65+$i))->setAutoSize(true);
+
+		// Set Border
+		$this->phpexcel->getActiveSheet()->getStyle('A7:'.$highest_column.$this->phpexcel->getActiveSheet()->getHighestRow())->applyFromArray(
+			array(
+				'borders' => array(
+					'outline' => array(
+						'style' => PHPExcel_Style_Border::BORDER_THIN,
+						'color' => array('rgb' => '444444'),
+					),
+				)
+			)
+		);
+
+		// Send the file to browser
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="'.$output_filename.'"');
+		header('Cache-Control: max-age=0');
+		$objWriter = PHPExcel_IOFactory::createWriter($this->phpexcel, 'Excel2007');
+		$objWriter->save('php://output');
 	}
 
 
+
+
 	// ------------------------------------------------------------------------
+
+
 
 
 	public function final_excel()
 	{
 		$this->_download_excel('final');
 	}
+
+
 
 	public function all_excel()
 	{
@@ -174,7 +263,11 @@ class Submissions extends CI_Controller
 	}
 
 
+
+
 	// ------------------------------------------------------------------------
+
+
 
 
 	public function the_final()
@@ -219,7 +312,11 @@ class Submissions extends CI_Controller
 	}
 
 
+
+
 	// ------------------------------------------------------------------------
+
+
 
 
 	public function all()
@@ -270,7 +367,11 @@ class Submissions extends CI_Controller
 	}
 
 
+
+
 	// ------------------------------------------------------------------------
+
+
 
 
 	/**
@@ -316,7 +417,11 @@ class Submissions extends CI_Controller
 	}
 
 
+
+
 	// ------------------------------------------------------------------------
+
+
 
 
 	/**
@@ -389,6 +494,13 @@ class Submissions extends CI_Controller
 			exit('Are you trying to see other users\' codes? :)');
 		}
 	}
+
+
+
+
+	// ------------------------------------------------------------------------
+
+
 
 
 	public function download_file(){

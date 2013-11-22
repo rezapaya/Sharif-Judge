@@ -31,7 +31,11 @@ class Users extends CI_Controller
 	}
 
 
+
+
 	// ------------------------------------------------------------------------
+
+
 
 
 	public function index($input = FALSE)
@@ -54,7 +58,11 @@ class Users extends CI_Controller
 	}
 
 
+
+
 	// ------------------------------------------------------------------------
+
+
 
 
 	public function add($input = FALSE)
@@ -83,7 +91,12 @@ class Users extends CI_Controller
 	}
 
 
+
+
 	// ------------------------------------------------------------------------
+
+
+
 
 	/**
 	 * Controller for deleting a user
@@ -104,7 +117,11 @@ class Users extends CI_Controller
 	}
 
 
+
+
 	// ------------------------------------------------------------------------
+
+
 
 
 	/**
@@ -134,25 +151,66 @@ class Users extends CI_Controller
 	}
 
 
+
+
 	// ------------------------------------------------------------------------
 
 
+
+
+	/**
+	 * Uses PHPExcel library to generate excel file of users list
+	 */
 	public function list_excel($input = FALSE)
 	{
 		if ($input !== FALSE)
 			show_404();
-		$now=date('Y-m-d H:i:s', shj_now());
-		$this->load->library('excel');
-		$this->excel->set_file_name('sharifjudge_users.xls');
-		$this->excel->addHeader(array('Time:', $now));
-		$this->excel->addHeader(NULL); //newline
-		$row=array('#','User ID','Username','Display Name','Email','Role','First Login','Last Login');
-		$this->excel->addRow($row);
 
+		$now=date('Y-m-d H:i:s', shj_now()); // current time
+
+		// Load PHPExcel library
+		$this->load->library('phpexcel');
+
+		// Set document properties
+		$this->phpexcel->getProperties()->setCreator('Sharif Judge')
+			->setLastModifiedBy('Sharif Judge')
+			->setTitle('Sharif Judge Users')
+			->setSubject('Sharif Judge Users')
+			->setDescription('List of Sharif Judge users ('.$now.')');
+
+		// Name of the file sent to browser
+		$output_filename = 'sharifjudge_users.xlsx';
+
+		// Set active sheet
+		$this->phpexcel->setActiveSheetIndex(0);
+		// Add current time to document
+		$this->phpexcel->getActiveSheet()->fromArray(array('Time:',$now), null, 'A1', true);
+		// Add header to document
+		$header=array('#','User ID','Username','Display Name','Email','Role','First Login','Last Login');
+		$this->phpexcel->getActiveSheet()->fromArray($header, null, 'A3', true);
+		$highest_column = $this->phpexcel->getActiveSheet()->getHighestColumn();
+
+		// Set custom style for header
+		$this->phpexcel->getActiveSheet()->getStyle('A3:'.$highest_column.'3')->applyFromArray(
+			array(
+				'fill' => array(
+					'type' => PHPExcel_Style_Fill::FILL_SOLID,
+					'color' => array('rgb' => '173C45')
+				),
+				'font'  => array(
+					'bold'  => true,
+					'color' => array('rgb' => 'FFFFFF'),
+					//'size'  => 14
+				)
+			)
+		);
+
+		// Prepare user data (in $rows array)
 		$users = $this->user_model->get_all_users();
 		$i=0;
+		$rows = array();
 		foreach ($users as $user){
-			$row=array(
+			array_push($rows, array(
 				++$i,
 				$user['id'],
 				$user['username'],
@@ -161,10 +219,51 @@ class Users extends CI_Controller
 				$user['role'],
 				$user['first_login_time']==='0000-00-00 00:00:00'?'Never':$user['first_login_time'],
 				$user['last_login_time']==='0000-00-00 00:00:00'?'Never':$user['last_login_time']
-			);
-			$this->excel->addRow($row);
+			));
 		}
-		$this->excel->sendFile();
+
+		// Add rows to document and set a background color of #7BD1BE
+		$this->phpexcel->getActiveSheet()->fromArray($rows, null, 'A4', true);
+		// Add alternative colors to rows
+		for ($i=4; $i<count($rows)+4; $i++){
+			$this->phpexcel->getActiveSheet()->getStyle('A'.$i.':'.$highest_column.$i)->applyFromArray(
+				array(
+					'fill' => array(
+						'type' => PHPExcel_Style_Fill::FILL_SOLID,
+						'color' => array('rgb' => (($i%2)?'F0F0F0':'FAFAFA'))
+					)
+				)
+			);
+		}
+
+		// Set text align to center
+		$this->phpexcel->getActiveSheet()
+			->getStyle( $this->phpexcel->getActiveSheet()->calculateWorksheetDimension() )
+			->getAlignment()
+			->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+		// Making columns autosize
+		for ($i=2;$i<count($header);$i++)
+			$this->phpexcel->getActiveSheet()->getColumnDimension(chr(65+$i))->setAutoSize(true);
+
+		// Set Border
+		$this->phpexcel->getActiveSheet()->getStyle('A4:'.$highest_column.$this->phpexcel->getActiveSheet()->getHighestRow())->applyFromArray(
+			array(
+				'borders' => array(
+					'outline' => array(
+						'style' => PHPExcel_Style_Border::BORDER_THIN,
+						'color' => array('rgb' => '444444'),
+					),
+				)
+			)
+		);
+
+		// Send the file to browser
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="'.$output_filename.'"');
+		header('Cache-Control: max-age=0');
+		$objWriter = PHPExcel_IOFactory::createWriter($this->phpexcel, 'Excel2007');
+		$objWriter->save('php://output');
 	}
 
 
