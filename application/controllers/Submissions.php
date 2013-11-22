@@ -56,6 +56,8 @@ class Submissions extends CI_Controller
 	 */
 	private function _download_excel($view)
 	{
+		if ( ! in_array($view, array('all', 'final')))
+			exit;
 
 		$now=date('Y-m-d H:i:s', shj_now()); // current time
 
@@ -377,12 +379,10 @@ class Submissions extends CI_Controller
 	/**
 	 * Used by ajax request (for selecting final submission)
 	 */
-	public function select($input = FALSE)
+	public function select()
 	{
 		if ( ! $this->input->is_ajax_request() )
 			show_404();
-		if ($input !== FALSE)
-			exit('error');
 
 		// Students cannot change their final submission after finish_time + extra_time
 		if ($this->user_level === 0)
@@ -427,11 +427,9 @@ class Submissions extends CI_Controller
 	/**
 	 * For "view code" or "view result" or "view log"
 	 */
-	public function view_code($input = FALSE)
+	public function view_code()
 	{
 		if ( ! $this->input->is_ajax_request() )
-			show_404();
-		if ($input !== FALSE)
 			show_404();
 		$this->form_validation->set_rules('code','code','integer|greater_than_equal_to[0]|less_than_equal_to[2]');
 		$this->form_validation->set_rules('username','username','required|min_length[3]|max_length[20]|alpha_numeric|xss_clean');

@@ -34,10 +34,8 @@ class Scoreboard extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
-	public function index($input = FALSE)
+	public function index()
 	{
-		if ($input !== FALSE)
-			show_404();
 
 		$this->load->model('scoreboard_model');
 

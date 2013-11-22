@@ -34,11 +34,8 @@ class Queue extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
-	public function index($input = FALSE)
+	public function index()
 	{
-
-		if ($input !== FALSE)
-			show_404();
 
 		$data = array(
 			'username' => $this->username,
@@ -60,11 +57,9 @@ class Queue extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
-	public function pause($input = FALSE)
+	public function pause()
 	{
 		if ( ! $this->input->is_ajax_request() )
-			show_404();
-		if ($input !== FALSE)
 			show_404();
 		$this->settings_model->set_setting('queue_is_working','0');
 		echo 'success';
@@ -74,11 +69,9 @@ class Queue extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
-	public function resume($input = FALSE)
+	public function resume()
 	{
 		if ( ! $this->input->is_ajax_request() )
-			show_404();
-		if ($input !== FALSE)
 			show_404();
 		process_the_queue();
 		echo 'success';
@@ -88,11 +81,9 @@ class Queue extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
-	public function empty_queue($input = FALSE)
+	public function empty_queue()
 	{
 		if ( ! $this->input->is_ajax_request() )
-			show_404();
-		if ($input !== FALSE)
 			show_404();
 		$this->queue_model->empty_queue();
 		echo 'success';

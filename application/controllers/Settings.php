@@ -38,10 +38,8 @@ class Settings extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
-	public function index($input = FALSE)
+	public function index()
 	{
-		if ($input !== FALSE)
-			show_404();
 		$data = array(
 			'username' => $this->username,
 			'user_level' => $this->user_level,
@@ -90,10 +88,8 @@ class Settings extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
-	public function update($input = FALSE)
+	public function update()
 	{
-		if ($input !== FALSE)
-			show_404();
 		$this->form_validation->set_rules('timezone', 'timezone', 'required');
 		$this->form_validation->set_rules('file_size_limit', 'File size limit', 'integer|greater_than_equal_to[0]');
 		$this->form_validation->set_rules('output_size_limit', 'Output size limit', 'integer|greater_than_equal_to[0]');

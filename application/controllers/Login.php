@@ -83,10 +83,8 @@ class Login extends CI_Controller
 	/**
 	 * Login
 	 */
-	public function index($input = FALSE)
+	public function index()
 	{
-		if ($input !== FALSE)
-			show_404();
 		if ($this->session->userdata('logged_in')) // if logged in
 			redirect('dashboard');
 		$this->form_validation->set_rules('username', 'Username', 'required|min_length[3]|max_length[20]|alpha_numeric');
@@ -122,10 +120,8 @@ class Login extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
-	public function register($input = FALSE)
+	public function register()
 	{
-		if ($input !== FALSE)
-			show_404();
 		if ($this->session->userdata('logged_in')) // if logged in
 			redirect('dashboard');
 		if ( ! $this->settings_model->get_setting('enable_registration'))
@@ -167,10 +163,8 @@ class Login extends CI_Controller
 	/**
 	 * Logs out and redirects to login page
 	 */
-	public function logout($input = FALSE)
+	public function logout()
 	{
-		if ($input !== FALSE)
-			show_404();
 		$this->session->sess_destroy();
 		redirect('login');
 	}
@@ -179,10 +173,8 @@ class Login extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
-	public function lost($input = FALSE)
+	public function lost()
 	{
-		if ($input !== FALSE)
-			show_404();
 		if ($this->session->userdata('logged_in')) // if logged in
 			redirect('dashboard');
 		$this->form_validation->set_rules('email', 'email', 'required|max_length[40]|callback__lowercase|valid_email');

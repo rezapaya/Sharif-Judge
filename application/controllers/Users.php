@@ -38,10 +38,9 @@ class Users extends CI_Controller
 
 
 
-	public function index($input = FALSE)
+	public function index()
 	{
-		if ($input !== FALSE)
-			show_404();
+
 		$data = array(
 			'username' => $this->username,
 			'user_level' => $this->user_level,
@@ -65,10 +64,8 @@ class Users extends CI_Controller
 
 
 
-	public function add($input = FALSE)
+	public function add()
 	{
-		if ($input !== FALSE)
-			show_404();
 		$data = array(
 			'username' => $this->username,
 			'user_level' => $this->user_level,
@@ -161,10 +158,8 @@ class Users extends CI_Controller
 	/**
 	 * Uses PHPExcel library to generate excel file of users list
 	 */
-	public function list_excel($input = FALSE)
+	public function list_excel()
 	{
-		if ($input !== FALSE)
-			show_404();
 
 		$now=date('Y-m-d H:i:s', shj_now()); // current time
 

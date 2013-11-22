@@ -31,12 +31,10 @@ class Install extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
-	public function index($input = FALSE)
+	public function index()
 	{
-		if ($input !== FALSE)
-			show_404();
 		if ($this->db->table_exists('sessions'))
-			show_error('It seems that Sharif Judge has been installed already.');
+			show_error('It seems that Sharif Judge has been already installed.');
 
 		$this->form_validation->set_message('_lowercase', '%s must be lowercase.');
 		$this->form_validation->set_rules('username', 'username', 'required|min_length[3]|max_length[20]|alpha_numeric|callback__lowercase');

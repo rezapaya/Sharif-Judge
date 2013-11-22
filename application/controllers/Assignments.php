@@ -217,14 +217,11 @@ class Assignments extends CI_Controller
 	/**
 	 * This method gets inputs from user for adding/editing assignment
 	 */
-	public function add($input = FALSE)
+	public function add()
 	{
 
 		if ($this->user_level <= 1)
 			show_error('You have not enough permission to access this page.');
-
-		if ($input !== FALSE)
-			show_404();
 
 		$this->load->library('upload');
 

@@ -34,10 +34,8 @@ class Rejudge extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
-	public function index($input = FALSE)
+	public function index()
 	{
-		if ($input !== FALSE)
-			show_404();
 
 		$this->form_validation->set_rules('problem_id', 'problem id', 'required|integer');
 
@@ -69,11 +67,9 @@ class Rejudge extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
-	public function rejudge_one($input = FALSE)
+	public function rejudge_one()
 	{
 		if ( ! $this->input->is_ajax_request() )
-			show_404();
-		if ($input !== FALSE)
 			show_404();
 		$this->form_validation->set_rules('submit_id', 'submit id', 'required|integer');
 		$this->form_validation->set_rules('username', 'username', 'required|alpha_numeric');
