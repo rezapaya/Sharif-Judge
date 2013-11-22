@@ -169,7 +169,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</p>
 			<p class="input_p">
 				<label for="late_rule">Coefficient rule (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#coefficient_rule">?</a>)</label><br>
-				<span class="form_comment medium clear" style="display: block;">PHP script without <?php echo htmlspecialchars('<?php ?>') ?> tags</span>
+				<span class="form_comment medium clear" style="display: block;">PHP script without &lt;?php ?&gt; tags</span>
 				<textarea name="late_rule" rows="14" class="sharif_input add_text"><?php
 						if ($edit)
 							echo $edit_assignment['late_rule'];

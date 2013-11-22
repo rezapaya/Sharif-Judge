@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$.post("<?php echo site_url('notifications/check') ?>",
 			{
 				time: shj.notif_check_time.format('YYYY-MM-DD HH:mm:ss'),
-				<?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'
+				<?php echo $this->security->get_csrf_token_name() ?>: '<?php echo $this->security->get_csrf_hash() ?>'
 			},
 			function (data) {
 				if (data=="new_notification"){

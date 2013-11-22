@@ -76,12 +76,13 @@ class Submissions extends CI_Controller
 
 		// Set active sheet
 		$this->phpexcel->setActiveSheetIndex(0);
+		$sheet = $this->phpexcel->getActiveSheet();
 
 		// Add current assignment, time, username filter, and problem filter to document
-		$this->phpexcel->getActiveSheet()->fromArray(array('Assignment:',$this->assignment['name']), null, 'A1', true);
-		$this->phpexcel->getActiveSheet()->fromArray(array('Time:',$now), null, 'A2', true);
-		$this->phpexcel->getActiveSheet()->fromArray(array('Username Filter:', $this->filter_user?$this->filter_user:'No filter'), null, 'A3', true);
-		$this->phpexcel->getActiveSheet()->fromArray(array('Problem Filter:', $this->filter_problem?$this->filter_problem:'No filter'), null, 'A4', true);
+		$sheet->fromArray(array('Assignment:',$this->assignment['name']), null, 'A1', true);
+		$sheet->fromArray(array('Time:',$now), null, 'A2', true);
+		$sheet->fromArray(array('Username Filter:', $this->filter_user?$this->filter_user:'No filter'), null, 'A3', true);
+		$sheet->fromArray(array('Problem Filter:', $this->filter_problem?$this->filter_problem:'No filter'), null, 'A4', true);
 
 		// Prepare header
 		if ($this->user_level === 0)
@@ -95,11 +96,11 @@ class Submissions extends CI_Controller
 		}
 
 		// Add header to document
-		$this->phpexcel->getActiveSheet()->fromArray($header, null, 'A6', true);
-		$highest_column = $this->phpexcel->getActiveSheet()->getHighestColumn();
+		$sheet->fromArray($header, null, 'A6', true);
+		$highest_column = $sheet->getHighestColumn();
 
 		// Set custom style for header
-		$this->phpexcel->getActiveSheet()->getStyle('A6:'.$highest_column.'6')->applyFromArray(
+		$sheet->getStyle('A6:'.$highest_column.'6')->applyFromArray(
 			array(
 				'fill' => array(
 					'type' => PHPExcel_Style_Fill::FILL_SOLID,
@@ -196,10 +197,10 @@ class Submissions extends CI_Controller
 		}
 
 		// Add rows to document
-		$this->phpexcel->getActiveSheet()->fromArray($rows, null, 'A7', true);
+		$sheet->fromArray($rows, null, 'A7', true);
 		// Add alternative colors to rows
 		for ($i=7; $i<count($rows)+7; $i++){
-			$this->phpexcel->getActiveSheet()->getStyle('A'.$i.':'.$highest_column.$i)->applyFromArray(
+			$sheet->getStyle('A'.$i.':'.$highest_column.$i)->applyFromArray(
 				array(
 					'fill' => array(
 						'type' => PHPExcel_Style_Fill::FILL_SOLID,
@@ -210,17 +211,16 @@ class Submissions extends CI_Controller
 		}
 
 		// Set text align to center
-		$this->phpexcel->getActiveSheet()
-			->getStyle( $this->phpexcel->getActiveSheet()->calculateWorksheetDimension() )
+		$sheet->getStyle( $sheet->calculateWorksheetDimension() )
 			->getAlignment()
 			->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
 		// Making columns autosize
 		for ($i=2;$i<count($header);$i++)
-			$this->phpexcel->getActiveSheet()->getColumnDimension(chr(65+$i))->setAutoSize(true);
+			$sheet->getColumnDimension(chr(65+$i))->setAutoSize(true);
 
 		// Set Border
-		$this->phpexcel->getActiveSheet()->getStyle('A7:'.$highest_column.$this->phpexcel->getActiveSheet()->getHighestRow())->applyFromArray(
+		$sheet->getStyle('A7:'.$highest_column.$sheet->getHighestRow())->applyFromArray(
 			array(
 				'borders' => array(
 					'outline' => array(

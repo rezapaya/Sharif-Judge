@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </script>
 
 <?php $this->view('templates/top_bar'); ?>
-<?php $this->view('templates/side_bar',array('selected'=>'submit')); ?>
+<?php $this->view('templates/side_bar', array('selected'=>'submit')); ?>
 <?php $now = shj_now(); ?>
 
 <div id="main_container">
@@ -66,14 +66,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						<option value="<?php echo $problem['id'] ?>"><?php echo $problem['name'] ?></option>
 					<?php endforeach ?>
 				</select>
-				<?php echo form_error('problem','<div class="shj_error">','</div>'); ?>
+				<?php echo form_error('problem','<div class="shj_error">','</div>') ?>
 			</p>
 			<p class="input_p">
 				<label for="problem" class="tiny">Language:</label>
 				<select id="languages" name="language" class="sharif_input">
 					<option value="0" selected="selected">-- Select One --</option>
 				</select>
-				<?php echo form_error('language','<div class="shj_error">','</div>'); ?>
+				<?php echo form_error('language','<div class="shj_error">','</div>') ?>
 			</p>
 			<p class="input_p">
 				<label for="userfile" class="tiny">File:</label>
@@ -83,7 +83,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php elseif ($upload_state==='ok'): ?>
 				<div class="shj_ok">File uploaded successfully. See the result in 'All Submissions'.</div>
 				<?php endif ?>
-				<?php echo $this->upload->display_errors('<div class="shj_error">','</div>'); ?>
+				<?php echo $this->upload->display_errors('<div class="shj_error">','</div>') ?>
 			</p>
 			<p class="input_p">
 				<input type="submit" value="Submit" class="sharif_input"/>

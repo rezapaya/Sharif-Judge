@@ -46,7 +46,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 		<div class="login2">
 			<p style="margin:0;">
-				<?php echo anchor("login","Login") ?></a>
+				<?php echo anchor("login","Login") ?>
 				<input type="submit" value="Register" id="sharif_submit"/>
 			</p>
 		</div>

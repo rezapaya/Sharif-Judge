@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							{
 								'user_id': user_id,
 								'delete_submissions': (delete_submissions?'1':'0'),
-								<?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>',
+								<?php echo $this->security->get_csrf_token_name() ?>: '<?php echo $this->security->get_csrf_hash() ?>',
 							},
 							function(response){
 								if (response == 'deleted'){
@@ -71,7 +71,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 							{
 								'user_id': user_id,
 								'delete_results': (delete_results?'1':'0'),
-								<?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>',
+								<?php echo $this->security->get_csrf_token_name() ?>: '<?php echo $this->security->get_csrf_hash() ?>',
 							},
 							function(response){
 								if (response == 'deleted')
@@ -88,7 +88,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </script>
 
 <?php $this->view('templates/top_bar'); ?>
-<?php $this->view('templates/side_bar',array('selected'=>'users')); ?>
+<?php $this->view('templates/side_bar', array('selected'=>'users')); ?>
 
 <div id="main_container">
 

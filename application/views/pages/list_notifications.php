@@ -70,7 +70,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</span>
 		<?php endif ?>
 	</div>
-	<div class="notif_text<?php if ($type=="latest"){ echo ' latest'; } ?>" dir="auto"><?php
+	<div class="notif_text<?php if ($type=="latest") echo ' latest' ?>" dir="auto"><?php
 		if ($type=="all")
 			echo $notification['text'];
 		else if ($type=="latest"){

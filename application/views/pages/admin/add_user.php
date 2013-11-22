@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					send_mail: ($("#send_mail").is(":checked")?1:0),
 					delay: $("#delay").val(),
 					new_users:$("#new_users").val(),
-					<?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'
+					<?php echo $this->security->get_csrf_token_name() ?>: '<?php echo $this->security->get_csrf_hash() ?>'
 				},
 				function(data) {
 					$("#main_content").html(data);
@@ -49,16 +49,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<input type="checkbox" name="send_mail" id="send_mail" /> Send usernames and passwords by email (Waits <input type="text" name="delay" id="delay" class="sharif_input tiny" value="2"/> second(s) before sending each email, so please be patient).
 		</p>
 		<p class="input_p">
-			<textarea name="new_users" id="new_users" rows="20" cols="80" class="sharif_input"><?php
-				echo "# Lines starting with a # sign are comments.\n";
-				echo "# Each line (except comments) represents a user.\n";
-				echo "# The syntax of each line is:\n";
-				echo "#\n";
-				echo "# USERNAME EMAIL PASSWORD ROLE\n";
-				echo "#\n";
-				echo "# Roles: admin head_instructor instructor student\n";
-				echo "# You can use RANDOM[n] for password to generate random n-digit password.\n";
-			?></textarea>
+			<textarea name="new_users" id="new_users" rows="20" cols="80" class="sharif_input">
+# Lines starting with a # sign are comments.
+# Each line (except comments) represents a user.
+# The syntax of each line is:
+#
+# USERNAME EMAIL PASSWORD ROLE
+#
+# Roles: admin head_instructor instructor student
+# You can use RANDOM[n] for password to generate random n-digit password.</textarea>
 		</p>
 		<input type="submit" class="sharif_input" id="add_users_button" value="Add Users"/>
 		<span id="loading" style="display: none;"><img src="<?php echo base_url('assets/images/loading.gif') ?>" /> Adding users... Please wait</span>

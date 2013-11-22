@@ -12,8 +12,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<title><?php echo $title ?> - Sharif Judge</title>
 	<meta content="text/html" charset="UTF-8">
 	<link rel="icon" href="<?php echo base_url("assets/images/favicon.ico") ?>"/>
-	<link rel="stylesheet" type='text/css' href="<?php echo base_url("assets/styles/$style")  ?>"/>
-	<link rel="stylesheet" type='text/css' href="<?php echo base_url("assets/styles/splashy.css")  ?>"/>
+	<link rel="stylesheet" type='text/css' href="<?php echo base_url("assets/styles/$style") ?>"/>
+	<link rel="stylesheet" type='text/css' href="<?php echo base_url("assets/styles/splashy.css") ?>"/>
 	<script type="text/javascript" src="<?php echo base_url("assets/js/jquery-1.10.2.min.js") ?>"></script>
 	<!-- You can use google's cdn for loading jquery: -->
 	<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> -->

@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <?php $this->view('templates/top_bar'); ?>
-<?php $this->view('templates/side_bar',array('selected'=>'')); ?>
+<?php $this->view('templates/side_bar', array('selected'=>'')); ?>
 
 <script>
 	$(document).ready(function(){
@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			var action=$(this).attr('id');
 			$.post(
 				'<?php echo site_url("queue") ?>/'+action,
-				{<?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'},
+				{<?php echo $this->security->get_csrf_token_name() ?>: '<?php echo $this->security->get_csrf_hash() ?>'},
 				function(data){
 					if (data=='success')
 						location.reload();

@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 		<div class="login2">
 			<p style="margin:0;">
-				<?php echo anchor('login','Login'); ?>
+				<?php echo anchor('login','Login') ?>
 			</p>
 		</div>
 	</div>

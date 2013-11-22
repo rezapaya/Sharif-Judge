@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
 <?php $this->view('templates/top_bar'); ?>
-<?php $this->view('templates/side_bar',array('selected'=>'settings')); ?>
+<?php $this->view('templates/side_bar', array('selected'=>'settings')); ?>
 
 <div id="main_container">
 
@@ -104,7 +104,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</p>
 			<p class="input_p">
 				<label for="default_late_rule">Default Coefficient Rule</label>
-				<span class="form_comment clear">PHP script without <?php echo htmlspecialchars('<?php ?>') ?> tags</span><br>
+				<span class="form_comment clear">PHP script without &lt;?php ?&gt; tags</span><br>
 				<textarea name="default_late_rule" rows="15" class="sharif_input add_text clear"><?php echo $default_late_rule ?></textarea>
 			</p>
 

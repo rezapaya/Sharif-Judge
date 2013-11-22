@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<p>
 			Links will expire after some time. (last update: <?php echo $update_time; ?>) <br>
 			<ul>
-			<?php for ($i=1;$i<=$moss_assignment['problems'];$i++): ?>
+			<?php for ($i=1; $i<=$moss_assignment['problems']; $i++): ?>
 				<li>Problem <?php echo $i ?>:
 				<?php
 					if ($moss_problems[$i]===FALSE)
