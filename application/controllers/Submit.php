@@ -126,7 +126,8 @@ class Submit extends CI_Controller
 		$this->form_validation->set_rules('language', 'language', 'required|callback__check_language');
 
 		if ($this->form_validation->run()){
-			$this->_upload();
+			if ($this->_upload())
+				redirect('submissions/all');
 		}
 
 		$this->load->view('templates/header', $this->data);
@@ -209,9 +210,11 @@ class Submit extends CI_Controller
 			}
 
 			$this->data['upload_state'] = 'ok';
+			return TRUE;
 		}
-		else
-			$this->data['upload_state'] = 'error';
+
+		$this->data['upload_state'] = 'error';
+		return FALSE;
 	}
 
 
