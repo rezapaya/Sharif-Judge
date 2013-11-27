@@ -9,6 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Queueprocess extends CI_Controller
 {
 
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -20,7 +21,11 @@ class Queueprocess extends CI_Controller
 	}
 
 
+
+
 	// ------------------------------------------------------------------------
+
+
 
 
 	/**
@@ -39,9 +44,8 @@ class Queueprocess extends CI_Controller
 
 		$this->settings_model->set_setting('queue_is_working', '1');
 
-		do {
-			if ( ! $this->settings_model->get_setting('queue_is_working') )
-				exit;
+
+		do { // loop over queue items
 
 			$submit_id = $queue_item['submit_id'];
 			$username = $queue_item['username'];
@@ -97,6 +101,7 @@ class Queueprocess extends CI_Controller
 			///////////////////////////////////////
 			// Running tester (judging the code) //
 			///////////////////////////////////////
+			putenv('LANG=en_US.UTF-8');
 			$output = trim(shell_exec($cmd));
 
 
@@ -127,7 +132,7 @@ class Queueprocess extends CI_Controller
 			// Get next item from queue
 			$queue_item = $this->queue_model->get_first_item();
 
-		}while($queue_item !== NULL);
+		}while($queue_item !== NULL && $this->settings_model->get_setting('queue_is_working'));
 
 		$this->settings_model->set_setting('queue_is_working', '0');
 
