@@ -305,9 +305,24 @@ for((i=1;i<=TST;i++)); do
 			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "java -mx${MEMLIMIT}k $JAVA_POLICY $MAINFILENAME"
 		fi
 		EXITCODE=$?
-		if grep -iq "Too small initial heap" out || grep -iq "OutOfMemoryError" err; then
+		if grep -iq "Too small initial heap" out || grep -iq "java.lang.OutOfMemoryError" err; then
 			judge_log "Memory Limit Exceeded"
 			echo "<span class=\"shj_o\">Memory Limit Exceeded</span>" >>$PROBLEMPATH/$UN/result.html
+			continue
+		fi
+		if grep -iq "java.lang.InternalError" err; then
+			judge_log "java.lang.InternalError"
+			echo "<span class=\"shj_o\">Runtime Error (java.lang.InternalError)</span>" >>$PROBLEMPATH/$UN/result.html
+			continue
+		fi
+		if grep -iq "java.lang.StackOverflowError" err; then
+			judge_log "java.lang.StackOverflowError"
+			echo "<span class=\"shj_o\">Runtime Error (java.lang.StackOverflowError)</span>" >>$PROBLEMPATH/$UN/result.html
+			continue
+		fi
+		if grep -iq "java.lang.UnknownError" err; then
+			judge_log "java.lang.UnknownError"
+			echo "<span class=\"shj_o\">Runtime Error (java.lang.UnknownError)</span>" >>$PROBLEMPATH/$UN/result.html
 			continue
 		fi
 	elif [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
