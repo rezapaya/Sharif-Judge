@@ -293,7 +293,7 @@ PASSEDTESTS=0
 
 for((i=1;i<=TST;i++)); do
 	judge_log "\n=== TEST $i ==="
-	echo "<span class=\"shj_b\">Test $i </span>" >>$PROBLEMPATH/$UN/result.html
+	echo "<span class=\"shj_b\">Test $i</span>" >>$PROBLEMPATH/$UN/result.html
 	
 	touch err
 	
@@ -377,7 +377,7 @@ for((i=1;i<=TST;i++)); do
 		if grep -q "SHJ_TIME" err; then
 			t=`grep "SHJ_TIME" err|cut -d" " -f3`
 			judge_log "Time Limit Exceeded ($t s)"
-			echo "<span class=\"shj_o\">Time Limit Exceeded ($t s)</span>" >>$PROBLEMPATH/$UN/result.html
+			echo "<span class=\"shj_o\">Time Limit Exceeded</span>" >>$PROBLEMPATH/$UN/result.html
 			continue
 		elif grep -q "SHJ_MEM" err; then
 			judge_log "Memory Limit Exceeded"
