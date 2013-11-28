@@ -311,17 +311,17 @@ for((i=1;i<=TST;i++)); do
 			continue
 		fi
 		if grep -iq "java.lang.InternalError" err; then
-			judge_log "java.lang.InternalError"
+			judge_log "Runtime Error: java.lang.InternalError"
 			echo "<span class=\"shj_o\">Runtime Error (java.lang.InternalError)</span>" >>$PROBLEMPATH/$UN/result.html
 			continue
 		fi
 		if grep -iq "java.lang.StackOverflowError" err; then
-			judge_log "java.lang.StackOverflowError"
+			judge_log "Runtime Error: java.lang.StackOverflowError"
 			echo "<span class=\"shj_o\">Runtime Error (java.lang.StackOverflowError)</span>" >>$PROBLEMPATH/$UN/result.html
 			continue
 		fi
 		if grep -iq "java.lang.UnknownError" err; then
-			judge_log "java.lang.UnknownError"
+			judge_log "Runtime Error: java.lang.UnknownError"
 			echo "<span class=\"shj_o\">Runtime Error (java.lang.UnknownError)</span>" >>$PROBLEMPATH/$UN/result.html
 			continue
 		fi
