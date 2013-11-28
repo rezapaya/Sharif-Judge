@@ -305,7 +305,7 @@ for((i=1;i<=TST;i++)); do
 			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "java -mx${MEMLIMIT}k $JAVA_POLICY $MAINFILENAME"
 		fi
 		EXITCODE=$?
-		if grep -iq "Too small initial heap" out; then
+		if grep -iq "Too small initial heap" out || grep -iq "OutOfMemoryError" err; then
 			judge_log "Memory Limit Exceeded"
 			echo "<span class=\"shj_o\">Memory Limit Exceeded</span>" >>$PROBLEMPATH/$UN/result.html
 			continue
