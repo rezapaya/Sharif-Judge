@@ -197,6 +197,18 @@ fi
 ########################################################################################################
 ############################################ COMPILING C/C++ ###########################################
 ########################################################################################################
+
+# Compile options for C/C++
+OPTIONS="-fno-asm -Dasm=error -lm -O2"
+
+# Warning Options for C/C++
+# -w: Inhibit all warning messages
+# -Werror: Make all warnings into errors
+# -Wall ...
+# Read more: http://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html
+WARNING_OPTION="-w"
+
+
 if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 	COMPILER="gcc"
 	if [ "$EXT" = "cpp" ]; then
@@ -228,12 +240,12 @@ if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 			cp ../shield/def$EXT.h def.h
 			# adding define to beginning of code:
 			echo '#define main themainmainfunction' | cat - code.c > thetemp && mv thetemp code.c
-			$COMPILER shield.$EXT -fno-asm -Dasm=error -lm -O2 -o $EXEFILE >/dev/null 2>cerr
+			$COMPILER shield.$EXT $OPTIONS $WARNING_OPTION -o $EXEFILE >/dev/null 2>cerr
 			EXITCODE=$?
 		fi
 	else
 		mv code.c code.$EXT
-		$COMPILER code.$EXT -fno-asm -Dasm=error -lm -O2 -o $EXEFILE >/dev/null 2>cerr
+		$COMPILER code.$EXT $OPTIONS $WARNING_OPTION -o $EXEFILE >/dev/null 2>cerr
 		EXITCODE=$?
 	fi
 	judge_log "Compiled. Exit Code=$EXITCODE"
