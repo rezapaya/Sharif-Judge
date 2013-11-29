@@ -122,6 +122,7 @@ judge_log "JAVA_POLICY: \"$JAVA_POLICY\""
 ############################################ COMPILING JAVA ############################################
 ########################################################################################################
 if [ "$EXT" = "java" ]; then
+	cp ../java.policy java.policy
 	cp $PROBLEMPATH/$UN/$FILENAME.java $MAINFILENAME.java
 	judge_log "Compiling as Java"
 	javac $MAINFILENAME.java >/dev/null 2>cerr
@@ -310,7 +311,6 @@ for((i=1;i<=TST;i++)); do
 	touch err
 	
 	if [ "$EXT" = "java" ]; then
-		cp ../java.policy java.policy
 		if $PERL_EXISTS; then
 			./runcode.sh $EXT $MEMLIMIT $TIMELIMIT $TIMELIMITINT $PROBLEMPATH/in/input$i.txt "./timeout --just-kill -nosandbox -l $OUTLIMIT -t $TIMELIMIT java -mx${MEMLIMIT}k $JAVA_POLICY $MAINFILENAME"
 		else
