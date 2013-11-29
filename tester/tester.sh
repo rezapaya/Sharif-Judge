@@ -19,7 +19,7 @@
 
 
 ##################### Example Usage #####################
-# tester.sh /home/mohammad/judge/homeworks/hw6/p1 mjn problem problem c 1 1 50000 diff -iw 1 1 1 1
+# tester.sh /home/mohammad/judge/homeworks/hw6/p1 mjn problem problem c 1 1 50000 1000000 diff -bB 1 1 1 1
 # In this example judge assumes that the file is located at:
 # /home/mohammad/judge/homeworks/hw6/p1/mjn/problem.c
 # And test cases are located at:
@@ -38,38 +38,54 @@
 #      -6              Judge Error
 
 ################### Getting Arguments ###################
-PROBLEMPATH=${1} # problem directory
-UN=${2} # username
-MAINFILENAME=${3} # used only for java
-FILENAME=${4} # file name without extension
-EXT=${5} # file extension
+# problem directory
+PROBLEMPATH=${1}
+# username
+UN=${2}
+# main file name (used only for java)
+MAINFILENAME=${3}
+# file name without extension
+FILENAME=${4}
+# file extension
+EXT=${5}
+# time limit in seconds
 TIMELIMIT=${6}
+# integer time limit in seconds (should be an integer greater than TIMELIMIT)
 TIMELIMITINT=${7}
+# memory limit in kB
 MEMLIMIT=${8}
+# output size limit in Bytes
 OUTLIMIT=${9}
+# diff tool (default: diff)
 DIFFTOOL=${10}
+# diff options (default: -bB)
 DIFFOPTION=${11}
+# enable/disable judge log
 if [ ${12} = "1" ]; then
 	LOG_ON=true
 else
 	LOG_ON=false
 fi
+# enable/disable easysandbox
 if [ ${13} = "1" ]; then
 	SANDBOX_ON=true
 else
 	SANDBOX_ON=false
 fi
+# enable/disable C/C++ shield
 if [ ${14} = "1" ]; then
 	C_SHIELD_ON=true
 else
 	C_SHIELD_ON=false
 fi
+# enable/disable java security manager
 if [ ${15} = "1" ]; then
 	JAVA_POLICY="-Djava.security.manager -Djava.security.policy=java.policy"
 else
 	JAVA_POLICY=""
 fi
-# DIFFOPTION can also be "ignore" of "exact".
+
+# DIFFOPTION can also be "ignore" or "exact".
 # ignore: In this case, before diff command, all newlines and whitespaces will be removed from both files
 # identical: diff will compare files without ignoring anything. files must be identical to be accepted
 DIFFARGUMENT=""
@@ -86,8 +102,11 @@ function judge_log {
 	fi
 }
 
-judge_log "Starting tester..."
 
+
+
+
+judge_log "Starting tester..."
 
 #################### Initialization #####################
 # detecting existence of perl
@@ -118,6 +137,8 @@ judge_log "JAVA_POLICY: \"$JAVA_POLICY\""
 
 
 
+
+
 ########################################################################################################
 ############################################ COMPILING JAVA ############################################
 ########################################################################################################
@@ -142,6 +163,8 @@ if [ "$EXT" = "java" ]; then
 		exit 0
 	fi
 fi
+
+
 
 
 
@@ -170,6 +193,8 @@ fi
 
 
 
+
+
 ########################################################################################################
 ########################################## COMPILING PYTHON 3 ##########################################
 ########################################################################################################
@@ -192,6 +217,8 @@ if [ "$EXT" = "py3" ]; then
 		exit 0
 	fi
 fi
+
+
 
 
 
@@ -291,6 +318,8 @@ if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 		exit 0
 	fi
 fi
+
+
 
 
 
