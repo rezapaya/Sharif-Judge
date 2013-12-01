@@ -558,14 +558,14 @@ select.sharif_time {
 
 /************* Buttons *************************/
 
-div.btn {
+.btn {
 	outline: 0;
 	border: none;
 	background: none;
 	display: inline-block;
 }
 
-div.btn {
+.btn {
 	color: #4D4D4D;
 	cursor: pointer;
 	font-size: 13px;
@@ -591,7 +591,7 @@ div.btn {
 	text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.5);
 }
 
-div.btn:hover {
+.btn:hover {
 	color: #4D4D4D;
 	text-decoration: none;
 	-moz-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
@@ -608,14 +608,14 @@ div.btn:hover {
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E0E0E0', endColorstr='#D4D4D4', GradientType=0);
 }
 
-div.btn:active {
+.btn:active {
 	text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.5);
 	-moz-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.15), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	-webkit-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.15), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.15), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 }
 
-div.btn.ok:hover, div.btn.wrong:hover, div.btn.compilation:hover, div.btn.syntax:hover, div.btn.view_code:hover {
+.btn.ok:hover, .btn.wrong:hover, .btn.compilation:hover, .btn.syntax:hover, .btn.view_code:hover {
 	color: #FFF;
 	text-decoration: none;
 }
@@ -623,7 +623,7 @@ div.btn.ok:hover, div.btn.wrong:hover, div.btn.compilation:hover, div.btn.syntax
 /*#####################
 ##       compilation      ##
 #####################*/
-div.btn.compilation, div.btn.syntax {
+.btn.compilation, .btn.syntax {
 	color: #FFF;
 	/*border: 1px solid #5269C7;*/
 	background: -moz-linear-gradient(center top, #303CFF 0%, #0019AB) repeat scroll 0% 0% transparent;
@@ -637,7 +637,7 @@ div.btn.compilation, div.btn.syntax {
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 }
 
-div.btn.compilation:hover, div.btn.syntax:hover {
+.btn.compilation:hover, .btn.syntax:hover {
 	-moz-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	-webkit-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
@@ -646,7 +646,7 @@ div.btn.compilation:hover, div.btn.syntax:hover {
 	background: -webkit-gradient(linear, left top, left bottom, from(#303CFF), to(#001bd0));
 }
 
-div.btn.compilation:active, div.btn.syntax:active {
+.btn.compilation:active, .btn.syntax:active {
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 	-moz-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.15);
 	-webkit-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.15);
@@ -656,7 +656,7 @@ div.btn.compilation:active, div.btn.syntax:active {
 /*#####################
 ##        OK         ##
 #####################*/
-div.btn.ok {
+.btn.ok {
 	color: #FFF;
 	/*border: 1px solid #5eb700;*/
 	background: #50FF19;
@@ -673,7 +673,7 @@ div.btn.ok {
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 }
 
-div.btn.ok:hover {
+.btn.ok:hover {
 	-moz-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	-webkit-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
@@ -682,7 +682,7 @@ div.btn.ok:hover {
 	background: -webkit-gradient(linear, left top, left bottom, from(#50FF19), to(#15d000));
 }
 
-div.btn.ok:active {
+.btn.ok:active {
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 	-moz-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.15);
 	-webkit-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.15);
@@ -692,7 +692,7 @@ div.btn.ok:active {
 /*#####################
 ##       wrong       ##
 #####################*/
-div.btn.wrong {
+.btn.wrong {
 	color: #FFF;
 	/*border: 1px solid #B70000;*/
 	background: #ff2819;
@@ -709,7 +709,7 @@ div.btn.wrong {
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 }
 
-div.btn.wrong:hover {
+.btn.wrong:hover {
 	-moz-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	-webkit-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
@@ -718,7 +718,7 @@ div.btn.wrong:hover {
 	background: -webkit-gradient(linear, left top, left bottom, from(#ff2819), to(#d00000));
 }
 
-div.btn.wrong:active {
+.btn.wrong:active {
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 	-moz-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.25);
 	-webkit-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.25);
@@ -728,7 +728,7 @@ div.btn.wrong:active {
 /*#####################
 ##      view_code      ##
 #####################*/
-div.btn.view_code {
+.btn.view_code {
 	color: #FFF;
 	/*border: 1px solid #FF9D00;*/
 	background: #FFA300;
@@ -745,7 +745,7 @@ div.btn.view_code {
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 }
 
-div.btn.view_code:hover {
+.btn.view_code:hover {
 	-moz-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	-webkit-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
@@ -754,7 +754,7 @@ div.btn.view_code:hover {
 	background: -webkit-gradient(linear, left top, left bottom, from(#FFA300), to(#ff7100));
 }
 
-div.btn.view_code:active {
+.btn.view_code:active {
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 	-moz-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.15);
 	-webkit-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.15);

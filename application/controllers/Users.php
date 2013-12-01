@@ -104,12 +104,11 @@ class Users extends CI_Controller
 		if ( ! $this->input->is_ajax_request() )
 			show_404();
 		$user_id = $this->input->post('user_id');
-		$delete_submissions = $this->input->post('delete_submissions');
-		if ( ! is_numeric($user_id) OR ($delete_submissions!=0 && $delete_submissions!=1) )
+		if ( ! is_numeric($user_id) )
 			exit;
 		$username = $this->user_model->user_id_to_username($user_id);
 		$username!==FALSE OR exit;
-		$this->user_model->delete_user($username, $delete_submissions);
+		$this->user_model->delete_user($username);
 		exit('deleted');
 	}
 
@@ -130,20 +129,19 @@ class Users extends CI_Controller
 		if ( ! $this->input->is_ajax_request() )
 			show_404();
 		$user_id = $this->input->post('user_id');
-		$delete_results = $this->input->post('delete_results');
-		if ( ! is_numeric($user_id) OR ($delete_results!=0 && $delete_results!=1) )
+		if ( ! is_numeric($user_id) )
 			exit;
 		$username = $this->user_model->user_id_to_username($user_id);
 		$username!==FALSE OR exit;
 
+		// delete all submitted files
 		shell_exec("cd {$this->settings_model->get_setting('assignments_root')}; rm -r */*/{$username};");
-		if ($delete_results) {// also delete all submissions from database
-			$this->db->delete('final_submissions', array('username'=>$username));
-			$this->db->delete('all_submissions', array('username'=>$username));
-			// each time we delete a user's submissions, we should update all scoreboards
-			$this->load->model('scoreboard_model');
-			$this->scoreboard_model->update_scoreboards();
-		}
+		// delete all submissions from database
+		$this->db->delete('final_submissions', array('username'=>$username));
+		$this->db->delete('all_submissions', array('username'=>$username));
+		// each time we delete a user's submissions, we should update all scoreboards
+		$this->load->model('scoreboard_model');
+		$this->scoreboard_model->update_scoreboards();
 		exit('deleted');
 	}
 
