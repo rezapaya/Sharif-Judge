@@ -21,8 +21,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	}
 </script>
 
-<script type="text/javascript" src="<?php echo base_url("assets/js/shj_functions.js") ?>"></script>
-
 <script type= "text/javascript">
 	$(document).ready(function() {
 		if (shj.supports_local_storage())

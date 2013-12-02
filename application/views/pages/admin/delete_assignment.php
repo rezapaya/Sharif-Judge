@@ -27,7 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php echo form_open('assignments/delete/'.$id); ?>
 		<input type="hidden" name="delete" value="delete"/>
 		<p class="input_p">
-			<input type="checkbox" name="delete_codes"/> Also delete test cases and all submitted codes for this assignment.
+			<input type="checkbox" name="delete_codes" checked /> Also delete test cases and all submitted codes for this assignment.
 		</p>
 		<p class="input_p">
 			<input type="submit" class="sharif_input" value="Yes, I'm Sure"/> <?php echo anchor('assignments',"No, I'm not") ?>

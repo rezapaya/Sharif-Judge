@@ -7,26 +7,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<script>
-jQuery.fn.selectText = function(){
-	var doc = document
-		, element = this[0]
-		, range, selection
-		;
-	if (doc.body.createTextRange) {
-		range = document.body.createTextRange();
-		range.moveToElementText(element);
-		range.select();
-	} else if (window.getSelection) {
-		selection = window.getSelection();
-		range = document.createRange();
-		range.selectNodeContents(element);
-		selection.removeAllRanges();
-		selection.addRange(range);
-	}
-};
-</script>
-
 <script type="text/javascript" src="<?php echo base_url("assets/jquery-syntax/jquery.syntax.min.js") ?>"></script>
 
 <link rel='stylesheet' type='text/css' href='<?php echo base_url("assets/reveal/reveal.css") ?>'/>

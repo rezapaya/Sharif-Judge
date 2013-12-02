@@ -33,9 +33,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<p style="text-align: center;">Nothing to show...</p>
 		<?php endif ?>
 		<?php foreach($all_assignments as $item): ?>
-			<div class="assignment_block" id="<?php echo $item['id'] ?>">
+			<div class="assignment_block">
 				<div class="c1">
-					<div class="select_assignment <?php echo ($item['id']==$assignment['id']?'check checked':'check') ?> i<?php echo $item['id'] ?>" id="<?php echo $item['id'] ?>"></div>
+					<div class="select_assignment <?php echo ($item['id']==$assignment['id']?'check checked':'check') ?> i<?php echo $item['id'] ?>" data-id="<?php echo $item['id'] ?>"></div>
 				</div>
 				<div class="assignment_item">
 					<div class="assignment_subitem"><?php echo $item['name'] ?></div>

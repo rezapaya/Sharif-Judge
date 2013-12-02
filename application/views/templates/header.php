@@ -31,7 +31,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<link rel='stylesheet' type='text/css' href='<?php echo base_url("assets/nano_scroller/nanoscroller.css") ?>'/>
 	<script type='text/javascript' src="<?php echo base_url("assets/nano_scroller/jquery.nanoscroller.min.js") ?>"></script>
+
+	<script type="text/javascript" src="<?php echo base_url("assets/js/shj_functions.js") ?>"></script>
 </head>
-<script>var shj = {};</script>
 <body id="body" class="nano">
 <div class="content">

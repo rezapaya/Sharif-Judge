@@ -4,6 +4,31 @@
  * @author Mohammad Javad Naderi <mjnaderi@gmail.com>
  */
 
+// shj is Sharif Judge's namespace for js variable names
+var shj = {};
+
+// These words are used in countdown timer
+shj.time_words = ['day', 'days', 'hour', 'hours', 'minute', 'minutes', 'second' , 'seconds'];
+
+// selectText is used for "Select All" when viewing a submitted code
+jQuery.fn.selectText = function(){
+	var doc = document
+		, element = this[0]
+		, range, selection
+		;
+	if (doc.body.createTextRange) {
+		range = document.body.createTextRange();
+		range.moveToElementText(element);
+		range.select();
+	} else if (window.getSelection) {
+		selection = window.getSelection();
+		range = document.createRange();
+		range.selectNodeContents(element);
+		selection.removeAllRanges();
+		selection.addRange(range);
+	}
+};
+
 shj.supports_local_storage = function() {
 	try {
 		return 'localStorage' in window && window['localStorage'] !== null;

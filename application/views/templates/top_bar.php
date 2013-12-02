@@ -7,7 +7,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <script>
-	shj.time_words = ['day', 'days', 'hour', 'hours', 'minute', 'minutes', 'second' , 'seconds'];
 	$(document).ready(function(){
 		$("#top_bar").hoverIntent({
 			over:function(){
@@ -22,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		});
 		$(".select_assignment").click(
 			function(){
-				var id = $(this).attr('id');
+				var id = $(this).data('id');
 				$.post(
 					'<?php echo site_url('assignments/select') ?>',
 					{
@@ -55,9 +54,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<a href="<?php echo site_url('assignments') ?>"><span class="assignment_name"><?php echo $assignment['name'] ?></span></a>
 		<div class="top_menu" id="select_assignment_menu">
 			<?php foreach($all_assignments as $item): ?>
-				<div class="assignment_block" id="<?php echo $item['id'] ?>">
+				<div class="assignment_block">
 					<div class="c1">
-						<div class="select_assignment <?php echo ($item['id']==$assignment['id']?'check checked':'check') ?> i<?php echo $item['id'] ?>" id="<?php echo $item['id'] ?>"></div>
+						<div class="select_assignment <?php echo ($item['id']==$assignment['id']?'check checked':'check') ?> i<?php echo $item['id'] ?>" data-id="<?php echo $item['id'] ?>"></div>
 					</div>
 					<div class="assignment_item"><?php echo $item['name'] ?></div>
 				</div>
