@@ -14,7 +14,7 @@
   left          : 0;
 }
 .nano .content:focus {
-  outline: thin dotted;
+  outline: /*thin dotted*/ none;
 }
 .nano .content::-webkit-scrollbar {
   visibility: hidden;
