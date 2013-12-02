@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					speed: 300
 				},
 				buttons: [
-					{addClass: 'btn wrong', text: 'Yes, I\'m Sure', onClick: function($noty) {
+					{addClass: 'btn shj-red', text: 'Yes, Delete', onClick: function($noty) {
 						$noty.close();
 						$.post(
 							'<?php echo site_url('users/delete') ?>',
@@ -41,7 +41,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						);
 						}
 					},
-					{addClass: 'btn compilation', text: 'No, I\'m not', onClick: function($noty){$noty.close();}}
+					{addClass: 'btn shj-blue', text: 'No, Don\'t Delete', onClick: function($noty){$noty.close();}}
 				]
 			});
 		});
@@ -61,7 +61,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					speed: 300
 				},
 				buttons: [
-					{addClass: 'btn wrong', text: 'Yes, I\'m Sure', onClick: function($noty) {
+					{addClass: 'btn shj-red', text: 'Yes, Delete', onClick: function($noty) {
 						$noty.close();
 						$.post(
 							'<?php echo site_url('users/delete_submissions') ?>',
@@ -76,7 +76,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						);
 						}
 					},
-					{addClass: 'btn compilation', text: 'No, I\'m not', onClick: function($noty){$noty.close();}}
+					{addClass: 'btn shj-blue', text: 'No, Don\'t Delete', onClick: function($noty){$noty.close();}}
 				]
 			});
 		});

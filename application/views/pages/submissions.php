@@ -304,17 +304,7 @@ $finish = strtotime($assignment['finish_time']);
 						<?php if (substr($item['status'],0,8) == 'Uploaded'): ?>
 							<?php echo $item['status'] ?>
 						<?php else: ?>
-							<?php
-								$class = strtolower($item['status']);
-								if ($class=='score')
-								{
-									if ($item['pre_score']==10000)
-										$class='ok';
-									else
-										$class='wrong';
-								}
-							?>
-							<div class="btn <?php echo $class ?>" code="0" >
+							<div class="<?php echo status_to_class($item['status'], $item['pre_score']) ?>" code="0" >
 								<?php
 									if ($item['status']==='SCORE')
 										echo $final_score;
@@ -326,9 +316,9 @@ $finish = strtotime($assignment['finish_time']);
 					</td>
 					<td>
 						<?php if ($item['file_type'] === 'zip' OR $item['file_type'] === 'pdf'): ?>
-							<div class="btn view_code" shj="download">Download</div>
+							<div class="btn shj-orange" shj="download">Download</div>
 						<?php else: ?>
-							<div class="btn view_code" code="1" >Code</div>
+							<div class="btn shj-orange" code="1" >Code</div>
 						<?php endif ?>
 					</td>
 					<?php if($view === 'final' && $user_level>0): ?>
@@ -349,6 +339,7 @@ $finish = strtotime($assignment['finish_time']);
 				</tr>
 			<?php endforeach ?>
 		</table>
+
 		<p>
 		<?php echo $this->shj_pagination->create_links(); ?>
 		</p>

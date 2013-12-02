@@ -615,7 +615,7 @@ select.sharif_time {
 	box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.15), inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 }
 
-.btn.ok:hover, .btn.wrong:hover, .btn.compilation:hover, .btn.syntax:hover, .btn.view_code:hover {
+.btn.shj-green:hover, .btn.shj-red:hover, .btn.shj-blue:hover, .btn.shj-orange:hover {
 	color: #FFF;
 	text-decoration: none;
 }
@@ -623,7 +623,7 @@ select.sharif_time {
 /*#####################
 ##       compilation      ##
 #####################*/
-.btn.compilation, .btn.syntax {
+.btn.shj-blue {
 	color: #FFF;
 	/*border: 1px solid #5269C7;*/
 	background: -moz-linear-gradient(center top, #303CFF 0%, #0019AB) repeat scroll 0% 0% transparent;
@@ -637,7 +637,7 @@ select.sharif_time {
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 }
 
-.btn.compilation:hover, .btn.syntax:hover {
+.btn.shj-blue:hover {
 	-moz-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	-webkit-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
@@ -646,7 +646,7 @@ select.sharif_time {
 	background: -webkit-gradient(linear, left top, left bottom, from(#303CFF), to(#001bd0));
 }
 
-.btn.compilation:active, .btn.syntax:active {
+.btn.shj-blue:active {
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 	-moz-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.15);
 	-webkit-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.15);
@@ -656,7 +656,7 @@ select.sharif_time {
 /*#####################
 ##        OK         ##
 #####################*/
-.btn.ok {
+.btn.shj-green {
 	color: #FFF;
 	/*border: 1px solid #5eb700;*/
 	background: #50FF19;
@@ -673,7 +673,7 @@ select.sharif_time {
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 }
 
-.btn.ok:hover {
+.btn.shj-green:hover {
 	-moz-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	-webkit-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
@@ -682,7 +682,7 @@ select.sharif_time {
 	background: -webkit-gradient(linear, left top, left bottom, from(#50FF19), to(#15d000));
 }
 
-.btn.ok:active {
+.btn.shj-green:active {
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 	-moz-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.15);
 	-webkit-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.15);
@@ -692,7 +692,7 @@ select.sharif_time {
 /*#####################
 ##       wrong       ##
 #####################*/
-.btn.wrong {
+.btn.shj-red {
 	color: #FFF;
 	/*border: 1px solid #B70000;*/
 	background: #ff2819;
@@ -709,7 +709,7 @@ select.sharif_time {
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 }
 
-.btn.wrong:hover {
+.btn.shj-red:hover {
 	-moz-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	-webkit-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
@@ -718,7 +718,7 @@ select.sharif_time {
 	background: -webkit-gradient(linear, left top, left bottom, from(#ff2819), to(#d00000));
 }
 
-.btn.wrong:active {
+.btn.shj-red:active {
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 	-moz-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.25);
 	-webkit-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.25);
@@ -728,7 +728,7 @@ select.sharif_time {
 /*#####################
 ##      view_code      ##
 #####################*/
-.btn.view_code {
+.btn.shj-orange {
 	color: #FFF;
 	/*border: 1px solid #FF9D00;*/
 	background: #FFA300;
@@ -745,7 +745,7 @@ select.sharif_time {
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 }
 
-.btn.view_code:hover {
+.btn.shj-orange:hover {
 	-moz-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	-webkit-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
 	box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3);
@@ -754,7 +754,7 @@ select.sharif_time {
 	background: -webkit-gradient(linear, left top, left bottom, from(#FFA300), to(#ff7100));
 }
 
-.btn.view_code:active {
+.btn.shj-orange:active {
 	text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.3);
 	-moz-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.15);
 	-webkit-box-shadow: inset 0px 2px 5px rgba(000, 000, 000, 0.15);
