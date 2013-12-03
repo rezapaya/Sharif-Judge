@@ -87,12 +87,12 @@ shj.sidebar_open = function(time){
 	if (time==0){
 		$(".sidebar_text").css('display','inline-block');
 		$("#sidebar_bottom p").css('display','block');
-		$("#side_bar").css('width', '180px');
-		$("#main_container").css('left','180px');
+		$("#side_bar").css('width', '165px');
+		$("#main_container").css('left','165px');
 	}
 	else{
-		$("#side_bar").animate({width: '180px'},time,function(){$(".sidebar_text").css('display','inline-block');$("#sidebar_bottom p").css('display','block');});
-		$("#main_container").animate({'left':'180px'},time*1.7);
+		$("#side_bar").animate({width: '165px'},time,function(){$(".sidebar_text").css('display','inline-block');$("#sidebar_bottom p").css('display','block');});
+		$("#main_container").animate({'left':'165px'},time*1.7);
 	}
 	$("i#collapse").removeClass("splashy-pagination_1_next");
 	$("i#collapse").addClass("splashy-pagination_1_previous");
