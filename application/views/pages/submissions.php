@@ -127,7 +127,8 @@ $(document).ready(function(){
 $finish = strtotime($assignment['finish_time']);
 ?>
 
-<div id="main_container">
+<div id="main_container" class="scroll-wrapper">
+<div class="scroll-content">
 
 	<div id="page_title">
 		<img src="<?php echo base_url("assets/images/icons/{$view}_submissions.png") ?>"/>
@@ -325,7 +326,7 @@ $finish = strtotime($assignment['finish_time']);
 		</p>
 
 	</div> <!-- main_content -->
-
+</div> <!-- scroll-content -->
 </div> <!-- main_container -->
 
 <div id="shj_modal" class="reveal-modal xlarge">

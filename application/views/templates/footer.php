@@ -39,17 +39,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		shj.notif_check_time = moment().add('milliseconds',shj.offset);
 	}
 	$(document).ready(function(){
-		$('body').nanoScroller();
-		$(window).resize(function(){
-			$('body').nanoScroller();
+		$('.scroll-wrapper').nanoScroller({
+			contentClass: 'scroll-content'
 		});
 		$('#main_content').resize(function(){
-			$('body').nanoScroller();
+			// update the scrollbar
+			$('.scroll-wrapper').nanoScroller();
+		});
+		$('.widget_contents_container').resize(function(){
+			// update the scrollbar
+			$('.scroll-wrapper').nanoScroller();
 		});
 		if ( shj.check_for_notifications )
 			window.setInterval(shj.check_notifs,(shj.notif_check_delay*1000));
 	});
 </script>
-</div>
 </body>
 </html>

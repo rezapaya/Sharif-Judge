@@ -7,7 +7,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<div id="main_container">
+<div id="main_container" class="scroll-wrapper">
+<div class="scroll-content">
 
 	<div id="page_title">
 		<span><?php echo $title ?></span>
@@ -60,5 +61,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php endif ?>
 
 	</div> <!-- main_content -->
-
+</div> <!-- scroll-content -->
 </div> <!-- main_container -->

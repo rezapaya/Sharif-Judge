@@ -34,5 +34,4 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<script type="text/javascript" src="<?php echo base_url("assets/js/shj_functions.js") ?>"></script>
 </head>
-<body id="body" class="nano">
-<div class="content">
+<body id="body">

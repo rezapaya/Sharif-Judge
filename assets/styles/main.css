@@ -236,10 +236,17 @@ div#shj_collapse {
 /*********************************************/
 
 div#main_container {
-	z-index: -1;
+	z-index: 0;
 	color: #414141;
-	margin-top: 37px;
-	margin-left: 180px;
+	/*margin-top: 37px;
+	margin-left: 180px;*/
+	position: absolute;
+	top: 37px;
+	left: 180px;
+	right: 0;
+	bottom: 0;
+	width: auto;
+	height: auto;
 	background-color: white;
 }
 
@@ -914,8 +921,11 @@ ul.shj_pagination li>a, ul.shj_pagination li>span {
 
 
 div.widget_scrollable {
-	position: relative;
-	max-height: 350px;
+	position: absolute;
+	/*max-height: 350px;*/
+	top: 37px;
+	bottom: 0;
+	height: auto!important;
 	padding:0 4px;
 	margin-right: 10px;
 }

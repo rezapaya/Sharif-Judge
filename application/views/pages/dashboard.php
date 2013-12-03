@@ -73,14 +73,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		$('.notif_text').ellipsis();
 
-		$('.widget_scrollable').nanoScroller();
 	});
 </script>
 
 <?php $this->view('templates/top_bar'); ?>
 <?php $this->view('templates/side_bar', array('selected' => 'dashboard')); ?>
 
-<div id="main_container">
+<div id="main_container" class="scroll-wrapper">
+<div class="scroll-content">
 
 	<div id="page_title">
 		<img src="<?php echo base_url('assets/images/icons/dashboard.png') ?>"/>
@@ -105,9 +105,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<li <?php echo $position ?>>
 					<div class="shj_widget">
 						<div class="widget_title"><i class="splashy-calendar_month"></i> Calendar</div>
-						<div class="widget_scrollable nano">
-							<div class="content">
-								<div id='calendar'></div>
+						<div class="widget_scrollable scroll-wrapper">
+							<div class="scroll-content">
+								<div class="widget_contents_container" id='calendar'></div>
 							</div>
 						</div>
 					</div>
@@ -122,9 +122,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<li <?php echo $position ?>>
 					<div class="shj_widget">
 						<div class="widget_title"><i class="splashy-comments"></i> Latest Notifications</div>
-						<div class="widget_scrollable nano">
-							<div class="content">
+						<div class="widget_scrollable scroll-wrapper">
+							<div class="scroll-content">
+								<div class="widget_contents_container">
 								<?php $this->view('pages/list_notifications',array('type'=>'latest')) ?>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -143,5 +145,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 
 	</div> <!-- main_content -->
-
+</div> <!-- scroll-content -->
 </div> <!-- main_container -->

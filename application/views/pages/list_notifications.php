@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					speed: 300
 				},
 				buttons: [
-					{addClass: 'sharif_input', text: 'Yes, I\'m Sure', onClick: function($noty) {
+					{addClass: 'btn shj-red', text: 'Yes, Delete', onClick: function($noty) {
 						$noty.close();
 						$.post(
 							'<?php echo site_url('notifications/delete') ?>',
@@ -35,12 +35,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 								if (response == 'deleted'){
 									notif.animate({backgroundColor: '#FF7676'},1000, function(){notif.remove();});
 									noty({text: 'Notification deleted', layout:'bottomRight', type: 'success', timeout: 5000});
+									//$('.scroll-wrapper').trigger('resize');
 								}
 							}
 						);
 					}
 					},
-					{addClass: 'sharif_input', text: 'No, I\'m not', onClick: function($noty){$noty.close();}}
+					{addClass: 'btn shj-blue', text: 'No, Don\'t Delete', onClick: function($noty){$noty.close();}}
 				]
 			});
 		});

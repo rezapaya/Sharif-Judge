@@ -26,7 +26,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	});
 </script>
 
-<div id="main_container">
+<div id="main_container" class="scroll-wrapper">
+<div class="scroll-content">
 
 	<div id="page_title">
 		<img src="<?php echo base_url('assets/images/icons/queue.png') ?>"/>
@@ -77,5 +78,5 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</table>
 
 	</div> <!-- main_content -->
-
+</div> <!-- scroll-content -->
 </div> <!-- main_container -->
