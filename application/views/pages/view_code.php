@@ -13,8 +13,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$file_type='python';
 ?></pre>
 
-<div class="scroll-wrapper">
-<div class="scroll-content">
 <?php if ($code==1): ?>
 	<pre class="code-column syntax <?php echo $file_type ?>"><?php
 		if (file_exists($file_path))
@@ -35,5 +33,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			echo "Not found";
 	?></pre>
 <?php endif ?>
-</div>
-</div>
