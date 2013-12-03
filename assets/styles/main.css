@@ -5,6 +5,7 @@
 }
 
 * {
+	outline: none!important;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
@@ -560,7 +561,7 @@ select.sharif_time {
 /************* Buttons *************************/
 
 .btn {
-	outline: 0;
+	outline: none;
 	border: none;
 	background: none;
 	display: inline-block;
