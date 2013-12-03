@@ -71,16 +71,21 @@ div#top_bar>div>a {
 }
 
 div#shj_logo {
+	height: 100%;
 	float: left;
 	padding-right: 10px;
-	top: 0;
 	left: 5px;
 	position: relative;
 	display: inline-block;
 }
 
+div#shj_logo a {
+	display: block;
+	height: 100%;
+}
+
 div#shj_logo img {
-	height: 37px;
+	height: 32px;
 }
 
 div.top_object {
@@ -183,13 +188,13 @@ div#side_bar ul {
 
 div#side_bar ul li:hover {
 	background-color: rgba(0, 44, 51, 0.2);
-	border-right: 5px solid #9c9c9c;
+	border-right: 4px solid #9c9c9c;
 }
 
 div#side_bar ul li.selected {
 	font-weight: bold;
 	background-color: rgba(0, 44, 51, 0.3);
-	border-right: 5px solid #4f4f4f;
+	border-right: 4px solid #4f4f4f;
 }
 
 .sidebar_text {

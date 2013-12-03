@@ -102,12 +102,12 @@ shj.sidebar_close = function(time){
 	if (time==0){
 		$(".sidebar_text").css('display','none');
 		$("#sidebar_bottom p").css('display','none');
-		$("#side_bar").css('width', '40px');
-		$("#main_container").css('left','40px');
+		$("#side_bar").css('width', '37px');
+		$("#main_container").css('left','37px');
 	}
 	else{
-		$("#side_bar").animate({width: '40px'},time,function(){$(".sidebar_text").css('display','none');$("#sidebar_bottom p").css('display','none');});
-		$("#main_container").animate({'left':'40px'},time*1.7);
+		$("#side_bar").animate({width: '37px'},time,function(){$(".sidebar_text").css('display','none');$("#sidebar_bottom p").css('display','none');});
+		$("#main_container").animate({'left':'37px'},time*1.7);
 	}
 	$("i#collapse").removeClass("splashy-pagination_1_previous");
 	$("i#collapse").addClass("splashy-pagination_1_next");
