@@ -50,7 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<textarea id="notif_text" name="text"><?php if ($notif_edit!==FALSE) echo $notif_edit['text'] ?></textarea>
 		</p>
 		<p class="input_p">
-			<input type="submit" value="<?php echo ($notif_edit===FALSE?'Add':'Edit') ?>"" class="sharif_input"/>
+			<input type="submit" value="<?php echo ($notif_edit===FALSE?'Add':'Save') ?>"" class="sharif_input"/>
 		</p>
 		</form>
 

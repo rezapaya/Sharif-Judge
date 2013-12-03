@@ -45,7 +45,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 		var gridster = $(".gridster ul").gridster({
 			widget_margins: [10, 10],
-			widget_base_dimensions: [390, 390],
+			widget_base_dimensions: [350, 350],
 			serialize_params: function ($w, wgd) {
 				return {
 					r: wgd.row,
@@ -121,7 +121,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				?>
 				<li <?php echo $position ?>>
 					<div class="shj_widget">
-						<div class="widget_title"><i class="splashy-comments"></i> Latest Notifications</div>
+						<div class="widget_title"><i class="splashy-comments"></i>
+							Latest Notifications
+							<?php if ($user_level>=2): ?>
+							<a title="New Notification" href="<?php echo site_url('notifications/add') ?>" class="pull-right"><i class="splashy-add_small"></i></a>
+							<?php endif ?>
+						</div>
 						<div class="widget_scrollable scroll-wrapper">
 							<div class="scroll-content">
 								<div class="widget_contents_container">

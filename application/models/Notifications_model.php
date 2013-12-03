@@ -29,7 +29,7 @@ class Notifications_model extends CI_Model {
 
 
 	/**
-	 * Returns 4 latest notifications
+	 * Returns 10 latest notifications
 	 */
 	public function get_latest_notifications(){
 		return $this->db->limit(10)->order_by('id', 'desc')->get('notifications')->result_array();
