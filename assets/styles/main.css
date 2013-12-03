@@ -933,10 +933,14 @@ div.notif {
 }
 
 div.notif_title {
-	font-size: 120%;
+	font-size: 12px;
 	padding: 0 5px 0 5px;
 	font-weight: bold;
 	margin-bottom: 5px;
+}
+
+div.notif_title a {
+	text-decoration: none;
 }
 
 .notif_meta {
