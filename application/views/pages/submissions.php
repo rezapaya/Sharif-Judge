@@ -167,7 +167,7 @@ $finish = strtotime($assignment['finish_time']);
 						<th width="3%" rowspan="2">#2</th>
 						<?php endif ?>
 						<th width="6%" rowspan="2">Username</th>
-						<th width="14%" rowspan="2">Display Name</th>
+						<th width="14%" rowspan="2">Name</th>
 						<th width="10%" rowspan="2">Problem</th>
 						<th width="14%" rowspan="2">Submit Time</th>
 						<th colspan="3">Score</th>

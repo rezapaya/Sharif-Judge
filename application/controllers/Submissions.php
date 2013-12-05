@@ -88,7 +88,7 @@ class Submissions extends CI_Controller
 		if ($this->user_level === 0)
 			$header=array('Final','Problem','Submit Time','Score','Delay (HH:MM)','Coefficient','Final Score','Language','Status','#');
 		else{
-			$header=array('Final','Submit ID','Username','Display Name','Problem','Submit Time','Score','Delay (HH:MM)','Coefficient','Final Score','Language','Status','#');
+			$header=array('Final','Submit ID','Username','Name','Problem','Submit Time','Score','Delay (HH:MM)','Coefficient','Final Score','Language','Status','#');
 			if ($view === 'final'){
 				array_unshift($header, "#2");
 				array_unshift($header, "#1");

@@ -34,7 +34,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<input type="text" name="username" class="sharif_input medium" value="<?php echo $edit_username ?>"  disabled/>
 		</p>
 		<p class="input_p clear">
-			<label for="display_name" class="short2">Display Name:</label>
+			<label for="display_name" class="short2">Name:</label>
 			<input type="text" name="display_name" class="sharif_input medium" value="<?php echo $display_name ?>"/>
 			<?php echo form_error('display_name','<div class="shj_error">','</div>'); ?>
 		</p>
