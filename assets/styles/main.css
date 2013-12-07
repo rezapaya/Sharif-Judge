@@ -79,8 +79,7 @@ div#shj_logo {
 	height: 100%;
 	float: left;
 	padding-right: 10px;
-	left: 5px;
-	position: relative;
+	margin-left: 5px;
 	display: inline-block;
 }
 
@@ -102,9 +101,10 @@ div.top_object {
 	border-left: 1px solid #5d5b69;
 }
 
-div.top_object.top_left {
+div.top_object.top_left, div.top_left {
 	float: left;
 	border-right: 1px solid #5d5b69;
+	border-left: none;
 }
 
 div.top_object.shj_menu {

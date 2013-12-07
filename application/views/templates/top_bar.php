@@ -86,7 +86,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<span>Extra</span><br><span>Time</span>
 		</div>
 	</div>
-	<div id="shj_logo">
+	<div id="shj_logo" class="top_left">
 		<a href="<?php echo site_url('/'); ?>">
 			<img src="<?php echo base_url('assets/images/logo_small.png'); ?>"/>
 			<img src="<?php echo base_url('assets/images/banner_small.png'); ?>"/>
