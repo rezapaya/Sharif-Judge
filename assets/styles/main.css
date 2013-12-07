@@ -583,7 +583,7 @@ select.sharif_time {
 	background: #E0E0E0;
 	background: -moz-linear-gradient(top, #E0E0E0 1%, #C7C7C7 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(1%, #E0E0E0), color-stop(100%, #C7C7C7));
-	background: -webkit-linear-gradient(top, #E0E0E0 1%, #5269c7 100%);
+	background: -webkit-linear-gradient(top, #E0E0E0 1%, #C7C7C7 100%);
 	background: -o-linear-gradient(top, #E0E0E0 1%, #C7C7C7 100%);
 	background: -ms-linear-gradient(top, #E0E0E0 1%, #C7C7C7 100%);
 	background: linear-gradient(to bottom, #E0E0E0 1%, #C7C7C7 100%);
