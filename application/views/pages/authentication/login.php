@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php if ($this->settings_model->get_setting('enable_registration')): ?>
 					<?php echo anchor("register","Register") ?> |
 					<?php endif ?>
-					<?php echo anchor('login/lost','Lost?') ?>
+					<?php echo anchor('login/lost','Reset Password') ?>
 					<input type="submit" value="Login" id="sharif_submit"/>
 				</p>
 			</div>
