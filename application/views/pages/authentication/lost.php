@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php echo form_error('email','<div class="shj_error">','</div>'); ?>
 				</p>
 				<?php if ($sent): ?>
-					<div class="shj_ok">We sent you an email containing a link to change your password.</div>
+					<div class="shj_ok">We sent you an email containing a link to reset your password.</div>
 				<?php endif ?>
 			</div>
 			<div class="login2">

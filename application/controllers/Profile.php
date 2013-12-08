@@ -91,7 +91,7 @@ class Profile extends CI_Controller
 
 	public function _password_check($str)
 	{
-		if (strlen($str) == 0 OR (strlen($str) >= 6 && strlen($str) <= 30))
+		if (strlen($str) == 0 OR (strlen($str) >= 6 && strlen($str) <= 200))
 			return TRUE;
 		return FALSE;
 	}

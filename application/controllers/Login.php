@@ -88,7 +88,7 @@ class Login extends CI_Controller
 		if ($this->session->userdata('logged_in')) // if logged in
 			redirect('dashboard');
 		$this->form_validation->set_rules('username', 'Username', 'required|min_length[3]|max_length[20]|alpha_numeric');
-		$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[30]');
+		$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[200]');
 		$data = array(
 			'title' => 'Login',
 			'style' => 'login.css',
@@ -133,7 +133,7 @@ class Login extends CI_Controller
 		$this->form_validation->set_rules('registration_code', 'registration code', 'callback__registration_code');
 		$this->form_validation->set_rules('username', 'username', 'required|min_length[3]|max_length[20]|alpha_numeric|callback__lowercase|callback__username_check');
 		$this->form_validation->set_rules('email', 'email', 'required|max_length[40]|valid_email|callback__lowercase|callback__email_check');
-		$this->form_validation->set_rules('password', 'password', 'required|min_length[6]|max_length[30]');
+		$this->form_validation->set_rules('password', 'password', 'required|min_length[6]|max_length[200]');
 		$this->form_validation->set_rules('password_again', 'password confirmation', 'required|matches[password]');
 		$data = array(
 			'title' => 'Register',
@@ -203,7 +203,7 @@ class Login extends CI_Controller
 		$result = $this->user_model->have_passchange($passchange_key);
 		if ($result !== TRUE)
 			show_error($result);
-		$this->form_validation->set_rules('password', 'password', 'required|min_length[6]|max_length[30]');
+		$this->form_validation->set_rules('password', 'password', 'required|min_length[6]|max_length[200]');
 		$this->form_validation->set_rules('password_again', 'password confirmation', 'required|matches[password]');
 		$data = array(
 			'title' => 'Set New Password',
