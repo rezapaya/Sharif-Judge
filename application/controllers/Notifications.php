@@ -58,8 +58,8 @@ class Notifications extends CI_Controller
 
 	public function add()
 	{
-		if ( $this->user_level <=1)
-			show_error('You have not enough permission to access this page.');
+		if ( $this->user_level <=1) // permission denied
+			show_404();
 
 		$this->form_validation->set_rules('title', 'title', 'trim');
 		$this->form_validation->set_rules('text', 'text', '');
@@ -98,12 +98,10 @@ class Notifications extends CI_Controller
 
 	public function edit($notif_id = FALSE)
 	{
-		if ($this->user_level <= 1)
-			show_error('You have not enough permission to access this page.');
-		if ($notif_id === FALSE)
+		if ($this->user_level <= 1) // permission denied
 			show_404();
-		if ( ! is_numeric($notif_id))
-			show_error('Wrong ID');
+		if ($notif_id === FALSE || ! is_numeric($notif_id))
+			show_404();
 		$this->notif_edit = $this->notifications_model->get_notification($notif_id);
 		$this->add();
 	}
@@ -116,8 +114,8 @@ class Notifications extends CI_Controller
 	{
 		if ( ! $this->input->is_ajax_request() )
 			show_404();
-		if ($this->user_level <= 1)
-			exit('You have not enough permission to access this page.');
+		if ($this->user_level <= 1) // permission denied
+			exit('error');
 		if ($this->input->post('id') === NULL)
 			exit('error');
 		$this->notifications_model->delete_notification($this->input->post('id'));

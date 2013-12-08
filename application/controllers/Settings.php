@@ -28,8 +28,8 @@ class Settings extends CI_Controller
 		$this->username = $this->session->userdata('username');
 		$this->assignment = $this->assignment_model->assignment_info($this->user_model->selected_assignment($this->username));
 		$this->user_level = $this->user_model->get_user_level($this->username);
-		if ( $this->user_level <= 2)
-			show_error('You have not enough permission to access this page.');
+		if ( $this->user_level <= 2) // permission denied
+			show_404();
 		$this->form_status = '';
 		$this->errors = array();
 	}

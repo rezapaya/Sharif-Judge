@@ -106,8 +106,8 @@ class Assignments extends CI_Controller
 	{
 		if ($assignment_id === FALSE)
 			show_404();
-		if ( $this->user_level <= 1)
-			show_error('You have not enough permission to download test data.');
+		if ( $this->user_level <= 1) // permission denied
+			show_404();
 
 		$this->load->library('zip');
 
@@ -145,8 +145,8 @@ class Assignments extends CI_Controller
 	{
 		if ($assignment_id === FALSE)
 			show_404();
-		if ( $this->user_level == 0)
-			show_error('You have not enough permission to download codes.');
+		if ( $this->user_level == 0) // permission denied
+			show_404();
 
 		$this->load->model('submit_model');
 		$items = $this->submit_model->get_final_submissions($assignment_id, $this->user_level, $this->username);
@@ -178,8 +178,8 @@ class Assignments extends CI_Controller
 	{
 		if ($assignment_id === FALSE)
 			show_404();
-		if ($this->user_level <= 1)
-			show_error('You have not enough permission to do this.');
+		if ($this->user_level <= 1) // permission denied
+			show_404();
 
 		$assignment = $this->assignment_model->assignment_info($assignment_id);
 
@@ -220,8 +220,8 @@ class Assignments extends CI_Controller
 	public function add()
 	{
 
-		if ($this->user_level <= 1)
-			show_error('You have not enough permission to access this page.');
+		if ($this->user_level <= 1) // permission denied
+			show_404();
 
 		$this->load->library('upload');
 
@@ -321,8 +321,8 @@ class Assignments extends CI_Controller
 	private function _add()
 	{
 
-		if ($this->user_level <= 1)
-			show_error('You have not enough permission to access this page.');
+		if ($this->user_level <= 1) // permission denied
+			show_404();
 
 		$this->form_validation->set_rules('assignment_name', 'assignment name', 'required|max_length[50]');
 		$this->form_validation->set_rules('start_time', 'start time', 'required');
@@ -429,8 +429,8 @@ class Assignments extends CI_Controller
 	public function edit($assignment_id)
 	{
 
-		if ($this->user_level <= 1)
-			show_error('You have not enough permission to access this page.');
+		if ($this->user_level <= 1) // permission denied
+			show_404();
 
 		$this->edit_assignment = $assignment_id;
 		$this->edit = TRUE;

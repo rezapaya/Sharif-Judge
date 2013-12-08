@@ -50,9 +50,8 @@ class Profile extends CI_Controller
 		$this->edit_username = $user->username;
 
 		//Non-admins are not able to update others' profile
-		if ($this->user_level <= 2)
-			if ($this->username != $this->edit_username)
-				show_error('Permission Denied');
+		if ($this->user_level <= 2 && $this->username != $this->edit_username) // permission denied
+			show_404();
 
 		$this->form_validation->set_message('_email_check', 'User with same %s exists.');
 		$this->form_validation->set_message('_password_check', 'Password must be between 6 and 30 characters in length.');

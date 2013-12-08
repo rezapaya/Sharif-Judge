@@ -457,7 +457,7 @@ class Submissions extends CI_Controller
 				show_404();
 
 			if ($this->user_level === 0 && $this->username != $submission['username'])
-				exit('Don\'t try to see other users\' codes. :)');
+				exit('Don\'t try to see submitted codes :)');
 
 			$code = $this->input->post('code');
 
@@ -517,7 +517,7 @@ class Submissions extends CI_Controller
 			show_404();
 
 		if ($this->user_level === 0 && $this->username != $submission['username'])
-			exit('Don\'t try to see other users\' codes. :)');
+			exit('Don\'t try to see submitted codes :)');
 
 		$file_path = rtrim($this->settings_model->get_setting('assignments_root'),'/').
 		"/assignment_{$submission['assignment']}/p{$submission['problem']}/{$submission['username']}/{$submission['file_name']}.".filetype_to_extension($submission['file_type']);
