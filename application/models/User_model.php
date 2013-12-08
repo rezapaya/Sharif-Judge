@@ -71,7 +71,7 @@ class User_model extends CI_Model{
 	 * Add a new user to database
 	 */
 	public function add_user($username, $email, $password, $role){
-		if (strlen($username) < 3 OR strlen($username) > 20 OR strlen($password) < 6 OR strlen($password) > 30)
+		if (strlen($username) < 3 OR strlen($username) > 20 OR strlen($password) < 6 OR strlen($password) > 200)
 			return 'Username or password length error.';
 		if ($this->have_user($username))
 			return 'User with this username exists.';
