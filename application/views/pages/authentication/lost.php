@@ -17,8 +17,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="login_form">
 			<div class="login1">
 				<p>
-					<label for="email">Email</label><br/>
-					<input type="email" name="email" class="sharif_input" value="<?php echo set_value('email'); ?>"/>
+					<label for="form_email">Email</label><br/>
+					<input id="form_email" type="email" name="email" class="sharif_input" value="<?php echo set_value('email'); ?>"/>
 					<?php echo form_error('email','<div class="shj_error">','</div>'); ?>
 				</p>
 				<?php if ($sent): ?>

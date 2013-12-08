@@ -348,6 +348,12 @@ p.input_p label {
 	float: left;
 }
 
+p.input_p label.default {
+	float: none;
+	width: auto;
+	margin: 0;
+}
+
 p.input_p textarea {
 	/*display: block;*/
 }

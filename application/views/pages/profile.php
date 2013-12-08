@@ -28,37 +28,37 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</p>
 		<?php echo form_open('profile/'.$id) ?>
 		<p class="input_p clear">
-			<label for="username" class="short2">Username:<br>
+			<label for="form_username" class="short2">Username:<br>
 				<span class="form_comment">You cannot change username.</span>
 			</label>
-			<input type="text" name="username" class="sharif_input medium" value="<?php echo $edit_username ?>"  disabled/>
+			<input id="form_username" type="text" name="username" class="sharif_input medium" value="<?php echo $edit_username ?>"  disabled/>
 		</p>
 		<p class="input_p clear">
-			<label for="display_name" class="short2">Name:</label>
-			<input type="text" name="display_name" class="sharif_input medium" value="<?php echo $display_name ?>"/>
+			<label for="form_name" class="short2">Name:</label>
+			<input id="form_name" type="text" name="display_name" class="sharif_input medium" value="<?php echo $display_name ?>"/>
 			<?php echo form_error('display_name','<div class="shj_error">','</div>'); ?>
 		</p>
 		<p class="input_p clear">
-			<label for="email" class="short2">Email Address:</label>
-			<input type="text" name="email" class="sharif_input medium" value="<?php echo $email ?>"/>
+			<label for="form_email" class="short2">Email Address:</label>
+			<input id="form_email" type="text" name="email" class="sharif_input medium" value="<?php echo $email ?>"/>
 			<?php echo form_error('email','<div class="shj_error">','</div>'); ?>
 		</p>
 		<p class="input_p clear">
-			<label for="password" class="short2">Password:<br>
+			<label for="form_password" class="short2">Password:<br>
 				<span class="form_comment">If you don't want to change password, leave this blank.</span>
 			</label>
-			<input type="password" name="password" class="sharif_input medium"/>
+			<input id="form_password" type="password" name="password" class="sharif_input medium"/>
 			<?php echo form_error('password','<br><span class="shj_error">','</span>'); ?>
 		</p>
 		<p class="input_p clear">
-			<label for="password_again" class="short2">Password, Again:</label>
-			<input type="password" name="password_again" class="sharif_input medium"/>
+			<label for="form_password_2" class="short2">Password, Again:</label>
+			<input id="form_password_2" type="password" name="password_again" class="sharif_input medium"/>
 			<?php echo form_error('password_again','<div class="shj_error">','</div>'); ?>
 		</p>
 		<?php if ($user_level==3): ?>
 		<p class="input_p clear">
-			<label for="role" class="short2">User Role:</label>
-			<select name="role" class="sharif_input">
+			<label for="form_role" class="short2">User Role:</label>
+			<select id="form_role" name="role" class="sharif_input">
 				<option value="admin" <?php if ($role=="admin") echo 'selected="selected"' ?> >admin</option>
 				<option value="head_instructor" <?php if ($role=="head_instructor") echo 'selected="selected"' ?> >head_instructor</option>
 				<option value="instructor" <?php if ($role=="instructor") echo 'selected="selected"' ?> >instructor</option>

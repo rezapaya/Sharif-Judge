@@ -60,7 +60,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<p>Coefficient: <?php echo $coefficient?>%</p>
 			<?php echo form_open_multipart('submit') ?>
 			<p class="input_p">
-				<label for="problem" class="tiny">Problem:</label>
+				<label for="problems" class="tiny">Problem:</label>
 				<select id="problems" name ="problem" class="sharif_input">
 					<option value="0" selected="selected">-- Select One --</option>
 					<?php foreach ($problems as $problem): ?>
@@ -70,14 +70,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php echo form_error('problem','<div class="shj_error">','</div>') ?>
 			</p>
 			<p class="input_p">
-				<label for="problem" class="tiny">Language:</label>
+				<label for="languages" class="tiny">Language:</label>
 				<select id="languages" name="language" class="sharif_input">
 					<option value="0" selected="selected">-- Select One --</option>
 				</select>
 				<?php echo form_error('language','<div class="shj_error">','</div>') ?>
 			</p>
 			<p class="input_p">
-				<label for="userfile" class="tiny">File:</label>
+				<label for="file" class="tiny">File:</label>
 				<input type="file" id="file" class="sharif_input medium" name="userfile" />
 				<?php if ($upload_state==='error'): ?>
 				<div class="shj_error">Error uploading file.</div>

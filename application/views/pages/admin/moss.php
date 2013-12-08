@@ -38,8 +38,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</p>
 		<?php echo form_open('moss/update/'.$moss_assignment['id']) ?>
 		<p class="input_p">
-			<label for="moss_userid">Your Moss user id is:</label>
-			<input type="text" name="moss_userid" class="sharif_input" value="<?php echo $moss_userid ?>"/>
+			<label for="moss_uid">Your Moss user id is:</label>
+			<input id="moss_uid" type="text" name="moss_userid" class="sharif_input" value="<?php echo $moss_userid ?>"/>
 		</p>
 		<input type="submit" class="sharif_input" value="Save"/>
 		</form>

@@ -17,14 +17,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="login_form">
 			<div class="login1">
 				<p>
-					<label for="password">New Password:</label><br/>
-					<input type="password" name="password" required="required" pattern=".{6,20}" title="The Password field must be between 6 and 30 characters in length" class="sharif_input"/>
+					<label for="form_password">New Password:</label><br/>
+					<input id="form_password" type="password" name="password" required="required" pattern=".{6,20}" title="The Password field must be between 6 and 30 characters in length" class="sharif_input"/>
 					<?php echo form_error('password', '<div class="shj_error">', '</div>'); ?>
 				</p>
 
 				<p>
-					<label for="password_again">New Password, Again:</label><br/>
-					<input type="password" name="password_again" required="required" pattern=".{6,20}" title="The Password Confirmation field must be between 6 and 30 characters in length" class="sharif_input"/>
+					<label for="form_password_2">New Password, Again:</label><br/>
+					<input id="form_password_2" type="password" name="password_again" required="required" pattern=".{6,20}" title="The Password Confirmation field must be between 6 and 30 characters in length" class="sharif_input"/>
 					<?php echo form_error('password_again', '<div class="shj_error">', '</div>'); ?>
 				</p>
 				<?php if ($reset === TRUE): ?>

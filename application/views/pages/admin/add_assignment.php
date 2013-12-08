@@ -84,8 +84,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<div class="panel_left">
 			<input type="hidden" name="number_of_problems" id="nop" value="<?php echo $edit?$edit_assignment['problems']:count($problems); ?>"/>
 			<p class="input_p">
-				<label for="assignment_name">Assignment Name</label>
-				<input type="text" name="assignment_name" class="sharif_input medium" value="<?php
+				<label for="form_a_name">Assignment Name</label>
+				<input id="form_a_name" type="text" name="assignment_name" class="sharif_input medium" value="<?php
 					if ($edit)
 						echo $edit_assignment['name'];
 					else
@@ -95,7 +95,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</p>
 			<p class="input_p">
 				<label for="start_time">Start Time</label>
-				<input type="text" name="start_time" id="start_time" class="sharif_input medium" value="<?php
+				<input id="start_time" type="text" name="start_time" class="sharif_input medium" value="<?php
 					if ($edit)
 						echo date('m/d/Y H:i',strtotime($edit_assignment['start_time']));
 					else
@@ -105,7 +105,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</p>
 			<p class="input_p">
 				<label for="finish_time">Finish Time</label>
-				<input type="text" name="finish_time" id="finish_time" class="sharif_input medium" value="<?php
+				<input id="finish_time" type="text" name="finish_time" class="sharif_input medium" value="<?php
 					if ($edit)
 						echo date('m/d/Y H:i',strtotime($edit_assignment['finish_time']));
 					else
@@ -114,11 +114,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php echo form_error('finish_time','<div class="shj_error">','</div>'); ?>
 			</p>
 			<p class="input_p clear">
-				<label for="extra_time">
+				<label for="form_extra_time">
 					Extra Time (minutes)<br>
 					<span class="form_comment">Extra time for late submissions.</span>
 				</label>
-				<input type="text" name="extra_time" id="extra_time" class="sharif_input medium" value="<?php
+				<input id="form_extra_time" type="text" name="extra_time" id="extra_time" class="sharif_input medium" value="<?php
 					if ($edit){
 						$extra_time = floor($edit_assignment['extra_time']/60);
 						if ($extra_time%60==0)
@@ -132,11 +132,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php echo form_error('extra_time','<div class="shj_error">','</div>'); ?>
 			</p>
 			<p class="input_p clear">
-				<label for="participants">Participants<br>
+				<label for="form_participants">Participants<br>
 					<span class="form_comment">Enter username of participants here (comma separated).
 						Only these users are able to submit. You can use keyword "ALL".</span>
 				</label>
-				<textarea name="participants" rows="5" class="sharif_input medium"><?php
+				<textarea id="form_participants" name="participants" rows="5" class="sharif_input medium"><?php
 					if ($edit)
 						echo $edit_assignment['participants'];
 					else
@@ -144,13 +144,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					?></textarea>
 			</p>
 			<p class="input_p clear">
-				<label for="tests">Tests (zip file)<br>
+				<label for="form_tests">Tests (zip file)<br>
 					<span class="form_comment">
 						<a href="http://docs.sharifjudge.ir/tests_structure" target="_blank">Use this structure</a>
 					</span>
 				</label>
 
-				<input type="file" name="tests" class="sharif_input medium"/>
+				<input id="form_tests" type="file" name="tests" class="sharif_input medium"/>
 				<?php
 					if (!$edit)
 						echo $this->upload->display_errors('<div class="shj_error">','</div>');
@@ -159,19 +159,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		</div>
 		<div class="panel_right">
 			<p class="input_p">
-				<input type="checkbox" name="open" value="1" <?php if ($edit) echo $edit_assignment['open']?'checked':''; else echo set_checkbox('open','1') ?> /> Open<br>
+				<input id="form_a_open" type="checkbox" name="open" value="1" <?php if ($edit) echo $edit_assignment['open']?'checked':''; else echo set_checkbox('open','1') ?> />
+				<label for="form_a_open" class="default">Open</label><br>
 				<span class="form_comment">Open or close this assignment.</span>
 				<?php echo form_error('open','<div class="shj_error">','</div>'); ?>
 			</p>
 			<p class="input_p">
-				<input type="checkbox" name="scoreboard" value="1" <?php if ($edit) echo $edit_assignment['scoreboard']?'checked':''; else echo set_checkbox('scoreboard','1') ?> /> Scoreboard<br>
+				<input id="form_a_scoreboard" type="checkbox" name="scoreboard" value="1" <?php if ($edit) echo $edit_assignment['scoreboard']?'checked':''; else echo set_checkbox('scoreboard','1') ?> />
+				<label for="form_a_scoreboard" class="default">Scoreboard</label><br>
 				<span class="form_comment">Check this to enable scoreboard.</span>
 				<?php echo form_error('scoreboard','<div class="shj_error">','</div>'); ?>
 			</p>
 			<p class="input_p">
-				<label for="late_rule">Coefficient rule (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#coefficient_rule">?</a>)</label><br>
+				<label for="form_late_rule">Coefficient rule (<a target="_blank" href="http://docs.sharifjudge.ir/add_assignment#coefficient_rule">?</a>)</label><br>
 				<span class="form_comment medium clear" style="display: block;">PHP script without &lt;?php ?&gt; tags</span>
-				<textarea name="late_rule" rows="14" class="sharif_input add_text"><?php
+				<textarea id="form_late_rule" name="late_rule" rows="14" class="sharif_input add_text"><?php
 						if ($edit)
 							echo $edit_assignment['late_rule'];
 						else

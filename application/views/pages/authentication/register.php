@@ -17,30 +17,30 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<div class="login_form">
 		<div class="login1">
 			<?php if ($registration_code_required): ?>
-				<p>
-					<label for="registration_code">Registration Code</label><br/>
-					<input type="text" name="registration_code" required="required" autofocus="autofocus" class="sharif_input" value="<?php echo set_value('registration_code'); ?>"/>
-					<?php echo form_error('registration_code','<div class="shj_error">','</div>'); ?>
-				</p>
+			<p>
+				<label for="form_reg_code">Registration Code</label><br/>
+				<input id="form_reg_code" type="text" name="registration_code" required="required" autofocus="autofocus" class="sharif_input" value="<?php echo set_value('registration_code'); ?>"/>
+				<?php echo form_error('registration_code','<div class="shj_error">','</div>'); ?>
+			</p>
 			<?php endif ?>
 			<p>
-				<label for="username">Username</label><br/>
-				<input type="text" name="username" required="required" pattern="[0-9A-Za-z]{3,20}" title="The Username field must be between 3 and 20 characters in length, and contain only alpha-numeric characters" class="sharif_input" value="<?php echo set_value('username'); ?>"/>
+				<label for="form_username">Username</label><br/>
+				<input id="form_username" type="text" name="username" required="required" pattern="[0-9A-Za-z]{3,20}" title="The Username field must be between 3 and 20 characters in length, and contain only alpha-numeric characters" class="sharif_input" value="<?php echo set_value('username'); ?>"/>
 				<?php echo form_error('username','<div class="shj_error">','</div>'); ?>
 			</p>
 			<p>
-				<label for="email">Email</label><br/>
-				<input type="email" autocomplete="off" name="email" required="required" class="sharif_input" value="<?php echo set_value('email'); ?>"/>
+				<label for="form_email">Email</label><br/>
+				<input id="form_email" type="email" autocomplete="off" name="email" required="required" class="sharif_input" value="<?php echo set_value('email'); ?>"/>
 				<?php echo form_error('email','<div class="shj_error">','</div>'); ?>
 			</p>
 			<p>
-				<label for="password">Password</label><br/>
-				<input type="password" name="password" required="required" pattern=".{6,20}" title="The Password field must be between 6 and 30 characters in length" class="sharif_input"/>
+				<label for="form_password">Password</label><br/>
+				<input id="form_password" type="password" name="password" required="required" pattern=".{6,20}" title="The Password field must be between 6 and 30 characters in length" class="sharif_input"/>
 				<?php echo form_error('password','<div class="shj_error">','</div>'); ?>
 			</p>
 			<p>
-				<label for="password_again">Password, Again</label><br/>
-				<input type="password" name="password_again" required="required" pattern=".{6,20}" title="The Password Confirmation field must be between 6 and 30 characters in length" class="sharif_input"/>
+				<label for="form_password_2">Password, Again</label><br/>
+				<input id="form_password_2" type="password" name="password_again" required="required" pattern=".{6,20}" title="The Password Confirmation field must be between 6 and 30 characters in length" class="sharif_input"/>
 				<?php echo form_error('password_again','<div class="shj_error">','</div>'); ?>
 			</p>
 		</div>

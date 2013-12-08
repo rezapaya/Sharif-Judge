@@ -42,11 +42,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<input type="hidden" name="id" value="<?php echo $notif_edit['id'] ?>"/>
 		<?php endif ?>
 		<p class="input_p">
-			<label for="title" class="tiny">Title:</label>
-			<input name="title" type="text" class="sharif_input" value="<?php if ($notif_edit!==FALSE) echo $notif_edit['title'] ?>"/>
+			<label for="form_title" class="tiny">Title:</label>
+			<input id="form_title" name="title" type="text" class="sharif_input" value="<?php if ($notif_edit!==FALSE) echo $notif_edit['title'] ?>"/>
 		</p>
 		<p class="input_p">
-			<label for="text" class="tiny">Text:</label><br><br>
+			<label for="notif_text" class="tiny">Text:</label><br><br>
 			<textarea id="notif_text" name="text"><?php if ($notif_edit!==FALSE) echo $notif_edit['text'] ?></textarea>
 		</p>
 		<p class="input_p">
