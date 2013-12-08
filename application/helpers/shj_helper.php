@@ -91,5 +91,18 @@ if ( ! function_exists('status_to_class'))
 }
 
 
+if ( ! function_exists('shj_random_password'))
+{
+	function shj_random_password($len = 6)
+	{
+		$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ|!@#$%^&*()_-+=\\/[]{}\'":;?<>.,~';
+		$password = '';
+		for ($i = 0; $i < $len; $i++)
+			$password .= $pool [ rand(0, strlen($pool)-1) ];
+		return $password;
+	}
+}
+
+
 /* End of file shj_helper.php */
 /* Location: ./application/helpers/shj_helper.php */

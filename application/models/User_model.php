@@ -119,10 +119,10 @@ class User_model extends CI_Model{
 				continue; //ignore lines that not contain 4 parts
 
 			if (strtolower(substr($parts[2], 0, 6)) == 'random'){ // generate random password
-				$n = trim(substr($parts[2], 6), '[]');
-				if (is_numeric($n)){
+				$len = trim(substr($parts[2], 6), '[]');
+				if (is_numeric($len)){
 					$this->load->helper('string');
-					$parts[2] = random_string('alnum', $n);
+					$parts[2] = shj_random_password($len);
 				}
 			}
 
@@ -166,7 +166,7 @@ class User_model extends CI_Model{
 				$text = str_replace('{SITE_URL}', base_url(), $text);
 				$text = str_replace('{ROLE}', $user[3], $text);
 				$text = str_replace('{USERNAME}', $user[0], $text);
-				$text = str_replace('{PASSWORD}', $user[2], $text);
+				$text = str_replace('{PASSWORD}', htmlspecialchars($user[2]), $text);
 				$text = str_replace('{LOGIN_URL}', base_url(), $text);
 				$this->email->message($text);
 				$this->email->send();
