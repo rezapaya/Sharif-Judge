@@ -250,7 +250,7 @@ class Install extends CI_Controller
 		$data['title'] = 'Installation';
 		$data['style'] = 'main.css';
 
-		$this->load->view('templates/header', $data);
+		$this->load->view('templates/simple_header', $data);
 		$this->load->view('pages/admin/install', $data);
 		$this->load->view('templates/footer');
 
