@@ -32,7 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						if (a != "shj_failed"){
 							$(".select_assignment").removeClass('checked');
 							$(".i"+id).addClass('checked');
-							$(".assignment_name").html($("#"+id+" .assignment_item").html());
+							$(".assignment_name").html($('.top_object [data-id="'+id+'"]').parents('.assignment_block').children('.assignment_item').html());
 							shj.finish_time = moment(a.split(',')[0]);
 							shj.extra_time = moment.duration(parseInt(a.split(',')[1],10), 'seconds');
 						}
