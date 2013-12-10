@@ -5,8 +5,7 @@
  * @author Mohammad Javad Naderi <mjnaderi@gmail.com>
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html>
 <head>
 	<title><?php echo $title ?> - Sharif Judge</title>
