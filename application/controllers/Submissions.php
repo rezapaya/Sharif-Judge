@@ -72,7 +72,7 @@ class Submissions extends CI_Controller
 			->setDescription('List of Sharif Judge users ('.$now.')');
 
 		// Name of the file sent to browser
-		$output_filename = 'judge_'.$view.'_submissions.xlsx';
+		$output_filename = 'judge_'.$view.'_submissions';
 
 		// Set active sheet
 		$this->phpexcel->setActiveSheetIndex(0);
@@ -232,10 +232,15 @@ class Submissions extends CI_Controller
 		);
 
 		// Send the file to browser
+
+		$ext = 'xlsx';
+		if ( ! class_exists('ZipArchive') ) // If class ZipArchive does not exist, export to excel5 instead of excel 2007
+			$ext = 'xls';
+
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		header('Content-Disposition: attachment;filename="'.$output_filename.'"');
+		header('Content-Disposition: attachment;filename="'.$output_filename.'.'.$ext.'"');
 		header('Cache-Control: max-age=0');
-		$objWriter = PHPExcel_IOFactory::createWriter($this->phpexcel, 'Excel2007');
+		$objWriter = PHPExcel_IOFactory::createWriter($this->phpexcel, ($ext==='xlsx'?'Excel2007':'Excel5'));
 		$objWriter->save('php://output');
 	}
 
