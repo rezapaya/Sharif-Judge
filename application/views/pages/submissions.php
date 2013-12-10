@@ -22,8 +22,8 @@ $(document).ready(function(){
 	$(".btn").click(function(){
 		var button = $(this);
 		var row = button.parents('tr');
-		if (button.attr('shj')=='download'){
-			window.location = '<?php echo site_url('submissions') ?>/download_file/'+row.attr('u')+'/'+row.attr('a')+'/'+row.attr('p')+'/'+row.attr('s');
+		if (button.data('shj')=='download'){
+			window.location = '<?php echo site_url('submissions') ?>/download_file/'+row.data('u')+'/'+row.data('a')+'/'+row.data('p')+'/'+row.data('s');
 			return;
 		}
 		var view_code_request = $.ajax({
@@ -31,7 +31,7 @@ $(document).ready(function(){
 			type: 'POST',
 			url: '<?php echo site_url('submissions/view_code') ?>',
 			data: {
-				code: button.attr('code'),
+				code: button.data('code'),
 				username: row.data('u'),
 				assignment: row.data('a'),
 				problem: row.data('p'),
@@ -74,7 +74,7 @@ $(document).ready(function(){
 			},
 			function (data) {
 				if (data == 'success'){
-					row.children('.status').html('<div class="btn pending" code="0">PENDING</div>');
+					row.children('.status').html('<div class="btn pending" data-code="0">PENDING</div>');
 					noty({text: 'Rejudge in progress', layout:'bottomRight', type: 'success', timeout: 2500});
 				}
 			}
@@ -281,35 +281,33 @@ $finish = strtotime($assignment['finish_time']);
 					<td>
 						<?php echo filetype_to_language($item['file_type']) ?>
 					</td>
-					<td class="status">
-						<?php if (substr($item['status'],0,8) == 'Uploaded'): ?>
-							<?php echo $item['status'] ?>
-						<?php else: ?>
-							<div class="<?php echo status_to_class($item['status'], $item['pre_score']) ?>" code="0" >
-								<?php
-									if ($item['status']==='SCORE')
-										echo $final_score;
-									else
-										echo $item['status'];
-								?>
-							</div>
-						<?php endif ?>
+					<td class="status"><?php
+						if ($item['status'] == 'Uploaded')
+							echo 'Uploaded';
+						else {
+							?><div class="<?php echo status_to_class($item['status'], $item['pre_score']) ?>" data-code="0" ><?php
+								if ($item['status']==='SCORE')
+									echo $final_score;
+								else
+									echo $item['status'];
+							?></div>
+						<?php } ?>
 					</td>
 					<td>
 						<?php if ($item['file_type'] === 'zip' OR $item['file_type'] === 'pdf'): ?>
-							<div class="btn shj-orange" shj="download">Download</div>
+							<div class="btn shj-orange" data-shj="download">Download</div>
 						<?php else: ?>
-							<div class="btn shj-orange" code="1" >Code</div>
+							<div class="btn shj-orange" data-code="1" >Code</div>
 						<?php endif ?>
 					</td>
-					<?php if($view === 'final' && $user_level>0): ?>
-						<td>
-							<?php if (substr($item['status'],0,8) == 'Uploaded'): ?>
-								---
-							<?php else: ?>
-								<div class="btn" code="2" >Log</div>
-							<?php endif ?>
-						</td>
+					<?php if ($view === 'final' && $user_level > 0): ?>
+					<td>
+						<?php if ($item['status'] == 'Uploaded'): ?>
+							---
+						<?php else: ?>
+							<div class="btn" data-code="2" >Log</div>
+						<?php endif ?>
+					</td>
 					<?php endif ?>
 					<?php if ($user_level>=2): ?>
 						<td>
