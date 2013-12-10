@@ -32,6 +32,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<link rel='stylesheet' type='text/css' href='<?php echo base_url("assets/nano_scroller/nanoscroller.css") ?>'/>
 	<script type='text/javascript' src="<?php echo base_url("assets/nano_scroller/jquery.nanoscroller.min.js") ?>"></script>
 
-	<script type="text/javascript" src="<?php echo base_url("assets/js/shj_functions.js") ?>"></script>
 </head>
+<script>
+shj={};
+shj.site_url = '<?php echo rtrim(site_url(),'/').'/' ?>';
+shj.base_url = '<?php echo rtrim(base_url(),'/').'/' ?>';
+shj.csrf_token = '<?php echo $this->security->get_csrf_hash(); ?>';
+// difference of server and browser time:
+shj.offset = moment('<?php echo date("Y-m-d H:i:s", shj_now()); ?>').diff(moment());
+shj.time = moment();
+shj.finish_time = moment("<?php echo $assignment['finish_time'] ?>");
+shj.extra_time = moment.duration(<?php echo $assignment['extra_time'] ?>, 'seconds');
+// notifications
+shj.check_for_notifications = false; // Set to true if you want to enable checking for new notifications
+shj.notif_check_delay = 30; //checks for new notifications every 30 seconds
+</script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/shj_functions.js") ?>"></script>
 <body id="body">

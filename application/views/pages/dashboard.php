@@ -62,9 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						"<?php echo site_url('dashboard/widget_positions') ?>",
 						{
 							positions: positions,
-							<?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'
-						},
-						function (data) {
+							shj_csrf_token: shj.csrf_token
 						}
 					);
 				}

@@ -6,42 +6,7 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
-<script>
-	$(document).ready(function(){
-		$("#top_bar").hoverIntent({
-			over:function(){
-				$(this).children(".top_menu").show();
-				$(this).addClass('shj_white');
-			},
-			out:function(){
-				$(this).children(".top_menu").hide();
-				$(this).removeClass('shj_white');
-			},
-			selector:'.top_object.shj_menu'
-		});
-		$(".select_assignment").click(
-			function(){
-				var id = $(this).data('id');
-				$.post(
-					'<?php echo site_url('assignments/select') ?>',
-					{
-						assignment_select:id,
-						<?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>'
-					},
-					function(a) {
-						if (a != "shj_failed"){
-							$(".select_assignment").removeClass('checked');
-							$(".i"+id).addClass('checked');
-							$(".assignment_name").html($('.top_object [data-id="'+id+'"]').parents('.assignment_block').children('.assignment_item').html());
-							shj.finish_time = moment(a.split(',')[0]);
-							shj.extra_time = moment.duration(parseInt(a.split(',')[1],10), 'seconds');
-						}
-					}
-				);
-			}
-		);
-	});
-</script>
+
 <div id="top_bar">
 	<div class="top_object shj_menu" id="user_top">
 		<?php echo anchor('profile',$username,'id="profile_link"') ?>

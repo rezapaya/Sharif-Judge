@@ -7,47 +7,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<script>
-	$(document).ready(function () {
-		$(".delete_notif").click(function () {
-			var id = $(this).data('id');
-			var notif = $(this).parents('.notif');
-			noty({
-				text: 'Are you sure you want to delete this notification?',
-				layout: 'center',
-				type: 'confirm',
-				animation: {
-					open: {height: 'toggle'},
-					close: {height: 'toggle'},
-					easing: 'swing',
-					speed: 300
-				},
-				buttons: [
-					{addClass: 'btn shj-red', text: 'Yes, Delete', onClick: function($noty) {
-						$noty.close();
-						$.post(
-							'<?php echo site_url('notifications/delete') ?>',
-							{
-								id: id,
-								<?php echo $this->security->get_csrf_token_name(); ?>: '<?php echo $this->security->get_csrf_hash(); ?>',
-							},
-							function(response){
-								if (response == 'deleted'){
-									notif.animate({backgroundColor: '#FF7676'},1000, function(){notif.remove();});
-									noty({text: 'Notification deleted', layout:'bottomRight', type: 'success', timeout: 5000});
-									//$('.scroll-wrapper').trigger('resize');
-								}
-							}
-						);
-					}
-					},
-					{addClass: 'btn shj-blue', text: 'No, Don\'t Delete', onClick: function($noty){$noty.close();}}
-				]
-			});
-		});
-	});
-</script>
-
 <?php if (count($notifications)==0): ?>
 <p style="text-align: center;">Nothing yet...</p>
 <?php endif ?>

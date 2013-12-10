@@ -16,7 +16,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			var action=$(this).attr('id');
 			$.post(
 				'<?php echo site_url("queue") ?>/'+action,
-				{<?php echo $this->security->get_csrf_token_name() ?>: '<?php echo $this->security->get_csrf_hash() ?>'},
+				{shj_csrf_token: shj.csrf_token},
 				function(data){
 					if (data=='success')
 						location.reload();
