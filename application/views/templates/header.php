@@ -44,8 +44,8 @@ shj.time = moment();
 shj.finish_time = moment("<?php echo $assignment['finish_time'] ?>");
 shj.extra_time = moment.duration(<?php echo $assignment['extra_time'] ?>, 'seconds');
 // notifications
-shj.check_for_notifications = false; // Set to true if you want to enable checking for new notifications
-shj.notif_check_delay = 30; //checks for new notifications every 30 seconds
+shj.check_for_notifications = false;
+shj.notif_check_delay = 30;
 </script>
 <script type="text/javascript" src="<?php echo base_url("assets/js/shj_functions.js") ?>"></script>
 <body id="body">

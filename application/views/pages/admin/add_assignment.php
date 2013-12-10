@@ -10,10 +10,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type="text/javascript" src="<?php echo base_url("assets/js/jquery-ui-timepicker-addon.js") ?>"></script>
 
 <script>
-	var numOfProblems=<?php echo count($problems); ?>;
-	var row1='<tr>\
-		<td>';
-	var row2='</td>\
+	shj.num_of_problems=<?php echo count($problems); ?>;
+	shj.row='<tr><td>PID</td>\
 		<td><input type="text" name="name[]" class="sharif_input short" value="Problem "/></td>\
 		<td><input type="text" name="score[]" class="sharif_input tiny2" value="100"/></td>\
 		<td><input type="text" name="c_time_limit[]" class="sharif_input tiny2" value="500"/></td>\
@@ -23,17 +21,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<td><input type="text" name="languages[]" class="sharif_input short2" value="C,C++,Python 2,Python 3,Java"/></td>\
 		<td><input type="text" name="diff_cmd[]" class="sharif_input tiny" value="diff"/></td>\
 		<td><input type="text" name="diff_arg[]" class="sharif_input tiny" value="-bB"/></td>\
-		<td><input type="checkbox" name="is_upload_only[]" class="check" value="';
-	var row3='"/><td><i class="splashy-gem_remove delete_problem pointer"></i></td></td>\
+		<td><input type="checkbox" name="is_upload_only[]" class="check" value="PID"/><td><i class="splashy-gem_remove delete_problem pointer"></i></td></td>\
 	</tr>';
 	$(document).ready(function(){
 		$("#add").click(function(){
-			$('#problems_table>tbody').children().last().after(row1+(numOfProblems+1)+row2+(numOfProblems+1)+row3);
-			numOfProblems++;
-			$('#nop').attr('value',numOfProblems);
+			$('#problems_table>tbody').append(shj.row.replace(/PID/g, (shj.num_of_problems+1)));
+			shj.num_of_problems++;
+			$('#nop').attr('value', shj.num_of_problems);
 		});
-		$(document).on('click','.delete_problem',function(){
-			if (numOfProblems==1) return;
+		$(document).on('click', '.delete_problem', function(){
+			if (shj.num_of_problems==1) return;
 			var row = $(this).parents('tr');
 			var id = row.children(':first').html();
 			row.remove();
@@ -43,8 +40,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				$(this).children(':first').html(i);
 				$(this).find('[type="checkbox"]').attr('value',i);
 			});
-			numOfProblems--;
-			$('#nop').attr('value',numOfProblems);
+			shj.num_of_problems--;
+			$('#nop').attr('value',shj.num_of_problems);
 		});
 		$('#start_time').datetimepicker();
 		$('#finish_time').datetimepicker();
