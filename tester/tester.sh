@@ -78,8 +78,14 @@ if [ ${14} = "1" ]; then
 else
 	C_SHIELD_ON=false
 fi
-# enable/disable java security manager
+# enable/disable Python shield
 if [ ${15} = "1" ]; then
+	PY_SHIELD_ON=true
+else
+	PY_SHIELD_ON=false
+fi
+# enable/disable java security manager
+if [ ${16} = "1" ]; then
 	JAVA_POLICY="-Djava.security.manager -Djava.security.policy=java.policy"
 else
 	JAVA_POLICY=""
@@ -133,6 +139,7 @@ judge_log "Memory Limit: $MEMLIMIT kB"
 judge_log "Output size limit: $OUTLIMIT bytes"
 judge_log "SANDBOX_ON: $SANDBOX_ON"
 judge_log "C_SHIELD_ON: $C_SHIELD_ON"
+judge_log "PY_SHIELD_ON: $PY_SHIELD_ON"
 judge_log "JAVA_POLICY: \"$JAVA_POLICY\""
 
 
@@ -189,6 +196,11 @@ if [ "$EXT" = "py2" ]; then
 		echo -2
 		exit 0
 	fi
+	if $PY_SHIELD_ON; then
+		judge_log "Enabling Shield For Python 2"
+		# adding shield to beginning of code:
+		cat ../shield/shield_py2.py | cat - $FILENAME.py > thetemp && mv thetemp $FILENAME.py
+	fi
 fi
 
 
@@ -215,6 +227,11 @@ if [ "$EXT" = "py3" ]; then
 		rm -r $JAIL >/dev/null 2>/dev/null
 		echo -2
 		exit 0
+	fi
+	if $PY_SHIELD_ON; then
+		judge_log "Enabling Shield For Python 3"
+		# adding shield to beginning of code:
+		cat ../shield/shield_py3.py | cat - $FILENAME.py > thetemp && mv thetemp $FILENAME.py
 	fi
 fi
 
@@ -258,7 +275,7 @@ if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 		fi
 	fi
 	if $C_SHIELD_ON; then
-		judge_log "Enabling Shield"
+		judge_log "Enabling Shield For C/C++"
 		# if code contains any 'undef', raise compile error:
 		if tr -d ' \t\n\r\f' < code.c | grep -q '#undef'; then
 			echo 'code.c:#undef is not allowed' >cerr
