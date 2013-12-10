@@ -19,7 +19,7 @@
 
 
 ##################### Example Usage #####################
-# tester.sh /home/mohammad/judge/homeworks/hw6/p1 mjn problem problem c 1 1 50000 1000000 diff -bB 1 1 1 1
+# tester.sh /home/mohammad/judge/homeworks/hw6/p1 mjn problem problem c 1 1 50000 1000000 diff -bB 1 1 1 0 1
 # In this example judge assumes that the file is located at:
 # /home/mohammad/judge/homeworks/hw6/p1/mjn/problem.c
 # And test cases are located at:
@@ -102,7 +102,6 @@ fi
 
 LOG="$PROBLEMPATH/$UN/log"; echo "" >>$LOG
 function judge_log {
-	#echo -e "$1"
 	if $LOG_ON; then
 		echo -e "$@" >>$LOG 
 	fi
@@ -119,7 +118,12 @@ judge_log "Starting tester..."
 PERL_EXISTS=true
 hash perl 2>/dev/null || PERL_EXISTS=false
 
+if ! $PERL_EXISTS; then
+	judge_log "Warning: perl not found. Continue..."
+fi
+
 TST="$(ls $PROBLEMPATH/in | wc -l)"  # Number of Test Cases
+
 JAIL=jail-$RANDOM
 if ! mkdir $JAIL; then
 	judge_log "Error. Folder 'tester' is not writable! Exiting..."
@@ -134,13 +138,18 @@ cp ../runcode.sh ./runcode.sh
 chmod +x runcode.sh
 
 judge_log "$(date)"
+judge_log "Language: $EXT"
 judge_log "Time Limit: $TIMELIMIT s"
 judge_log "Memory Limit: $MEMLIMIT kB"
 judge_log "Output size limit: $OUTLIMIT bytes"
-judge_log "SANDBOX_ON: $SANDBOX_ON"
-judge_log "C_SHIELD_ON: $C_SHIELD_ON"
-judge_log "PY_SHIELD_ON: $PY_SHIELD_ON"
-judge_log "JAVA_POLICY: \"$JAVA_POLICY\""
+if [[ $EXT = "c" || $EXT = "cpp" ]]; then
+	judge_log "EasySandbox: $SANDBOX_ON"
+	judge_log "C/C++ Shield: $C_SHIELD_ON"
+elif [[ $EXT = "py2" || $EXT = "py3" ]]; then
+	judge_log "Python Shield: $PY_SHIELD_ON"
+elif [[ $EXT = "java" ]]; then
+	judge_log "JAVA_POLICY: \"$JAVA_POLICY\""
+fi
 
 
 
@@ -155,6 +164,7 @@ if [ "$EXT" = "java" ]; then
 	judge_log "Compiling as Java"
 	javac $MAINFILENAME.java >/dev/null 2>cerr
 	EXITCODE=$?
+	judge_log "Compiled. Exit Code=$EXITCODE"
 	if [ $EXITCODE -ne 0 ]; then
 		judge_log "Compile Error"
 		judge_log "$(cat cerr|head -10)"
@@ -344,7 +354,7 @@ fi
 ################################################ TESTING ###############################################
 ########################################################################################################
 judge_log "\nTesting..."
-judge_log "using ulimit -t $TIMELIMITINT"
+judge_log "$TST Tests Cases"
 
 echo "" >$PROBLEMPATH/$UN/result.html
 
