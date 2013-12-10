@@ -304,7 +304,7 @@ $finish = strtotime($assignment['finish_time']);
 					</td>
 					<?php if($view === 'final' && $user_level>0): ?>
 						<td>
-							<?php if ($item['file_type'] === 'zip' OR $item['file_type'] === 'pdf'): ?>
+							<?php if (substr($item['status'],0,8) == 'Uploaded'): ?>
 								---
 							<?php else: ?>
 								<div class="btn" code="2" >Log</div>
