@@ -41,6 +41,10 @@ div.judge_logo {
 	text-align: center;
 }
 
+div.judge_logo img {
+	border: none;
+}
+
 div.login_form {
 	width: 100%;
 	display: inline-block;
