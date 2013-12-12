@@ -269,6 +269,7 @@ div#page_title img {
 
 div#main_container div#main_content {
 	padding: 0 20px 20px 20px;
+	overflow-x: auto;
 }
 
 /***********************************************/
