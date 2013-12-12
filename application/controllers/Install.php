@@ -56,7 +56,7 @@ class Install extends CI_Controller
 				KEY `last_activity_idx` (`last_activity`)
 				);";
 			if ( ! $this->db->simple_query($query))
-				show_error("Error creating database table");
+				show_error("Error creating database table ".$this->db->dbprefix('sessions'));
 
 
 			$query = "CREATE TABLE IF NOT EXISTS `".$this->db->dbprefix('all_submissions')."` (
@@ -76,7 +76,7 @@ class Install extends CI_Controller
 				KEY `assignment` (`assignment`)
 				);";
 			if ( ! $this->db->simple_query($query))
-				show_error("Error creating database table");
+				show_error("Error creating database table ".$this->db->dbprefix('all_submissions'));
 
 
 			$query = "CREATE TABLE IF NOT EXISTS `".$this->db->dbprefix('assignments')."` (
@@ -96,7 +96,7 @@ class Install extends CI_Controller
 				PRIMARY KEY (`id`)
 				);";
 			if ( ! $this->db->simple_query($query))
-				show_error("Error creating database table");
+				show_error("Error creating database table ".$this->db->dbprefix('assignments'));
 
 
 			$query = "CREATE TABLE IF NOT EXISTS `".$this->db->dbprefix('final_submissions')."` (
@@ -116,7 +116,7 @@ class Install extends CI_Controller
 				KEY `username` (`username`)
 				);";
 			if ( ! $this->db->simple_query($query))
-				show_error("Error creating database table");
+				show_error("Error creating database table ".$this->db->dbprefix('final_submissions'));
 
 
 			$query = "CREATE TABLE IF NOT EXISTS `".$this->db->dbprefix('notifications')."` (
@@ -127,7 +127,7 @@ class Install extends CI_Controller
 				PRIMARY KEY (`id`)
 				);";
 			if ( ! $this->db->simple_query($query))
-				show_error("Error creating database table");
+				show_error("Error creating database table ".$this->db->dbprefix('notifications'));
 
 
 			$query = "CREATE TABLE IF NOT EXISTS `".$this->db->dbprefix('problems')."` (
@@ -147,7 +147,7 @@ class Install extends CI_Controller
 				KEY `id` (`id`)
 				);";
 			if ( ! $this->db->simple_query($query))
-				show_error("Error creating database table");
+				show_error("Error creating database table ".$this->db->dbprefix('problems'));
 
 
 			$query = "CREATE TABLE IF NOT EXISTS `".$this->db->dbprefix('queue')."` (
@@ -158,7 +158,7 @@ class Install extends CI_Controller
 				`type` varchar(8) NOT NULL DEFAULT 'judge'
 				);";
 			if ( ! $this->db->simple_query($query))
-				show_error("Error creating database table");
+				show_error("Error creating database table ".$this->db->dbprefix('queue'));
 
 			$query = "CREATE TABLE IF NOT EXISTS `".$this->db->dbprefix('scoreboard')."` (
 				`assignment` smallint(4) NOT NULL,
@@ -166,7 +166,7 @@ class Install extends CI_Controller
 				KEY `assignment` (`assignment`)
 				);";
 			if ( ! $this->db->simple_query($query))
-				show_error("Error creating database table");
+				show_error("Error creating database table ".$this->db->dbprefix('scoreboard'));
 
 
 			$query = "CREATE TABLE IF NOT EXISTS `".$this->db->dbprefix('settings')."` (
@@ -175,7 +175,7 @@ class Install extends CI_Controller
 				KEY `shj_key` (`shj_key`)
 				);";
 			if ( ! $this->db->simple_query($query))
-				show_error("Error creating database table");
+				show_error("Error creating database table ".$this->db->dbprefix('settings'));
 
 
 			$query = "INSERT INTO `".$this->db->dbprefix('settings')."` (`shj_key`, `shj_value`) VALUES
@@ -205,7 +205,7 @@ class Install extends CI_Controller
 				('results_per_page_final', '80'),
 				('week_start', '0');";
 			if ( ! $this->db->simple_query($query))
-				show_error("Error adding data to table 'settings'");
+				show_error("Error adding data to table ".$this->db->dbprefix('settings'));
 
 
 			$query = "CREATE TABLE IF NOT EXISTS `".$this->db->dbprefix('users')."` (
@@ -225,7 +225,7 @@ class Install extends CI_Controller
 				UNIQUE KEY `username` (`username`)
 				);";
 			if ( ! $this->db->simple_query($query))
-				show_error("Error creating database table");
+				show_error("Error creating database table ".$this->db->dbprefix('users'));
 
 			$this->user_model->add_user(
 				$this->input->post('username'),
