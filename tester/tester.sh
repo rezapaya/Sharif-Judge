@@ -460,8 +460,8 @@ for((i=1;i<=TST;i++)); do
 			echo "<span class=\"shj_o\">Killed by a signal</span>" >>$PROBLEMPATH/$UN/result.html
 			continue
 		elif grep -q "SHJ_OUTSIZE" err; then
-			judge_log "Output size limit exceeded"
-			echo "<span class=\"shj_o\">Output size limit exceeded</span>" >>$PROBLEMPATH/$UN/result.html
+			judge_log "Output Size Limit Exceeded"
+			echo "<span class=\"shj_o\">Output Size Limit Exceeded</span>" >>$PROBLEMPATH/$UN/result.html
 			continue
 		fi
 	else
