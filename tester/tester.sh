@@ -119,14 +119,14 @@ PERL_EXISTS=true
 hash perl 2>/dev/null || PERL_EXISTS=false
 
 if ! $PERL_EXISTS; then
-	judge_log "Warning: perl not found. Continue..."
+	judge_log "Warning: perl not found. We continue without perl..."
 fi
 
 TST="$(ls $PROBLEMPATH/in | wc -l)"  # Number of Test Cases
 
 JAIL=jail-$RANDOM
 if ! mkdir $JAIL; then
-	judge_log "Error. Folder 'tester' is not writable! Exiting..."
+	judge_log "Error: Folder 'tester' is not writable! Exiting..."
 	echo -6
 	exit 0
 fi
