@@ -9,11 +9,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Settings extends CI_Controller
 {
 
-	var $username;
-	var $assignment;
-	var $user_level;
-	var $form_status;
-	var $errors;
+	private $username;
+	private $assignment;
+	private $user_level;
+	private $form_status;
+	private $errors;
 
 
 	// ------------------------------------------------------------------------

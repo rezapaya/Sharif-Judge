@@ -9,17 +9,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Submit extends CI_Controller
 {
 
-	var $data; //data sent to view
-	var $username;
-	var $user_level;
-	var $assignment;
-	var $assignment_root;
-	var $problems;
-	var $problem;//submitted problem id
-	var $filetype; //type of submitted file
-	var $ext; //uploaded file extension
-	var $file_name; //uploaded file name without extension
-	var $coefficient;
+	private $data; //data sent to view
+	private $username;
+	private $user_level;
+	private $assignment;
+	private $assignment_root;
+	private $problems;
+	private $problem;//submitted problem id
+	private $filetype; //type of submitted file
+	private $ext; //uploaded file extension
+	private $file_name; //uploaded file name without extension
+	private $coefficient;
 
 
 	// ------------------------------------------------------------------------

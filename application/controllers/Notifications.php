@@ -9,10 +9,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Notifications extends CI_Controller
 {
 
-	var $username;
-	var $assignment;
-	var $user_level;
-	var $notif_edit;
+	private $username;
+	private $assignment;
+	private $user_level;
+	private $notif_edit;
 
 
 	// ------------------------------------------------------------------------

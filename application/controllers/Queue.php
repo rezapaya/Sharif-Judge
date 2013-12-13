@@ -9,9 +9,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Queue extends CI_Controller
 {
 
-	var $username;
-	var $assignment;
-	var $user_level;
+	private $username;
+	private $assignment;
+	private $user_level;
 
 	// ------------------------------------------------------------------------
 

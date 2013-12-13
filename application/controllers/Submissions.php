@@ -9,14 +9,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Submissions extends CI_Controller
 {
 
-	var $username;
-	var $assignment;
-	var $user_level;
-	var $final_items;
+	private $username;
+	private $assignment;
+	private $user_level;
+	private $final_items;
 
-	var $filter_user;
-	var $filter_problem;
-	var $page_number;
+	private $filter_user;
+	private $filter_problem;
+	private $page_number;
 
 	// ------------------------------------------------------------------------
 

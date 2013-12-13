@@ -9,11 +9,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Profile extends CI_Controller
 {
 
-	var $username;
-	var $assignment;
-	var $user_level;
-	var $form_status;
-	var $edit_username;
+	private $username;
+	private $assignment;
+	private $user_level;
+	private $form_status;
+	private $edit_username;
 
 
 	// ------------------------------------------------------------------------

@@ -9,14 +9,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Assignments extends CI_Controller
 {
 
-	var $username;
-	var $assignment;
-	var $user_level;
+	private $username;
+	private $assignment;
+	private $user_level;
 
-	var $error_messages;
-	var $success_messages;
-	var $edit_assignment;
-	var $edit;
+	private $error_messages;
+	private $success_messages;
+	private $edit_assignment;
+	private $edit;
 
 
 	// ------------------------------------------------------------------------
