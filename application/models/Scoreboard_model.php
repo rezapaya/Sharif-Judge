@@ -14,7 +14,16 @@ class Scoreboard_model extends CI_Model {
 	}
 
 
-	private function _scoreboard($assignment_id){
+	/**
+	 * Generate Scoreboard
+	 *
+	 * Generates scoreboard for given assignment, from Final Submissions.
+	 * This function is called by update_scoreboard
+	 *
+	 * @param int $assignment_id
+	 * @return array
+	 */
+	private function _generate_scoreboard($assignment_id){
 		$assignment = $this->assignment_model->assignment_info($assignment_id);
 		$submissions = $this->db->get_where('final_submissions', array('assignment'=>$assignment_id))->result_array();
 		$scoreboard = array(
@@ -67,6 +76,13 @@ class Scoreboard_model extends CI_Model {
 	// ------------------------------------------------------------------------
 
 
+	/**
+	 * Update All Scoreboards
+	 *
+	 * Updates the cached scoreboard of all assignments.
+	 * This function is called each time a user is deleted, or all submissions
+	 * of a user is deleted.
+	 */
 	public function update_scoreboards() {
 		$assignments = $this->db->select('id')->get('assignments')->result_array();
 		foreach ($assignments as $assignment){
@@ -74,19 +90,49 @@ class Scoreboard_model extends CI_Model {
 		}
 	}
 
+
 	// ------------------------------------------------------------------------
 
 
+	/**
+	 * Update Scoreboard
+	 *
+	 * Updates the cached scoreboard of given assignment. Saves the html code of
+	 * scoreboard table in database.
+	 *
+	 * This function is called after judging/rejudging a submission, and when one
+	 * of these settings is changed for an assignment:
+	 *
+	 *   - Extra Time
+	 *   - Start Time
+	 *   - Finish Time
+	 *   - Coefficient's Rule
+	 *   - Enable/Disable Scoreboard
+	 *
+	 * @param int $assignment_id
+	 */
 	public function update_scoreboard($assignment_id) {
-		$data = array();
+
+		// If scoreboard in not enabled, do nothing
 		$scoreboard_enabled = $this->db->select('scoreboard')->get_where('assignments', array('id'=>$assignment_id))->row()->scoreboard;
 		if ($assignment_id == 0 OR  ! $scoreboard_enabled )
 			return;
-		list ($scores, $scoreboard) = $this->_scoreboard($assignment_id);
-		$data['problems'] = $this->assignment_model->all_problems($assignment_id);
-		$data['scores'] = $scores;
-		$data['scoreboard'] = $scoreboard;
+
+		// Generate the scoreboard
+		list ($scores, $scoreboard) = $this->_generate_scoreboard($assignment_id);
+
+		// Generate the scoreboard's html code
+		$data = array(
+			'problems' => $this->assignment_model->all_problems($assignment_id),
+			'scores' => $scores,
+			'scoreboard' => $scoreboard
+		);
 		$scoreboard_table = $this->load->view('pages/scoreboard_table', $data, TRUE);
+
+		// Minify the scoreboard's html code
+		$scoreboard_table = $this->output->minify($scoreboard_table, 'text/html');
+
+		// Save the scoreboard's html code in Database
 		$query = $this->db->select('assignment')->get_where('scoreboard', array('assignment'=>$assignment_id));
 		if ($query->num_rows()==0)
 			$this->db->insert('scoreboard', array('assignment'=>$assignment_id, 'scoreboard'=>$scoreboard_table));
@@ -98,9 +144,17 @@ class Scoreboard_model extends CI_Model {
 	// ------------------------------------------------------------------------
 
 
+	/**
+	 * Get Cached Scoreboard
+	 *
+	 * Returns the cached scoreboard of given assignment as a html text
+	 *
+	 * @param int $assignment_id
+	 * @return string
+	 */
 	public function get_scoreboard($assignment_id) {
 		$query =  $this->db->select('scoreboard')->get_where('scoreboard', array('assignment'=>$assignment_id));
-		if ($query->num_rows()!=1)
+		if ($query->num_rows() != 1)
 			return 'Scoreboard not found';
 		else
 			return $query->row()->scoreboard;

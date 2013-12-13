@@ -262,13 +262,13 @@ class User_model extends CI_Model{
 
 
 	/**
-	 * Returns database row of user $username
+	 * Returns name of the user with given username
 	 */
-	public function get_user($username){
-		$query = $this->db->select('display_name, email')->get_where('users', array('username'=>$username));
+	public function get_display_name($username){
+		$query = $this->db->select('display_name')->get_where('users', array('username'=>$username));
 		if ($query->num_rows() != 1)
 			return FALSE;
-		return $query->row();
+		return $query->row()->display_name;
 	}
 
 

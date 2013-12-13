@@ -128,7 +128,7 @@ class Submissions extends CI_Controller
 				$j++;
 			$un = $item['username'];
 			if ( ! isset($name[$item['username']]))
-				$name[$item['username']] = $this->user_model->get_user($item['username'])->display_name;
+				$name[$item['username']] = $this->user_model->get_display_name($item['username']);
 
 			$pi = $this->assignment_model->problem_info($this->assignment['id'], $item['problem']);
 

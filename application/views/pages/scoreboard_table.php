@@ -20,11 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <tr>
 <td><?php echo ($i+1) ?></td>
 <td><?php echo $sc_username ?></td>
-<td><?php
-	if(!isset($name[$sc_username]))
-		$name[$sc_username]=$this->user_model->get_user($sc_username)->display_name;
-	echo $name[$sc_username];
-?></td>
+<td><?php echo $this->user_model->get_display_name($sc_username); ?></td>
 <?php foreach($problems as $problem): ?>
 <td>
 	<?php if (isset($scores[$sc_username][$problem['id']]['score'])): ?>

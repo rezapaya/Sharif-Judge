@@ -125,7 +125,7 @@ $finish = strtotime($assignment['finish_time']);
 					<td><a href="<?php echo site_url('submissions/'.$view.'/user/'.$item['username'].($filter_problem?'/problem/'.$filter_problem:'')) ?>"><?php echo $item['username'] ?></a></td>
 					<td><?php
 						if(!isset($name[$item['username']]))
-							$name[$item['username']]=$this->user_model->get_user($item['username'])->display_name;
+							$name[$item['username']]=$this->user_model->get_display_name($item['username']);
 						echo $name[$item['username']];
 					?></td>
 				<?php endif ?>
