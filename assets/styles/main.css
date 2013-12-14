@@ -576,9 +576,6 @@ select.sharif_time {
 	border: none;
 	background: none;
 	display: inline-block;
-}
-
-.btn {
 	color: #4D4D4D;
 	cursor: pointer;
 	font-size: 13px;
@@ -630,6 +627,10 @@ select.sharif_time {
 
 .btn.shj-green:hover, .btn.shj-red:hover, .btn.shj-blue:hover, .btn.shj-orange:hover {
 	color: #FFF;
+	text-decoration: none;
+}
+
+a.btn {
 	text-decoration: none;
 }
 

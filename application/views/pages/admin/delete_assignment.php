@@ -24,14 +24,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			Assignment id: <?php echo $id ?><br>
 			Assignment name: <?php echo $name ?>
 		</p>
-		<p>All submission results will be deleted.</p>
+		<p>All test cases, submission results and submitted files will be deleted.</p>
+		<p>You may want to keep a backup of this assignment before deleting.</p>
 		<?php echo form_open('assignments/delete/'.$id); ?>
 		<input type="hidden" name="delete" value="delete"/>
 		<p class="input_p">
-			<input type="checkbox" name="delete_codes" checked /> Also delete test cases and all submitted codes for this assignment.
-		</p>
-		<p class="input_p">
-			<input type="submit" class="sharif_input" value="Yes, I'm Sure"/> <?php echo anchor('assignments',"No, I'm not") ?>
+			<input type="submit" class="btn shj-red" value="Delete this assignment"/>
+			<a href="<?php echo site_url('assignments') ?>" class="btn shj-blue">Do not delete</a>
 		</p>
 		</form>
 
