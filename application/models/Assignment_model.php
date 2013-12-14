@@ -14,13 +14,19 @@ class Assignment_model extends CI_Model{
 	}
 
 
+
 	// ------------------------------------------------------------------------
 
 
+
 	/**
-	 * Adds new assignment to database
+	 * Add New Assignment to DB / Edit Existing Assignment
+	 *
+	 * @param $id
+	 * @param bool $edit
 	 */
-	public function add_assignment($id, $edit = FALSE){
+	public function add_assignment($id, $edit = FALSE)
+	{
 		// Adding assignment to "assignments" table (or editing existing assignment)
 		$extra_items = explode('*', $this->input->post('extra_time'));
 		$extra_time = 1;
@@ -65,10 +71,10 @@ class Assignment_model extends CI_Model{
 
 		// Adding problems to "problems" table
 
-		//first remove all previous problems
+		//First remove all previous problems
 		$this->db->delete('problems', array('assignment'=>$id));
 
-		//now add new problems:
+		//Now add new problems:
 		$names = $this->input->post('name');
 		$scores = $this->input->post('score');
 		$c_tl = $this->input->post('c_time_limit');
@@ -122,39 +128,62 @@ class Assignment_model extends CI_Model{
 	}
 
 
+
 	// ------------------------------------------------------------------------
 
 
-	public function delete_assignment($assignment_id, $delete_codes){
+
+	/**
+	 * Delete An Assignment
+	 *
+	 * @param $assignment_id
+	 */
+	public function delete_assignment($assignment_id)
+	{
+		// Phase 1: Delete this assignment and its submissions from database
 		$this->db->delete('assignments', array('id'=>$assignment_id));
 		$this->db->delete('problems', array('assignment'=>$assignment_id));
 		$this->db->delete('all_submissions', array('assignment'=>$assignment_id));
 		$this->db->delete('final_submissions', array('assignment'=>$assignment_id));
-		if ($delete_codes){
-			$cmd = 'rm -r '.rtrim($this->settings_model->get_setting('assignments_root'), '/').'/assignment_'.$assignment_id;
-			shell_exec($cmd);
-		}
+
+		// Phase 2: Delete assignment's folder (all test cases and submitted codes)
+		$cmd = 'rm -r '.rtrim($this->settings_model->get_setting('assignments_root'), '/').'/assignment_'.$assignment_id;
+		shell_exec($cmd);
 	}
+
 
 
 	// ------------------------------------------------------------------------
 
 
+
 	/**
+	 * All Assignments
+	 *
 	 * Returns a list of all assignments and their information
+	 *
+	 * @return mixed
 	 */
-	public function all_assignments(){
+	public function all_assignments()
+	{
 		return $this->db->get('assignments')->result_array();
 	}
 
 
+
 	// ------------------------------------------------------------------------
 
 
+
 	/**
-	 * Returns id of new assignment (the assignment to be added). Used for adding new assignment.
+	 * New Assignment ID
+	 *
+	 * Finds the smallest integer that can be uses as id for a new assignment
+	 *
+	 * @return int
 	 */
-	public function new_assignment_id(){
+	public function new_assignment_id()
+	{
 		$assignments = $this->db->select('id')->get('assignments')->result_array();
 		$max=0;
 		foreach ($assignments as $assignment){
@@ -169,29 +198,60 @@ class Assignment_model extends CI_Model{
 	}
 
 
+
 	// ------------------------------------------------------------------------
 
 
-	public function all_problems($assignment_id){
+
+	/**
+	 * All Problems of an Assignment
+	 *
+	 * Returns an array containing all problems of given assignment
+	 *
+	 * @param $assignment_id
+	 * @return mixed
+	 */
+	public function all_problems($assignment_id)
+	{
 		return $this->db->get_where('problems', array('assignment'=>$assignment_id))->result_array();
 	}
 
 
+
 	// ------------------------------------------------------------------------
 
 
-	public function problem_info($assignment_id, $problem_id){
+
+	/**
+	 * Problem Info
+	 *
+	 * Returns database row for given problem (from given assignment)
+	 *
+	 * @param $assignment_id
+	 * @param $problem_id
+	 * @return mixed
+	 */
+	public function problem_info($assignment_id, $problem_id)
+	{
 		return $this->db->get_where('problems', array('assignment'=>$assignment_id, 'id'=>$problem_id))->row_array();
 	}
 
 
+
 	// ------------------------------------------------------------------------
 
 
+
 	/**
-	 * Returns info about given assignment
+	 * Assignment Info
+	 *
+	 * Returns database row for given assignment
+	 *
+	 * @param $assignment_id
+	 * @return array
 	 */
-	public function assignment_info($assignment_id){
+	public function assignment_info($assignment_id)
+	{
 		$query = $this->db->get_where('assignments', array('id'=>$assignment_id));
 		if ($query->num_rows() != 1)
 			return array(
@@ -205,14 +265,23 @@ class Assignment_model extends CI_Model{
 	}
 
 
+
 	// ------------------------------------------------------------------------
 
 
+
 	/**
+	 * Is Participant
+	 *
 	 * Returns TRUE if $username if one of the $participants
 	 * Examples for participants: "ALL" or "user1, user2,user3"
+	 *
+	 * @param $participants
+	 * @param $username
+	 * @return bool
 	 */
-	public function is_participant($participants, $username){
+	public function is_participant($participants, $username)
+	{
 		$participants = explode(',', $participants);
 		foreach ($participants as &$participant){
 			$participant = trim($participant);
@@ -225,29 +294,64 @@ class Assignment_model extends CI_Model{
 	}
 
 
+
 	// ------------------------------------------------------------------------
 
 
-	public function add_total_submits($assignment_id){
+
+	/**
+	 * Increase Total Submits
+	 *
+	 * Increases number of total submits for given assignment by one
+	 *
+	 * @param $assignment_id
+	 * @return mixed
+	 */
+	public function increase_total_submits($assignment_id)
+	{
+		// Get total submits
 		$total = $this->db->select('total_submits')->get_where('assignments', array('id'=>$assignment_id))->row()->total_submits;
+		// Save total+1 in DB
 		$this->db->where('id', $assignment_id)->update('assignments', array('total_submits'=>($total+1)));
+		// Return new total
 		return ($total+1);
 	}
 
 
+
 	// ------------------------------------------------------------------------
 
 
-	public function set_moss_time($assignment_id){
+
+	/**
+	 * Set Moss Time
+	 *
+	 * Updates "Moss Update Time" for given assignment
+	 *
+	 * @param $assignment_id
+	 */
+	public function set_moss_time($assignment_id)
+	{
 		$now = date('Y-m-d H:i:s', shj_now());
 		$this->db->where('id', $assignment_id)->update('assignments', array('moss_update'=>$now));
 	}
 
 
+
 	// ------------------------------------------------------------------------
 
 
-	public function get_moss_time($assignment_id){
+
+	/**
+	 * Get Moss Time
+	 *
+	 * Returns "Moss Update Time" for given assignment
+	 *
+	 * @param $assignment_id
+	 * @return string
+	 */
+	public function get_moss_time($assignment_id)
+	{
 		$query = $this->db->select('moss_update')->get_where('assignments', array('id'=>$assignment_id));
 		if($query->num_rows() != 1) return 'Never';
 		return $query->row()->moss_update;
@@ -255,14 +359,25 @@ class Assignment_model extends CI_Model{
 
 
 
-
 	// ------------------------------------------------------------------------
 
 
 
-
-	private function _update_coefficients($assignment_id, $extra_time, $finish_time, $new_late_rule){
-
+	/**
+	 * Update Coefficients
+	 *
+	 * Each time we edit an assignment (Update start time, finish time, extra time, or
+	 * coefficients rule), we should update coefficients of all submissions of that assignment
+	 *
+	 * This function is called from add_assignment($id, TRUE)
+	 *
+	 * @param $assignment_id
+	 * @param $extra_time
+	 * @param $finish_time
+	 * @param $new_late_rule
+	 */
+	private function _update_coefficients($assignment_id, $extra_time, $finish_time, $new_late_rule)
+	{
 		$all_submissions = $this->db->get_where('all_submissions', array('assignment'=>$assignment_id))->result_array();
 		$final_submissions = $this->db->get_where('final_submissions', array('assignment'=>$assignment_id))->result_array();
 

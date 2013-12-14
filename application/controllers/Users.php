@@ -255,8 +255,10 @@ class Users extends CI_Controller
 
 		// Send the file to browser
 
-		$ext = 'xlsx';
-		if ( ! class_exists('ZipArchive') ) // If class ZipArchive does not exist, export to excel5 instead of excel 2007
+		// If class ZipArchive exists, export to excel2007, otherwise export to excel5
+		if ( class_exists('ZipArchive') )
+			$ext = 'xlsx';
+		else
 			$ext = 'xls';
 
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');

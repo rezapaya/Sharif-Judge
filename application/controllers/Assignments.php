@@ -188,7 +188,7 @@ class Assignments extends CI_Controller
 
 		if ($this->input->post('delete') === 'delete')
 		{
-			$this->assignment_model->delete_assignment($assignment_id, $this->input->post('delete_codes')===NULL?FALSE:TRUE);
+			$this->assignment_model->delete_assignment($assignment_id);
 			redirect('assignments');
 		}
 

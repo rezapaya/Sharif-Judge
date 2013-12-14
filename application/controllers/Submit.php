@@ -191,7 +191,7 @@ class Submit extends CI_Controller
 			$this->load->model('submit_model');
 
 			$submit_info = array(
-				'submit_id' => $this->assignment_model->add_total_submits($this->assignment['id']),
+				'submit_id' => $this->assignment_model->increase_total_submits($this->assignment['id']),
 				'username' => $this->username,
 				'assignment' => $this->assignment['id'],
 				'problem' => $this->problem['id'],
