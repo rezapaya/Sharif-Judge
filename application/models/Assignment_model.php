@@ -24,10 +24,13 @@ class Assignment_model extends CI_Model{
 	 *
 	 * @param $id
 	 * @param bool $edit
+	 * @return bool
 	 */
 	public function add_assignment($id, $edit = FALSE)
 	{
-		// Adding assignment to "assignments" table (or editing existing assignment)
+		// Start Database Transaction
+		$this->db->trans_start();
+
 		$extra_items = explode('*', $this->input->post('extra_time'));
 		$extra_time = 1;
 		foreach($extra_items as $extra_item){
@@ -125,6 +128,11 @@ class Assignment_model extends CI_Model{
 			);
 			$this->db->insert('problems', $problem);
 		}
+
+		// Complete Database Transaction
+		$this->db->trans_complete();
+
+		return $this->db->trans_status();
 	}
 
 
@@ -147,7 +155,7 @@ class Assignment_model extends CI_Model{
 		$this->db->delete('final_submissions', array('assignment'=>$assignment_id));
 
 		// Phase 2: Delete assignment's folder (all test cases and submitted codes)
-		$cmd = 'rm -r '.rtrim($this->settings_model->get_setting('assignments_root'), '/').'/assignment_'.$assignment_id;
+		$cmd = 'rm -rf '.rtrim($this->settings_model->get_setting('assignments_root'), '/').'/assignment_'.$assignment_id;
 		shell_exec($cmd);
 	}
 

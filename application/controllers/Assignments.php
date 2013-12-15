@@ -25,6 +25,7 @@ class Assignments extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$this->output->enable_profiler(TRUE);
 		$this->load->driver('session');
 		if ( ! $this->session->userdata('logged_in')) // if not logged in
 			redirect('login');
@@ -372,9 +373,14 @@ class Assignments extends CI_Controller
 				if ( ! file_exists($assignment_dir."/p$i"))
 					mkdir($assignment_dir."/p$i", 0700);
 
-			$this->assignment_model->add_assignment($the_id, $this->edit);
-			$this->success_messages[] = 'Assignment '.($this->edit?'updated':'added').' successfully.';
-			return TRUE;
+			if($this->assignment_model->add_assignment($the_id, $this->edit)){
+				$this->success_messages[] = 'Assignment '.($this->edit?'updated':'added').' successfully.';
+				return TRUE;
+			}
+			else{
+				$this->error_messages[] = 'Error '.($this->edit?'updating':'adding').' assignment.';
+				return FALSE;
+			}
 		}
 
 		elseif ($this->upload->do_upload('tests'))
@@ -398,12 +404,21 @@ class Assignments extends CI_Controller
 				for ($i=1; $i <= $this->input->post('number_of_problems'); $i++)
 					if ( ! file_exists($assignment_dir."/p$i"))
 						mkdir($assignment_dir."/p$i", 0700);
-				$this->assignment_model->add_assignment($the_id, $this->edit);
-				$this->success_messages[] = 'Assignment '.($this->edit?'updated':'added').' successfully.';
-				$this->success_messages[] = 'Tests uploaded successfully.';
-				return TRUE;
+
+				if ($this->assignment_model->add_assignment($the_id, $this->edit))
+				{
+					$this->success_messages[] = 'Assignment '.($this->edit?'updated':'added').' successfully.';
+					$this->success_messages[] = 'Tests uploaded successfully.';
+					return TRUE;
+				}
+				else
+				{
+					$this->error_messages[] = 'Error '.($this->edit?'updating':'adding').' assignment.';
+					return FALSE;
+				}
 			}
-			else {
+			else
+			{
 				$this->error_messages[] = 'Error extracting zip archive.';
 				$this->error_messages = array_merge($this->error_messages , $this->unzip->errors_array());
 				rmdir($assignment_dir);
@@ -415,9 +430,17 @@ class Assignments extends CI_Controller
 			for ($i=1; $i <= $this->input->post('number_of_problems'); $i++)
 				if ( ! file_exists($assignment_dir."/p$i"))
 					mkdir($assignment_dir."/p$i", 0700);
-			$this->assignment_model->add_assignment($the_id, $this->edit);
-			$this->success_messages[] = 'Assignment '.($this->edit?'updated':'added').' successfully.';
-			return TRUE;
+
+			if ($this->assignment_model->add_assignment($the_id, $this->edit))
+			{
+				$this->success_messages[] = 'Assignment '.($this->edit?'updated':'added').' successfully.';
+				return TRUE;
+			}
+			else
+			{
+				$this->error_messages[] = 'Error '.($this->edit?'updating':'adding').' assignment.';
+				return FALSE;
+			}
 		}
 		return FALSE;
 	}
