@@ -82,7 +82,7 @@ $query_builder = TRUE;
 $db['default'] = array(
 	'dsn'	=> '',
 
-	/* Provide database connection settings here: */
+	/*  Enter database connection settings here:  */
 	'hostname' => 'localhost',  // database host
 	'username' => '',           // database username
 	'password' => '',           // database password
