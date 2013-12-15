@@ -14,7 +14,7 @@ class Queueprocess extends CI_Controller
 	{
 		parent::__construct();
 		// This controller should not be called from a browser
-		if ( PHP_SAPI !== 'cli' OR ! defined('STDIN'))
+		if ( ! is_cli() )
 			show_404();
 		$this->load->model('queue_model');
 		$this->load->model('submit_model');
@@ -32,7 +32,8 @@ class Queueprocess extends CI_Controller
 	 * This is the main function for processing the queue
 	 * This function judges queue items one by one
 	 */
-	public function run() {
+	public function run()
+	{
 
 		$queue_item = $this->queue_model->get_first_item();
 		if ($queue_item === NULL) {
