@@ -35,10 +35,11 @@ fi
 # Imposing time limit with ulimit
 ulimit -t $TIMELIMITINT
 
-# Run the command with REAL TIME limit of TIMELIMITINT*2
 if $TIMEOUT_EXISTS; then
+	# Run the command with REAL time limit of TIMELIMITINT*2
 	timeout -s9 $((TIMELIMITINT*2)) $CMD <$IN >out 2>err
 else
+	# Run the command
 	$CMD <$IN >out 2>err	
 fi
 # You can run submitted codes as another user:
@@ -54,7 +55,7 @@ fi
 # www-data ALL=(another_user) NOPASSWD: ALL
 EC=$?
 
-# KILL all process of another_user (A process may still be alive!)
+# KILL all processes of another_user (A process may still be alive!)
 # If you are running codes as another_user, also uncomment this line:
 #sudo -u another_user pkill -9 -u another_user
 
