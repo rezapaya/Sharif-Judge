@@ -50,7 +50,8 @@ class Rejudge extends CI_Controller
 			'msg' => array()
 		);
 
-		if ($this->form_validation->run()){
+		if ($this->form_validation->run())
+		{
 			$problem_id = $this->input->post('problem_id');
 			$this->load->model('queue_model');
 			$this->queue_model->rejudge($this->assignment['id'], $problem_id);
@@ -71,11 +72,14 @@ class Rejudge extends CI_Controller
 	{
 		if ( ! $this->input->is_ajax_request() )
 			show_404();
+
 		$this->form_validation->set_rules('submit_id', 'submit id', 'required|integer');
 		$this->form_validation->set_rules('username', 'username', 'required|alpha_numeric');
 		$this->form_validation->set_rules('assignment', 'assignment', 'required|integer');
 		$this->form_validation->set_rules('problem', 'problem', 'required|integer');
-		if ($this->form_validation->run()){
+
+		if ($this->form_validation->run())
+		{
 			$this->load->model('queue_model');
 			$this->queue_model->rejudge_one(array(
 				'submit_id' => $this->input->post('submit_id'),
