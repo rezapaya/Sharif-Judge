@@ -184,8 +184,9 @@ class Login extends CI_Controller
 			'sent' => FALSE
 		);
 		$this->load->view('templates/simple_header', $data);
-		if ($this->form_validation->run()){
-			$this->user_model->send_passchange_mail($this->input->post('email'));
+		if ($this->form_validation->run())
+		{
+			$this->user_model->send_password_reset_mail($this->input->post('email'));
 			$data['sent'] = TRUE;
 		}
 		$this->load->view('pages/authentication/lost', $data);
@@ -200,7 +201,7 @@ class Login extends CI_Controller
 	{
 		if ($passchange_key === FALSE)
 			show_404();
-		$result = $this->user_model->have_passchange($passchange_key);
+		$result = $this->user_model->passchange_is_valid($passchange_key);
 		if ($result !== TRUE)
 			show_error($result);
 		$this->form_validation->set_rules('password', 'password', 'required|min_length[6]|max_length[200]');

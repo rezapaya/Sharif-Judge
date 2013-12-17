@@ -37,16 +37,16 @@ class Profile extends CI_Controller
 
 	public function index($user_id = FALSE)
 	{
-		if ($user_id === FALSE){
-			$user_id = $this->db->get_where('users', array('username' => $this->username))->row()->id;
-		}
-		if ( ! is_numeric($user_id)){
-			show_error('Incorrect user id');
-		}
-		$query = $this->db->get_where('users', array('id'=>$user_id));
-		if ($query->num_rows() != 1)
-			show_error('Permission Denied');
-		$user = $query->row();
+		if ($user_id === FALSE)
+			$user_id = $this->user_model->username_to_user_id($this->username);
+
+		if ( ! is_numeric($user_id))
+			show_404();
+
+
+		$user = $this->user_model->get_user($user_id);
+		if ($user === FALSE)
+			show_404();
 		$this->edit_username = $user->username;
 
 		//Non-admins are not able to update others' profile
@@ -63,7 +63,7 @@ class Profile extends CI_Controller
 		$this->form_validation->set_rules('role', 'Role', 'callback__role_check');
 		if ($this->form_validation->run()){
 			$this->user_model->update_profile($user_id);
-			$user = $this->db->get_where('users', array('id'=>$user_id))->row();
+			$user = $this->user_model->get_user($user_id);
 			$this->form_status = 'ok';
 		}
 		$data = array(

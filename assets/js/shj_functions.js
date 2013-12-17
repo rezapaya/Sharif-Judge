@@ -352,10 +352,12 @@ $(document).ready(function(){
 						shj_csrf_token: shj.csrf_token
 					},
 						function(response){
-							if (response == 'deleted'){
+							if (response == 'success'){
 								row.animate({backgroundColor: '#FF7676'},1000, function(){row.remove();});
 								noty({text: 'User '+username+' deleted.', layout:'bottomRight', type: 'success', timeout: 5000});
 							}
+							else if (response == 'failed')
+								noty({text: 'Deleting user failed.', layout:'bottomRight', type: 'error', timeout: 3000});
 						}
 					);
 				}
@@ -388,8 +390,10 @@ $(document).ready(function(){
 						shj_csrf_token: shj.csrf_token
 					},
 						function(response){
-							if (response == 'deleted')
-								noty({text: 'Submissions of user '+username+' deleted successfully.', layout:'bottomRight', type: 'success', timeout: 3000});
+							if (response == 'success')
+								noty({text: 'Submissions of user '+username+' deleted successfully.', layout:'bottomRight', type: 'success', timeout: 5000});
+							if (response == 'failed')
+								noty({text: 'Error deleting submissions.', layout:'bottomRight', type: 'error', timeout: 3000});
 						}
 					);
 				}
