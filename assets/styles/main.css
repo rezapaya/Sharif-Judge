@@ -193,7 +193,7 @@ div#side_bar ul {
 }
 
 div#side_bar ul li:hover {
-	background-color: rgba(140, 140, 140, 0.2);
+	background-color: #eee;
 	border-right: 4px solid #BBB;
 }
 
