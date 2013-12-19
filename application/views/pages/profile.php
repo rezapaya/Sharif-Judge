@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<?php echo form_error('display_name','<div class="shj_error">','</div>'); ?>
 		</p>
 		<p class="input_p clear">
-			<label for="form_email" class="short2">Email Address:</label>
+			<label for="form_email" class="short2">Email:</label>
 			<input id="form_email" type="text" name="email" class="sharif_input medium" value="<?php echo $email ?>"/>
 			<?php echo form_error('email','<div class="shj_error">','</div>'); ?>
 		</p>
