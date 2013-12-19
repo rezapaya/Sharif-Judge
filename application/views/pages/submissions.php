@@ -52,14 +52,14 @@ $finish = strtotime($assignment['finish_time']);
 				<?php endif ?>
 				<?php if ($user_level>0): ?>
 						<?php if ($view=='all'): ?>
-						<th width="5%" rowspan="2">submit ID</th>
+						<th width="3%" rowspan="2">ID</th>
 						<?php else: ?>
-						<th width="3%" rowspan="2">#1</th>
-						<th width="3%" rowspan="2">#2</th>
+						<th width="2%" rowspan="2">#</th>
+						<th width="3%" rowspan="2">ID</th>
 						<?php endif ?>
 						<th width="6%" rowspan="2">Username</th>
 						<th width="14%" rowspan="2">Name</th>
-						<th width="10%" rowspan="2">Problem</th>
+						<th width="4%" rowspan="2">Problem</th>
 						<th width="14%" rowspan="2">Submit Time</th>
 						<th colspan="3">Score</th>
 						<th width="1%" rowspan="2">Language</th>
@@ -69,7 +69,7 @@ $finish = strtotime($assignment['finish_time']);
 						<th width="6%" rowspan="2">Log</th>
 						<?php endif ?>
 						<?php if ($user_level>=2): ?>
-						<th width="1%" rowspan="2">Rejudge</th>
+						<th width="1%" rowspan="2">Actions</th>
 						<?php endif ?>
 						<th width="1%" rowspan="2">#</th>
 					</tr>
@@ -118,8 +118,8 @@ $finish = strtotime($assignment['finish_time']);
 					<?php if ($view=='all'): ?>
 						<td><?php echo $item['submit_id'] ?></td>
 					<?php else: ?>
-						<td><?php echo $i; ?></td>
-						<td><?php echo $j; ?></td>
+						<td><?php echo ($page_number-1)*$per_page+$i ?></td>
+						<td><?php echo $item['submit_id'] ?></td>
 					<?php endif ?>
 
 					<td><a href="<?php echo site_url('submissions/'.$view.'/user/'.$item['username'].($filter_problem?'/problem/'.$filter_problem:'')) ?>"><?php echo $item['username'] ?></a></td>
@@ -131,7 +131,7 @@ $finish = strtotime($assignment['finish_time']);
 				<?php endif ?>
 					<td><?php
 						$pi = $this->assignment_model->problem_info($assignment['id'],$item['problem']);
-						echo '<a href="'.site_url('submissions/'.$view.($filter_user?'/user/'.$filter_user:'').'/problem/'.$item['problem']).'"><span dir>'.$pi['name'].'</span> <span>('.$item['problem'].')</span></a>';
+						echo '<a href="'.site_url('submissions/'.$view.($filter_user?'/user/'.$filter_user:'').'/problem/'.$item['problem']).'" title="'.$pi['name'].'">'.$item['problem'].'</a>';
 					?></td>
 					<td><?php echo $item['time'] ?></td>
 					<td><?php

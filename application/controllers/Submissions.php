@@ -310,7 +310,9 @@ class Submissions extends CI_Controller
 			'items' => $this->submit_model->get_final_submissions($this->assignment['id'], $this->user_level, $this->username, $this->page_number, $this->filter_user, $this->filter_problem),
 			'excel_link' => site_url('submissions/final_excel'.($this->filter_user?'/user/'.$this->filter_user:'').($this->filter_problem?'/problem/'.$this->filter_problem:'')),
 			'filter_user' => $this->filter_user,
-			'filter_problem' => $this->filter_problem
+			'filter_problem' => $this->filter_problem,
+			'page_number' => $this->page_number,
+			'per_page' => $config['per_page']
 		);
 
 		$this->load->view('templates/header', $data);

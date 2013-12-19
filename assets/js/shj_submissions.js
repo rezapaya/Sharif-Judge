@@ -56,6 +56,7 @@ $(document).ready(function () {
 		}
 
 	});
+	$(".shj_rejudge").attr('title', 'Rejudge');
 	$(".shj_rejudge").click(function () {
 		var row = $(this).parents('tr');
 		$.post(

@@ -12,24 +12,25 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php endif ?>
 
 <?php foreach ($notifications as $notification): ?>
-<div class="notif" id="number<?php echo $notification['id'] ?>">
-	<div class="notif_title" dir="auto"><a href="<?php echo site_url('notifications#number'.$notification['id']) ?>"><?php echo $notification['title']; ?></a>
-		<?php if ($type=="all"): ?>
-		<div class="notif_meta">
-		<?php elseif ($type=="latest"): ?>
-		<span class="notif_meta" dir="ltr">
-		<?php endif ?>
-			<?php echo $notification['time'] ?>
-			<?php if ($user_level >= 2): ?>
-				<?php echo anchor('notifications/edit/' . $notification['id'], 'Edit') ?>
-				<a href="#" data-id="<?php echo $notification['id'] ?>" class="delete_notif">Delete</a>
-			<?php endif ?>
-		<?php if ($type=="all"): ?>
-		</div>
-		<?php elseif ($type=="latest"): ?>
-		</span>
-		<?php endif ?>
-	</div>
+<div class="notif" id="number<?php echo $notification['id'] ?>" data-id="<?php echo $notification['id'] ?>">
+	<div class="notif_title" dir="auto">
+		<span class="anchor ttl_n"><?php echo $notification['title']; ?></span><?php
+		if ($type == 'all'){
+			$tag_open = '<div class="notif_meta">';
+			$tag_close = '</div>';
+		}
+		else {
+			$tag_open = '<span class="notif_meta" dir="ltr">';
+			$tag_close = '</span>';
+		}
+		echo $tag_open;
+		echo $notification['time'];
+		if ($user_level >= 2){
+			echo ' <span class="anchor edt_n">Edit</span> ';
+			echo ' <span class="anchor del_n">Delete</span> ';
+		}
+		echo $tag_close;
+	?></div>
 	<div class="notif_text<?php if ($type=="latest") echo ' latest' ?>" dir="auto"><?php
 		if ($type=="all")
 			echo $notification['text'];

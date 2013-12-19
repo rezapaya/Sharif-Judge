@@ -182,9 +182,17 @@ shj.check_notifs = function () {
  * Notifications
  */
 $(document).ready(function () {
-	$(".delete_notif").click(function () {
-		var id = $(this).data('id');
+	$('.ttl_n').click(function(){
+		var id = $(this).parents('.notif').data('id');
+		window.location = shj.site_url+'notifications#number'+id;
+	});
+	$('.edt_n').click(function () {
+		var id = $(this).parents('.notif').data('id');
+		window.location = shj.site_url+'notifications/edit/'+id;
+	});
+	$('.del_n').click(function () {
 		var notif = $(this).parents('.notif');
+		var id = $(notif).data('id');
 		noty({
 			text: 'Are you sure you want to delete this notification?',
 			layout: 'center',
