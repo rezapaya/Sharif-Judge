@@ -392,12 +392,12 @@ abstract class CI_DB_forge {
 		for ($i = 0, $c = count($columns); $i < $c; $i++)
 		{
 			$columns[$i] = ($columns[$i]['_literal'] !== FALSE)
-					? "\n\t".$columns[$i]['_literal']
-					: "\n\t".$this->_process_column($columns[$i]);
+				? "\n\t".$columns[$i]['_literal']
+				: "\n\t".$this->_process_column($columns[$i]);
 		}
 
 		$columns = implode(',', $columns)
-				.$this->_process_primary_keys($table);
+			.$this->_process_primary_keys($table);
 
 		// Are indexes created from within the CREATE TABLE statement? (e.g. in MySQL)
 		if ($this->_create_table_keys === TRUE)
@@ -511,9 +511,9 @@ abstract class CI_DB_forge {
 		}
 
 		$result = $this->db->query(sprintf($this->_rename_table,
-						$this->db->escape_identifiers($this->db->dbprefix.$table_name),
-						$this->db->escape_identifiers($this->db->dbprefix.$new_table_name))
-					);
+				$this->db->escape_identifiers($this->db->dbprefix.$table_name),
+				$this->db->escape_identifiers($this->db->dbprefix.$new_table_name))
+		);
 
 		if ($result && ! empty($this->db->data_cache['table_names']))
 		{
@@ -728,16 +728,16 @@ abstract class CI_DB_forge {
 			}
 
 			$field = array(
-					'name'			=> $key,
-					'new_name'		=> isset($attributes['NAME']) ? $attributes['NAME'] : NULL,
-					'type'			=> isset($attributes['TYPE']) ? $attributes['TYPE'] : NULL,
-					'length'		=> '',
-					'unsigned'		=> '',
-					'null'			=> '',
-					'unique'		=> '',
-					'default'		=> '',
-					'auto_increment'	=> '',
-					'_literal'		=> FALSE
+				'name'			=> $key,
+				'new_name'		=> isset($attributes['NAME']) ? $attributes['NAME'] : NULL,
+				'type'			=> isset($attributes['TYPE']) ? $attributes['TYPE'] : NULL,
+				'length'		=> '',
+				'unsigned'		=> '',
+				'null'			=> '',
+				'unique'		=> '',
+				'default'		=> '',
+				'auto_increment'	=> '',
+				'_literal'		=> FALSE
 			);
 
 			if ($create_table === FALSE)
@@ -782,8 +782,8 @@ abstract class CI_DB_forge {
 						$attributes['CONSTRAINT'] = $this->db->escape($attributes['CONSTRAINT']);
 					default:
 						$field['length'] = is_array($attributes['CONSTRAINT'])
-								? "('".implode("','", $attributes['CONSTRAINT'])."')"
-								: '('.$attributes['CONSTRAINT'].')';
+							? "('".implode("','", $attributes['CONSTRAINT'])."')"
+							: '('.$attributes['CONSTRAINT'].')';
 						break;
 				}
 			}
@@ -805,12 +805,12 @@ abstract class CI_DB_forge {
 	protected function _process_column($field)
 	{
 		return $this->db->escape_identifiers($field['name'])
-			.' '.$field['type'].$field['length']
-			.$field['unsigned']
-			.$field['default']
-			.$field['null']
-			.$field['auto_increment']
-			.$field['unique'];
+		.' '.$field['type'].$field['length']
+		.$field['unsigned']
+		.$field['default']
+		.$field['null']
+		.$field['auto_increment']
+		.$field['unique'];
 	}
 
 	// --------------------------------------------------------------------
@@ -984,7 +984,6 @@ abstract class CI_DB_forge {
 	 */
 	protected function _process_indexes($table)
 	{
-		$table = $this->db->escape_identifiers($table);
 		$sqls = array();
 
 		for ($i = 0, $c = count($this->keys); $i < $c; $i++)
@@ -1008,7 +1007,7 @@ abstract class CI_DB_forge {
 
 			is_array($this->keys[$i]) OR $this->keys[$i] = array($this->keys[$i]);
 
-			$sqls[] = 'CREATE INDEX '.$this->db->escape_identifiers(implode('_', $this->keys[$i]))
+			$sqls[] = 'CREATE INDEX '.$this->db->escape_identifiers($table.'_'.implode('_', $this->keys[$i]))
 				.' ON '.$this->db->escape_identifiers($table)
 				.' ('.implode(', ', $this->db->escape_identifiers($this->keys[$i])).');';
 		}
