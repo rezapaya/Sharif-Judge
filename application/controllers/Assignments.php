@@ -50,21 +50,12 @@ class Assignments extends CI_Controller
 			'username' => $this->username,
 			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
+			'assignment' => $this->assignment,
 			'title' => 'Assignments',
 			'style' => 'main.css',
 			'success_messages' => $this->success_messages,
 			'error_messages' => $this->error_messages
 		);
-
-		$this->form_validation->set_rules('assignment_select', 'Assignment', 'required|integer|greater_than[0]');
-
-		if ($this->form_validation->run())
-		{
-			$this->assignment = $this->assignment_model->assignment_info($this->input->post('assignment_select'));
-			$this->user_model->select_assignment($this->username, $this->assignment['id']);
-		}
-
-		$data['assignment'] = $this->assignment;
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('pages/assignments', $data);

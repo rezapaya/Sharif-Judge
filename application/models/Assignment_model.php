@@ -148,15 +148,22 @@ class Assignment_model extends CI_Model{
 	 */
 	public function delete_assignment($assignment_id)
 	{
+		$this->db->trans_start();
+
 		// Phase 1: Delete this assignment and its submissions from database
 		$this->db->delete('assignments', array('id'=>$assignment_id));
 		$this->db->delete('problems', array('assignment'=>$assignment_id));
 		$this->db->delete('all_submissions', array('assignment'=>$assignment_id));
 		$this->db->delete('final_submissions', array('assignment'=>$assignment_id));
 
-		// Phase 2: Delete assignment's folder (all test cases and submitted codes)
-		$cmd = 'rm -rf '.rtrim($this->settings_model->get_setting('assignments_root'), '/').'/assignment_'.$assignment_id;
-		shell_exec($cmd);
+		$this->db->trans_complete();
+
+		if ($this->db->trans_status())
+		{
+			// Phase 2: Delete assignment's folder (all test cases and submitted codes)
+			$cmd = 'rm -rf '.rtrim($this->settings_model->get_setting('assignments_root'), '/').'/assignment_'.$assignment_id;
+			shell_exec($cmd);
+		}
 	}
 
 
@@ -192,16 +199,13 @@ class Assignment_model extends CI_Model{
 	 */
 	public function new_assignment_id()
 	{
-		$assignments = $this->db->select('id')->get('assignments')->result_array();
-		$max=0;
-		foreach ($assignments as $assignment){
-			if ($assignment['id'] > $max)
-				$max = $assignment['id'];
-		}
-		$max++;
-		while (file_exists(rtrim($this->settings_model->get_setting('assignments_root'), '/').'/assignment_'.$max)){
+		$max = ($this->db->select_max('id', 'max_id')->get('assignments')->row()->max_id) + 1;
+
+		$assignments_root = rtrim($this->settings_model->get_setting('assignments_root'), '/');
+		while (file_exists($assignments_root.'/assignment_'.$max)){
 			$max++;
 		}
+
 		return $max;
 	}
 
@@ -321,6 +325,7 @@ class Assignment_model extends CI_Model{
 		$total = $this->db->select('total_submits')->get_where('assignments', array('id'=>$assignment_id))->row()->total_submits;
 		// Save total+1 in DB
 		$this->db->where('id', $assignment_id)->update('assignments', array('total_submits'=>($total+1)));
+
 		// Return new total
 		return ($total+1);
 	}
