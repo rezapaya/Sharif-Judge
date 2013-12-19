@@ -42,8 +42,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<td><?php echo $user['display_name'] ?></td>
 					<td><?php echo $user['email'] ?></td>
 					<td><?php echo $user['role'] ?></td>
-					<td><?php echo $user['first_login_time']==='0000-00-00 00:00:00'?'Never':$user['first_login_time'] ?></td>
-					<td><?php echo $user['last_login_time']==='0000-00-00 00:00:00'?'Never':$user['last_login_time'] ?></td>
+					<td><?php echo $user['first_login_time']===NULL?'Never':$user['first_login_time'] ?></td>
+					<td><?php echo $user['last_login_time']===NULL?'Never':$user['last_login_time'] ?></td>
 					<td>
 						<a title="Edit" href="<?php echo site_url('profile/'.$user['id']) ?>"><i class="splashy-contact_blue_edit"></i></a>
 						<span title="Delete User" class="delete_user pointer"><i title="Delete User" class="splashy-contact_blue_remove"></i></span>

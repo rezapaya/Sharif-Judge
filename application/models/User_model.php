@@ -357,7 +357,7 @@ class User_model extends CI_Model{
 		$now = date('Y-m-d H:i:s', shj_now());
 
 		$first_login = $this->db->select('first_login_time')->get_where('users', array('username'=>$username))->row()->first_login_time;
-		if ($first_login === '0000-00-00 00:00:00')
+		if ($first_login === NULL)
 			$this->db->where('username', $username)->update('users', array('first_login_time'=>$now));
 
 		$this->db->where('username', $username)->update('users', array('last_login_time'=>$now));

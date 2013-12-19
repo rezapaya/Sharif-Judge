@@ -203,8 +203,8 @@ class Users extends CI_Controller
 				$user['display_name'],
 				$user['email'],
 				$user['role'],
-				$user['first_login_time']==='0000-00-00 00:00:00'?'Never':$user['first_login_time'],
-				$user['last_login_time']==='0000-00-00 00:00:00'?'Never':$user['last_login_time']
+				$user['first_login_time']===NULL?'Never':$user['first_login_time'],
+				$user['last_login_time']===NULL?'Never':$user['last_login_time']
 			));
 		}
 
