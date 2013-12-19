@@ -34,8 +34,8 @@ a {
 code {
 	border-radius: 3px;
 	padding: 0 3px;
-	border: 1px solid #C7C7C7;
-	background-color: #ECECEC;
+	border: 1px solid #DDD;
+	background-color: #FAFAFA;
 }
 
 .clear {
@@ -898,13 +898,14 @@ ul.shj_pagination li>a, ul.shj_pagination li>span {
 	background-color: white;
 	border: 1px solid #e3e3e3;
 	border-radius: 3px;
-	box-shadow: rgba(0, 0, 0, 0.3) 0 0 5px;
-	-moz-box-shadow: rgba(0, 0, 0, 0.3) 0 0 10px;
-	-webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 0 10px;
+	box-shadow: rgba(0, 0, 0, 0.3) 0 0 6px -2px;
+	-moz-box-shadow: rgba(0, 0, 0, 0.3) 0 0 6px -2px;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 0 6px -2px;
 }
 
+
 .widget_title {
-	padding: 10px;
+	padding: 8px;
 	border-bottom: 1px solid #e3e3e3;
 	border-top-right-radius: 3px;
 	border-top-left-radius: 3px;
@@ -930,15 +931,30 @@ ul.shj_pagination li>a, ul.shj_pagination li>span {
 
 div.widget_scrollable {
 	position: absolute;
-	top: 37px;
+	top: 33px;
 	padding:0 4px;
 }
 
 
 /******* notifications ************/
+
 div.notif {
+	padding: 7px;
+	border-bottom: 1px solid #CCC;
+}
+
+div#main_content > div.notif {
 	padding: 10px;
-	border-bottom: 1px solid #c5c5c5;
+	border: 1px solid #CCC;
+	border-radius: 3px;
+	margin: 20px 0;
+	box-shadow: rgba(0, 0, 0, 0.5) 0 0 6px -2px;
+	-moz-box-shadow: rgba(0, 0, 0, 0.5) 0 0 6px -2px;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.5) 0 0 6px -2px;
+}
+
+div#main_content > div.notif > div.notif_title {
+	border-bottom: 1px solid #bbb;
 }
 
 div.notif_title {
