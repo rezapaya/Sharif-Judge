@@ -2,11 +2,6 @@
  * Reveal Modals
  */
 
-.modal_inside { /* added by mjnaderi */
-	max-height: 550px;
-	overflow-y: auto;
-}
-
 .reveal-modal-bg {
 	position: fixed;
 	height: 100%;
@@ -63,7 +58,6 @@
 	top: 8px;
 	right: 3px;
 	color: #aaa;
-	text-shadow: 0 -1px 1px rbga(0, 0, 0, .6);
 	font-weight: bold;
 	cursor: pointer;
 }

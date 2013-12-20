@@ -15,7 +15,8 @@ $(document).ready(function () {
 	$(".btn").click(function () {
 		var button = $(this);
 		var row = button.parents('tr');
-		if (button.data('shj') == 'download') {
+		var type = button.data('type');
+		if (type == 'download') {
 			window.location = shj.site_url + 'submissions/download_file/' + row.data('u') + '/' + row.data('a') + '/' + row.data('p') + '/' + row.data('s');
 			return;
 		}
@@ -24,7 +25,7 @@ $(document).ready(function () {
 			type: 'POST',
 			url: shj.site_url + 'submissions/view_code',
 			data: {
-				code: button.data('code'),
+				type: type,
 				username: row.data('u'),
 				assignment: row.data('a'),
 				problem: row.data('p'),
@@ -32,11 +33,15 @@ $(document).ready(function () {
 				shj_csrf_token: shj.csrf_token
 			},
 			success: function (data) {
-				$(".modal_inside").html(data);
-				$.syntax({
-					blockLayout: 'fixed',
-					theme: 'paper'
-				});
+				if (type == 'code')
+					 data.text = shj.html_encode(data.text);
+				$('.modal_inside').html('<pre class="code-column">'+data.text+'</pre>');
+				$('.modal_inside').prepend('<p><code>'+data.file_name+' | Submit ID: '+row.data('s')+' | Username: '+row.data('u')+' | Problem: '+row.data('p')+'</code></p>');
+				if (type == 'code'){
+					$('pre.code-column').snippet(data.lang, {style: shj.color_scheme});
+				}
+				else
+					$('pre.code-column').addClass('shj_code');
 			}
 		});
 		if (!shj.modal_open) {

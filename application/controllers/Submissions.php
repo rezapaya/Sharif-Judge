@@ -429,6 +429,9 @@ class Submissions extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
+	public function _check_type($type) {
+		return ($type === 'code' || $type === 'result' || $type === 'log');
+	}
 
 
 	/**
@@ -438,12 +441,14 @@ class Submissions extends CI_Controller
 	{
 		if ( ! $this->input->is_ajax_request() )
 			show_404();
-		$this->form_validation->set_rules('code','code','integer|greater_than_equal_to[0]|less_than_equal_to[2]');
+		$this->form_validation->set_rules('type','type','callback__check_type');
 		$this->form_validation->set_rules('username','username','required|min_length[3]|max_length[20]|alpha_numeric|xss_clean');
 		$this->form_validation->set_rules('assignment','assignment','integer|greater_than[0]');
 		$this->form_validation->set_rules('problem','problem','integer|greater_than[0]');
 		$this->form_validation->set_rules('submit_id','submit_id','integer|greater_than[0]');
-		if($this->form_validation->run()){
+
+		if($this->form_validation->run())
+		{
 			$submission = $this->submit_model->get_submission(
 				$this->input->post('username'),
 				$this->input->post('assignment'),
@@ -454,31 +459,46 @@ class Submissions extends CI_Controller
 				show_404();
 
 			/*
-			 * $this->input->post('code'):
+			 * $this->input->post('type'): code, status or log
 			 *   0 => result
 			 *   1 => code
 			 *   2 => log
 			 */
 
-			if ($this->user_level === 0 && $this->input->post('code') == 2)
+			$type = $this->input->post('type');
+
+			if ($this->user_level === 0 && $type === 'log')
 				show_404();
 
 			if ($this->user_level === 0 && $this->username != $submission['username'])
 				exit('Don\'t try to see submitted codes :)');
 
-			$code = $this->input->post('code');
-
-			if ($code==0)
+			if ($type === 'result')
 				$file_path = rtrim($this->settings_model->get_setting('assignments_root'),'/').
 					"/assignment_{$submission['assignment']}/p{$submission['problem']}/{$submission['username']}/result-{$submission['submit_id']}.html";
-			elseif ($code==1)
+			elseif ($type === 'code')
 				$file_path = rtrim($this->settings_model->get_setting('assignments_root'),'/').
 					"/assignment_{$submission['assignment']}/p{$submission['problem']}/{$submission['username']}/{$submission['file_name']}.".filetype_to_extension($submission['file_type']);
-			elseif ($code==2)
+			elseif ($type === 'log')
 				$file_path = rtrim($this->settings_model->get_setting('assignments_root'),'/').
 					"/assignment_{$submission['assignment']}/p{$submission['problem']}/{$submission['username']}/log";
 
-			$data = array(
+
+			$result = array(
+				'file_name' => $submission['main_file_name'].'.'.filetype_to_extension($submission['file_type']),
+				'text' => file_get_contents($file_path)
+			);
+
+			if ($type === 'code') {
+				$result['lang'] = $submission['file_type'];
+				if ($result['lang'] == 'py2' || $result['lang'] == 'py3')
+					$result['lang'] = 'python';
+			}
+
+			$this->output->set_content_type('application/json')->set_output(json_encode($result));
+
+			//echo file_get_contents($file_path);
+			/*$data = array(
 				'file_path'=>$file_path,
 				'file_type'=>$submission['file_type'],
 				'file_name'=>$submission['main_file_name'].'.'.filetype_to_extension($submission['file_type']),
@@ -493,11 +513,10 @@ class Submissions extends CI_Controller
 			if($this->input->post('code')==2)
 				$data['log'] = TRUE;
 
-			$this->load->view('pages/view_code',$data);
+			$this->load->view('pages/view_code',$data);*/
 		}
-		else{
+		else
 			exit('Are you trying to see other users\' codes? :)');
-		}
 	}
 
 

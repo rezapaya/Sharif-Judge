@@ -26,6 +26,10 @@ jQuery.fn.selectText = function(){
 	}
 };
 
+shj.html_encode = function(value) {
+	return $('<div/>').text(value).html();
+}
+
 shj.supports_local_storage = function() {
 	try {
 		return 'localStorage' in window && window['localStorage'] !== null;
@@ -210,7 +214,7 @@ $(document).ready(function () {
 						shj.site_url + 'notifications/delete',
 						{
 							id: id,
-							shj_csrf_token: shj.csrf_token,
+							shj_csrf_token: shj.csrf_token
 						},
 						function (response) {
 							if (response == 'deleted') {

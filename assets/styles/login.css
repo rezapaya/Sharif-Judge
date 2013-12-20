@@ -95,8 +95,10 @@ input.sharif_input {
 
 input.sharif_input:focus {
 	outline: 0;
-	border-color: rgba(82,168,236,0.6);
-	box-shadow: rgba(82,168,236,0.6) 0 0 4px 2px;
+	border-color: rgba(82, 168, 236, 0.6);
+	box-shadow: rgba(82, 168, 236, 0.6) 0 0 6px;
+	-moz-box-shadow: rgba(82, 168, 236, 0.6) 0 0 6px;
+	-webkit-box-shadow: rgba(82, 168, 236, 0.6) 0 0 6px;
 }
 
 .shj_error {

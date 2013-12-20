@@ -45,6 +45,7 @@ shj.extra_time = moment.duration(<?php echo $assignment['extra_time'] ?>, 'secon
 // notifications
 shj.check_for_notifications = false;
 shj.notif_check_delay = 30;
+shj.color_scheme = 'github';
 </script>
 <script type="text/javascript" src="<?php echo base_url("assets/js/shj_functions.js") ?>"></script>
 <body id="body">

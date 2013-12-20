@@ -7,7 +7,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<script type="text/javascript" src="<?php echo base_url("assets/jquery-syntax/jquery.syntax.min.js") ?>"></script>
+<link rel='stylesheet' type='text/css' href='<?php echo base_url("assets/snippet/jquery.snippet.css") ?>'/>
+<link rel='stylesheet' type='text/css' href='<?php echo base_url("assets/snippet/themes/github.css") ?>'/>
+<script type='text/javascript' src="<?php echo base_url("assets/snippet/jquery.snippet.js") ?>"></script>
+
 <link rel='stylesheet' type='text/css' href='<?php echo base_url("assets/reveal/reveal.css") ?>'/>
 <script type='text/javascript' src="<?php echo base_url("assets/reveal/jquery.reveal.js") ?>"></script>
 <script type='text/javascript' src="<?php echo base_url("assets/js/shj_submissions.js") ?>"></script>
@@ -176,7 +179,7 @@ $finish = strtotime($assignment['finish_time']);
 						if ($item['status'] == 'Uploaded')
 							echo 'Uploaded';
 						else {
-							?><div class="<?php echo status_to_class($item['status'], $item['pre_score']) ?>" data-code="0" ><?php
+							?><div class="<?php echo status_to_class($item['status'], $item['pre_score']) ?>" data-type="result" ><?php
 								if ($item['status']==='SCORE')
 									echo $final_score;
 								else
@@ -186,9 +189,9 @@ $finish = strtotime($assignment['finish_time']);
 					</td>
 					<td>
 						<?php if ($item['file_type'] === 'zip' OR $item['file_type'] === 'pdf'): ?>
-							<div class="btn shj-orange" data-shj="download">Download</div>
+							<div class="btn shj-orange" data-type="download">Download</div>
 						<?php else: ?>
-							<div class="btn shj-orange" data-code="1" >Code</div>
+							<div class="btn shj-orange" data-type="code" >Code</div>
 						<?php endif ?>
 					</td>
 					<?php if ($view === 'final' && $user_level > 0): ?>
@@ -196,7 +199,7 @@ $finish = strtotime($assignment['finish_time']);
 						<?php if ($item['status'] == 'Uploaded'): ?>
 							---
 						<?php else: ?>
-							<div class="btn" data-code="2" >Log</div>
+							<div class="btn" data-type="log" >Log</div>
 						<?php endif ?>
 					</td>
 					<?php endif ?>
