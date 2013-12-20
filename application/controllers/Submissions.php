@@ -458,14 +458,7 @@ class Submissions extends CI_Controller
 			if ($submission === FALSE)
 				show_404();
 
-			/*
-			 * $this->input->post('type'): code, status or log
-			 *   0 => result
-			 *   1 => code
-			 *   2 => log
-			 */
-
-			$type = $this->input->post('type');
+			$type = $this->input->post('type'); // $type is 'code', 'result', or 'log'
 
 			if ($this->user_level === 0 && $type === 'log')
 				show_404();
@@ -497,23 +490,6 @@ class Submissions extends CI_Controller
 
 			$this->output->set_content_type('application/json')->set_output(json_encode($result));
 
-			//echo file_get_contents($file_path);
-			/*$data = array(
-				'file_path'=>$file_path,
-				'file_type'=>$submission['file_type'],
-				'file_name'=>$submission['main_file_name'].'.'.filetype_to_extension($submission['file_type']),
-				'view_username'=>$submission['username'],
-				'view_assignment'=>$this->assignment_model->assignment_info($submission['assignment']),
-				'view_problem'=>$this->assignment_model->problem_info($submission['assignment'], $submission['problem']),
-				'code'=>$code
-			);
-
-
-			$data['log'] = FALSE;
-			if($this->input->post('code')==2)
-				$data['log'] = TRUE;
-
-			$this->load->view('pages/view_code',$data);*/
 		}
 		else
 			exit('Are you trying to see other users\' codes? :)');
