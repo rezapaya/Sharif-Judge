@@ -1,5 +1,4 @@
 .snippet-wrap ol.snippet-num > li:before {
-	color: black;
 	border-right: 1px solid #667FC4;
 }
 
