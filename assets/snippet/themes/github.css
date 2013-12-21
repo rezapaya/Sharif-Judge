@@ -1,6 +1,6 @@
 .snippet-wrap ol.snippet-num > li:before {
-	color: #AAA;
-	border-right: 1px solid #EEE;
+	color: rgba(0, 0, 0, 0.3);
+	border-right: 1px solid #E5E5E5;
 }
 
 .sh_github .sh_sourceCode { /* ok */

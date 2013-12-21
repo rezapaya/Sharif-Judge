@@ -186,6 +186,7 @@
 					// click event for select all (feature added by mjnaderi)
 					o.parent().find("a.snippet-select").click(function(){
 						$('pre.sh_sourceCode:visible').selectText();
+						return false;
 					});
 					
 					// click event for popup view
