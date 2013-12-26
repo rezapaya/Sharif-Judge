@@ -112,7 +112,7 @@ class Problems extends CI_Controller
 		if ( ! is_numeric($problem_id) || $problem_id < 1 || $problem_id > $data['description_assignment']['problems'])
 			show_404();
 
-		$this->form_validation->set_rules('text', 'text' ,'xss_clean');
+		$this->form_validation->set_rules('text', 'text' ,''); /* todo: xss clean */
 		if ($this->form_validation->run())
 		{
 			$this->assignment_model->save_problem_description($assignment_id, $problem_id, $this->input->post('text'), $type);
