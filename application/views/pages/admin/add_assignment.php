@@ -141,13 +141,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					?></textarea>
 			</p>
 			<p class="input_p clear">
-				<label for="form_tests">Tests (zip file)<br>
+				<label for="form_tests_desc">Tests and Descriptions (zip file)<br>
 					<span class="form_comment">
 						<a href="http://docs.sharifjudge.ir/tests_structure" target="_blank">Use this structure</a>
 					</span>
 				</label>
 
-				<input id="form_tests" type="file" name="tests" class="sharif_input medium"/>
+				<input id="form_tests_desc" type="file" name="tests_desc" class="sharif_input medium"/>
 				<?php
 					if (!$edit)
 						echo $this->upload->display_errors('<div class="shj_error">','</div>');
