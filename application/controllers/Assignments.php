@@ -447,8 +447,8 @@ class Assignments extends CI_Controller
 						mkdir($assignment_dir."/p$i", 0700);
 					elseif (file_exists($assignment_dir."/p$i/desc.md"))
 					{
-						$this->load->library('markdown');
-						$html = $this->markdown->parse(file_get_contents($assignment_dir."/p$i/desc.md"));
+						$this->load->library('parsedown');
+						$html = $this->parsedown->parse(file_get_contents($assignment_dir."/p$i/desc.md"));
 						file_put_contents($assignment_dir."/p$i/desc.html", $html);
 					}
 				}
