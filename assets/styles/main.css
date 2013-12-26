@@ -810,14 +810,14 @@ textarea.add_text {
 	width: 410px;
 }
 
-.shj_code {
+pre, .shj_code {
 	background-color: white;
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
 	border-radius:5px;
-	box-shadow: 0 0 6px -2px #AAA;
-	-moz-box-shadow: 0 0 6px -2px #AAA;
-	-webkit-box-shadow: 0 0 6px -2px #AAA;
+	box-shadow: 0 0 10px -2px #AAA;
+	-moz-box-shadow: 0 0 10px -2px #AAA;
+	-webkit-box-shadow: 0 0 10px -2px #AAA;
 	margin: 5px;
 	padding: 10px;
 	max-height: 500px;
@@ -1007,7 +1007,9 @@ div.notif_text.latest {
 /*  problems page */
 
 div#problems_widget {
-	float: right;
+	position: absolute;
+	right: 20px;
+	width: 220px;
 	border: 2px dashed #DDD;
 	box-shadow: 0 0 6px -2px #AAA;
 	-moz-box-shadow: 0 0 6px -2px #AAA;
@@ -1026,4 +1028,10 @@ div#problems_widget table td{
 
 div.problem_description .snippet-wrap{
 	position: static;
+}
+
+div#main_container.desc #main_content {
+	position: absolute;
+	right: 240px;
+	left: 0;
 }
