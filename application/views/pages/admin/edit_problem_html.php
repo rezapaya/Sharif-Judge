@@ -48,7 +48,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			When you edit as html, the markdown code will be removed.
 		</p>
 
-		<?php echo form_open('problems/edit_html/'.$description_assignment['id'].'/'.$problem['id']) ?>
+		<?php echo form_open('problems/edit/html/'.$description_assignment['id'].'/'.$problem['id']) ?>
 		<p class="input_p">
 			<textarea name="text"><?php echo $problem['description'] ?></textarea>
 		</p>

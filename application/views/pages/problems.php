@@ -30,8 +30,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<img src="<?php echo base_url('assets/images/icons/problem.png') ?>"/>
 		<span>Problem <?php echo $problem['id'] ?></span>
 		<?php if ($user_level>=2): ?>
-			<span class="title_menu_item"><a href="<?php echo site_url('problems/edit_md/'.$description_assignment['id'].'/'.$problem['id']) ?>"><i class="splashy-pencil"></i> Edit Markdown</a></span>
-			<span class="title_menu_item"><a href="<?php echo site_url('problems/edit_html/'.$description_assignment['id'].'/'.$problem['id']) ?>"><i class="splashy-pencil"></i> Edit HTML</a></span>
+			<span class="title_menu_item"><a href="<?php echo site_url('problems/edit/md/'.$description_assignment['id'].'/'.$problem['id']) ?>"><i class="splashy-pencil"></i> Edit Markdown</a></span>
+			<span class="title_menu_item"><a href="<?php echo site_url('problems/edit/html/'.$description_assignment['id'].'/'.$problem['id']) ?>"><i class="splashy-pencil"></i> Edit HTML</a></span>
 		<?php endif ?>
 	</div>
 

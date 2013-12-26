@@ -25,7 +25,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			Problem <?php echo $problem['id'] ?>
 		</p>
 
-		<?php echo form_open('problems/edit_md/'.$description_assignment['id'].'/'.$problem['id']) ?>
+		<?php echo form_open('problems/edit/md/'.$description_assignment['id'].'/'.$problem['id']) ?>
 		<p class="input_p">
 			<textarea name="text" rows="30" cols="80" class="sharif_input"><?php echo $problem['description'] ?></textarea>
 		</p>

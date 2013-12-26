@@ -80,13 +80,19 @@ class Problems extends CI_Controller
 
 
 	/**
-	 * Edit problem description as html
+	 * Edit problem description as html/markdown
 	 *
+	 * $type can be 'md' or 'html'
+	 *
+	 * @param string $type
 	 * @param int $assignment_id
 	 * @param int $problem_id
 	 */
-	public function edit_html($assignment_id = NULL, $problem_id = 1)
+	public function edit($type = 'md', $assignment_id = NULL, $problem_id = 1)
 	{
+		if ($type !== 'html' && $type !== 'md')
+			show_404();
+
 		if ($this->user_level <= 1)
 			show_404();
 
@@ -97,7 +103,7 @@ class Problems extends CI_Controller
 			'username' => $this->username,
 			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
-			'title' => 'Edit Problem Description (HTML)',
+			'title' => 'Edit Problem Description ('.($type==='html'?'HTML':'Markdown').')',
 			'assignment' => $this->assignment,
 			'description_assignment' => $this->assignment_model->assignment_info($assignment_id),
 			'style' => 'main.css',
@@ -109,7 +115,7 @@ class Problems extends CI_Controller
 		$this->form_validation->set_rules('text', 'text' ,'xss_clean');
 		if ($this->form_validation->run())
 		{
-			$this->assignment_model->save_problem_description($assignment_id, $problem_id, $this->input->post('text'), 'html');
+			$this->assignment_model->save_problem_description($assignment_id, $problem_id, $this->input->post('text'), $type);
 			redirect('problems/'.$assignment_id.'/'.$problem_id);
 		}
 
@@ -118,68 +124,16 @@ class Problems extends CI_Controller
 			'description' => ''
 		);
 
-		$path = rtrim($this->settings_model->get_setting('assignments_root'),'/')."/assignment_{$assignment_id}/p{$problem_id}/desc.html";
+		$path = rtrim($this->settings_model->get_setting('assignments_root'),'/')."/assignment_{$assignment_id}/p{$problem_id}/desc.".$type;
 		if (file_exists($path))
 			$data['problem']['description'] = file_get_contents($path);
 
 
 		$this->load->view('templates/header', $data);
-		$this->load->view('pages/admin/edit_problem_html', $data);
+		$this->load->view('pages/admin/edit_problem_'.$type, $data);
 		$this->load->view('templates/footer');
 
 	}
 
-
-	// ------------------------------------------------------------------------
-
-
-	/**
-	 * Edit problem description as markdown
-	 *
-	 * @param int $assignment_id
-	 * @param int $problem_id
-	 */
-	public function edit_md($assignment_id = NULL, $problem_id = 1)
-	{
-		if ($this->user_level <= 1)
-			show_404();
-
-		if ($assignment_id === NULL)
-			$assignment_id = $this->assignment['id'];
-
-		$data = array(
-			'username' => $this->username,
-			'user_level' => $this->user_level,
-			'all_assignments' => $this->assignment_model->all_assignments(),
-			'title' => 'Edit Problem Description (Markdown)',
-			'assignment' => $this->assignment,
-			'description_assignment' => $this->assignment_model->assignment_info($assignment_id),
-			'style' => 'main.css',
-		);
-
-		if ( ! is_numeric($problem_id) || $problem_id < 1 || $problem_id > $data['description_assignment']['problems'])
-			show_404();
-
-		$this->form_validation->set_rules('text', 'text' ,'xss_clean');
-		if ($this->form_validation->run())
-		{
-			$this->assignment_model->save_problem_description($assignment_id, $problem_id, $this->input->post('text'), 'markdown');
-			redirect('problems/'.$assignment_id.'/'.$problem_id);
-		}
-
-		$data['problem'] = array(
-			'id' => $problem_id,
-			'description' => ''
-		);
-
-		$path = rtrim($this->settings_model->get_setting('assignments_root'),'/')."/assignment_{$assignment_id}/p{$problem_id}/desc.md";
-		if (file_exists($path))
-			$data['problem']['description'] = file_get_contents($path);
-
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/admin/edit_problem_md', $data);
-		$this->load->view('templates/footer');
-
-	}
 
 }

@@ -400,7 +400,7 @@ class Assignment_model extends CI_Model{
 			// Save the html code
 			file_put_contents("$assignments_root/assignment_{$assignment_id}/p{$problem_id}/desc.html", $text);
 		}
-		elseif ($type === 'markdown')
+		elseif ($type === 'md')
 		{
 			// We parse markdown using Parsedown library
 			$this->load->library('parsedown');
