@@ -19,7 +19,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			toolbar_items_size: 'small',
 			relative_urls: false,
 			width: 700,
-			height: 200,
+			height: 300,
 			resize: false,
 			plugins: 'directionality emoticons textcolor link code',
 			toolbar1: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | ltr rtl",
