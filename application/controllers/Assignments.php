@@ -67,7 +67,7 @@ class Assignments extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
-	public function listproblems($assignment_id)
+	public function problems($assignment_id, $problem_id = 1)
 	{
 		$this->assignment = $this->assignment_model->assignment_info($assignment_id);
 
@@ -76,32 +76,26 @@ class Assignments extends CI_Controller
 			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'all_problems' => $this->assignment_model->all_problems($assignment_id),
+			'title' => 'Problems',
 			'assignment' => $this->assignment,
-
-			'title' => 'Problem List',
 			'style' => 'main.css',
-			'success_messages' => $this->success_messages,
-			'error_messages' => $this->error_messages
 		);
+
+		if ( ! is_numeric($problem_id) || $problem_id < 1 || $problem_id > count($data['all_problems']))
+			show_404();
+
+		$data['problem'] = array(
+			'id' => $problem_id,
+			'description' => '<p>Description not found</p>'
+		);
+
+		$path = rtrim($this->settings_model->get_setting('assignments_root'),'/')."/assignment_{$assignment_id}/p{$problem_id}/desc.html";
+		if (file_exists($path))
+			$data['problem']['description'] = file_get_contents($path);
 
 		$this->load->view('templates/header', $data);
 		$this->load->view('pages/list_problems', $data);
 		$this->load->view('templates/footer');
-	}
-
-
-	// ------------------------------------------------------------------------
-
-
-	public function view_problem_desc($assignment_id, $problem_id)
-	{
-		$root_path = rtrim($this->settings_model->get_setting('assignments_root'),'/')."/assignment_{$assignment_id}/p{$problem_id}";
-		$path = "$root_path/desc.html";
-
-		if (file_exists($path))
-		{
-			echo file_get_contents($path);
-		}
 	}
 
 

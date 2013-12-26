@@ -1002,3 +1002,24 @@ div.notif_text {
 div.notif_text.latest {
 	max-height: 34px;
 }
+
+
+/*  problems page */
+
+div#problems_widget {
+	float: right;
+	border: 2px dashed #DDD;
+	box-shadow: 0 0 6px -2px #AAA;
+	-moz-box-shadow: 0 0 6px -2px #AAA;
+	-webkit-box-shadow: 0 0 6px -2px #AAA;
+	margin: 10px 0 10px 10px;
+	padding: 10px;
+}
+
+div#problems_widget p{
+	margin: 0 0 5px 0;
+}
+
+div#problems_widget table td{
+	height: 30px;
+}
