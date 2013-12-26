@@ -157,6 +157,7 @@
 	box-shadow: 0 0 10px -2px #AAA;
 	-moz-box-shadow: 0 0 10px -2px #AAA;
 	-webkit-box-shadow: 0 0 10px -2px #AAA;
+	padding: 0;
 }
 
 .snippet-wrap ol.snippet-num {
