@@ -379,6 +379,43 @@ class Assignment_model extends CI_Model{
 	// ------------------------------------------------------------------------
 
 
+	/**
+	 * Save Problem Description
+	 *
+	 * Saves (Adds/Updates) problem description (html or markdown)
+	 *
+	 * @param $assignment_id
+	 * @param $problem_id
+	 * @param $text
+	 * @param $type
+	 */
+	public function save_problem_description($assignment_id, $problem_id, $text, $type)
+	{
+		$assignments_root = rtrim($this->settings_model->get_setting('assignments_root'), '/');
+
+		if ($type === 'html')
+		{
+			// Remove the markdown code
+			unlink("$assignments_root/assignment_{$assignment_id}/p{$problem_id}/desc.md");
+			// Save the html code
+			file_put_contents("$assignments_root/assignment_{$assignment_id}/p{$problem_id}/desc.html", $text);
+		}
+		elseif ($type === 'markdown')
+		{
+			// We parse markdown using Parsedown library
+			$this->load->library('parsedown');
+			// Save the markdown code
+			file_put_contents("$assignments_root/assignment_{$assignment_id}/p{$problem_id}/desc.md", $text);
+			// Convert markdown to html and save the html
+			file_put_contents("$assignments_root/assignment_{$assignment_id}/p{$problem_id}/desc.html", $this->parsedown->parse($text));
+		}
+
+	}
+
+
+	// ------------------------------------------------------------------------
+
+
 
 	/**
 	 * Update Coefficients

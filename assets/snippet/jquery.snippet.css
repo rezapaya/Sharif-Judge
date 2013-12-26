@@ -1,3 +1,7 @@
+.snippet-container {
+	margin: 10px 0;
+}
+
 .snippet-wrap {
 	position: relative;
 	font-size: 12px;
@@ -150,10 +154,9 @@
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
-	box-shadow: 0 0 6px -2px #AAA;
-	-moz-box-shadow: 0 0 6px -2px #AAA;
-	-webkit-box-shadow: 0 0 6px -2px #AAA;
-	margin: 5px;
+	box-shadow: 0 0 10px -2px #AAA;
+	-moz-box-shadow: 0 0 10px -2px #AAA;
+	-webkit-box-shadow: 0 0 10px -2px #AAA;
 }
 
 .snippet-wrap ol.snippet-num {

@@ -7,8 +7,18 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<link rel='stylesheet' type='text/css' href='<?php echo base_url("assets/reveal/reveal.css") ?>'/>
-<script type='text/javascript' src="<?php echo base_url("assets/reveal/jquery.reveal.js") ?>"></script>
+<link rel='stylesheet' type='text/css' href='<?php echo base_url("assets/snippet/jquery.snippet.css") ?>'/>
+<link rel='stylesheet' type='text/css' href='<?php echo base_url("assets/snippet/themes/github.css") ?>'/>
+<script type='text/javascript' src="<?php echo base_url("assets/snippet/jquery.snippet.js") ?>"></script>
+
+<script>
+	$(document).ready(function(){
+		$('pre code.language-c').parent().snippet('c', {style: shj.color_scheme, showNum: false, menu: false});
+		$('pre code.language-cpp').parent().snippet('cpp', {style: shj.color_scheme, showNum: false, menu: false});
+		$('pre code.language-python').parent().snippet('python', {style: shj.color_scheme, showNum: false, menu: false});
+		$('pre code.language-java').parent().snippet('java', {style: shj.color_scheme, showNum: false, menu: false});
+	});
+</script>
 
 <?php $this->view('templates/top_bar'); ?>
 <?php $this->view('templates/side_bar', array('selected'=>'problems')); ?>
@@ -17,15 +27,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <div class="scroll-content">
 
 	<div id="page_title">
-		<img src="<?php echo base_url('assets/images/icons/assignments.png') ?>"/>
+		<img src="<?php echo base_url('assets/images/icons/problem.png') ?>"/>
 		<span>Problem <?php echo $problem['id'] ?></span>
+		<?php if ($user_level>=2): ?>
+			<span class="title_menu_item"><a href="<?php echo site_url('problems/edit_md/'.$description_assignment['id'].'/'.$problem['id']) ?>"><i class="splashy-pencil"></i> Edit Markdown</a></span>
+			<span class="title_menu_item"><a href="<?php echo site_url('problems/edit_html/'.$description_assignment['id'].'/'.$problem['id']) ?>"><i class="splashy-pencil"></i> Edit HTML</a></span>
+		<?php endif ?>
 	</div>
 
 	<div id="main_content">
 
-
 		<div id="problems_widget">
-			<p>Problems of "<?php echo $assignment['name']?>"</p>
+			<p>Problems of "<?php echo $description_assignment['name']?>"</p>
 
 			<?php if (count($all_problems)==0): ?>
 				<p style="text-align: center;">Nothing to show...</p>
@@ -43,7 +56,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php foreach ($all_problems as $one_problem): ?>
 					<tr>
 						<td><?php echo $one_problem['id']?></td>
-						<td><?php echo anchor('problems/'.$assignment['id'].'/'.$one_problem['id'], $one_problem['name']) ?></td>
+						<td><?php echo anchor('problems/'.$description_assignment['id'].'/'.$one_problem['id'], $one_problem['name']) ?></td>
 						<td><?php echo $one_problem['score'] ?></td>
 						<td><?php echo (($one_problem['is_upload_only']) ? "Yes" : "No") ?></td>
 					</tr>
