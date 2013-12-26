@@ -10,6 +10,7 @@ class Problems extends CI_Controller
 {
 
 	private $username;
+	private $all_assignments;
 	private $assignment;
 	private $user_level;
 
@@ -20,13 +21,14 @@ class Problems extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-
+		$this->output->enable_profiler();
 		$this->load->driver('session');
 		if ( ! $this->session->userdata('logged_in')) // if not logged in
 			redirect('login');
 
 		$this->username = $this->session->userdata('username');
-		$this->assignment = $this->assignment_model->assignment_info($this->user_model->selected_assignment($this->username));
+		$this->all_assignments = $this->assignment_model->all_assignments();
+		$this->assignment = $this->all_assignments[$this->user_model->selected_assignment($this->username)];
 		$this->user_level = $this->user_model->get_user_level($this->username);
 	}
 
@@ -50,7 +52,7 @@ class Problems extends CI_Controller
 		$data = array(
 			'username' => $this->username,
 			'user_level' => $this->user_level,
-			'all_assignments' => $this->assignment_model->all_assignments(),
+			'all_assignments' => $this->all_assignments,
 			'all_problems' => $this->assignment_model->all_problems($assignment_id),
 			'title' => 'Problem '.$problem_id,
 			'assignment' => $this->assignment,

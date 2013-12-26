@@ -1026,10 +1026,6 @@ div#problems_widget table td{
 	height: 30px;
 }
 
-div.problem_description .snippet-wrap{
-	position: static;
-}
-
 div#main_container.desc #main_content {
 	position: absolute;
 	right: 240px;

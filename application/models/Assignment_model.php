@@ -181,7 +181,13 @@ class Assignment_model extends CI_Model{
 	 */
 	public function all_assignments()
 	{
-		return $this->db->order_by('id')->get('assignments')->result_array();
+		$result = $this->db->order_by('id')->get('assignments')->result_array();
+		$assignments = array();
+		foreach ($result as $item)
+		{
+			$assignments[$item['id']] = $item;
+		}
+		return $assignments;
 	}
 
 
