@@ -43,6 +43,12 @@ code {
 	background-color: #FAFAFA;
 }
 
+pre code {
+	border: none;
+	padding: 0;
+	background-color: rgba(0,0,0,0);
+}
+
 .clear {
 	clear: both !important;
 }
