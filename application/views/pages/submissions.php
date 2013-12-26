@@ -114,7 +114,7 @@ $finish = strtotime($assignment['finish_time']);
 							if ($final_items[$item['username']][$item['problem']]['submit_id'] == $item['submit_id'])
 								$checked='checked';
 					?>
-					<div title="Set as Final Submission" class="set_final check p<?php echo $item['problem'] ?> <?php echo $checked ?>" id="<?php echo "sf".$item['submit_id']."_".$item['problem'] ?>"></div>
+					<div title="Set as Final Submission" class="set_final check p<?php echo $item['problem'] ?> <?php echo $checked ?>"></div>
 					</td>
 				<?php endif ?>
 				<?php if ($user_level>0): ?>
@@ -133,12 +133,11 @@ $finish = strtotime($assignment['finish_time']);
 					?></td>
 				<?php endif ?>
 					<td><?php
-						$pi = $this->assignment_model->problem_info($assignment['id'],$item['problem']);
-						echo '<a href="'.site_url('submissions/'.$view.($filter_user?'/user/'.$filter_user:'').'/problem/'.$item['problem']).'" title="'.$pi['name'].'">'.$item['problem'].'</a>';
+						echo '<a href="'.site_url('submissions/'.$view.($filter_user?'/user/'.$filter_user:'').'/problem/'.$item['problem']).'" title="'.$problems[$item['problem']]['name'].'">'.$item['problem'].'</a>';
 					?></td>
 					<td><?php echo $item['time'] ?></td>
 					<td><?php
-						$pre_score = ceil($item['pre_score']*$pi['score']/10000);
+						$pre_score = ceil($item['pre_score']*$problems[$item['problem']]['score']/10000);
 						echo $pre_score;
 					?></td>
 					<td><?php

@@ -95,12 +95,12 @@ $(document).ready(function () {
 					username: username,
 					shj_csrf_token: shj.csrf_token
 				},
-				function (a) {
-					if (a == "shj_success") {
-						$("tr[data-u='" + username + "'][data-p='" + problem + "']").find('.set_final').removeClass('checked');
-						$(".set_final#sf" + submit_id + "_" + problem).addClass('checked');
+				function (response) {
+					if (response == "shj_success") {
+						$("tr[data-u='" + username + "'][data-p='" + problem + "'] .set_final").removeClass('checked');
+						$("tr[data-u='" + username + "'][data-p='" + problem + "'][data-s='"+submit_id+"'] .set_final").addClass('checked');
 					}
-					else if (a == "shj_finished") {
+					else if (response == "shj_finished") {
 						noty({
 							text: 'This assignment is finished. You cannot change your final submissions.',
 							layout: 'bottomRight',

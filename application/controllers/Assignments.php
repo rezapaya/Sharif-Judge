@@ -67,8 +67,11 @@ class Assignments extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
-	public function problems($assignment_id, $problem_id = 1)
+	public function problems($assignment_id = NULL, $problem_id = 1)
 	{
+		if ($assignment_id === NULL)
+			$assignment_id = $this->assignment['id'];
+
 		$this->assignment = $this->assignment_model->assignment_info($assignment_id);
 
 		$data = array(
@@ -94,7 +97,7 @@ class Assignments extends CI_Controller
 			$data['problem']['description'] = file_get_contents($path);
 
 		$this->load->view('templates/header', $data);
-		$this->load->view('pages/list_problems', $data);
+		$this->load->view('pages/problems', $data);
 		$this->load->view('templates/footer');
 	}
 

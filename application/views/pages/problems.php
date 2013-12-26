@@ -11,7 +11,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type='text/javascript' src="<?php echo base_url("assets/reveal/jquery.reveal.js") ?>"></script>
 
 <?php $this->view('templates/top_bar'); ?>
-<?php $this->view('templates/side_bar', array('selected'=>'assignments')); ?>
+<?php $this->view('templates/side_bar', array('selected'=>'problems')); ?>
 
 <div id="main_container" class="scroll-wrapper">
 <div class="scroll-content">
@@ -56,11 +56,3 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	</div> <!-- main_content -->
 </div> <!-- scroll-content -->
 </div> <!-- main_container -->
-
-<div id="shj_modal" class="reveal-modal xlarge">
-	<div class="modal_inside">
-		<div style="text-align: center;">Loading<br><img src="<?php echo base_url('assets/images/loading.gif') ?>"/></div>
-	</div>
-	<a class="close-reveal-modal">&#215;</a>
-</div>
-

@@ -11,6 +11,7 @@ class Submissions extends CI_Controller
 
 	private $username;
 	private $assignment;
+	private $problems;
 	private $user_level;
 	private $final_items;
 
@@ -31,6 +32,7 @@ class Submissions extends CI_Controller
 		$this->username = $this->session->userdata('username');
 		$this->assignment = $this->assignment_model->assignment_info($this->user_model->selected_assignment($this->username));
 		$this->user_level = $this->user_model->get_user_level($this->username);
+		$this->problems = $this->assignment_model->all_problems($this->assignment['id']);
 
 		$input = $this->uri->uri_to_assoc();
 		$this->filter_user = $this->filter_problem = NULL;
@@ -130,7 +132,7 @@ class Submissions extends CI_Controller
 			if ( ! isset($name[$item['username']]))
 				$name[$item['username']] = $this->user_model->get_display_name($item['username']);
 
-			$pi = $this->assignment_model->problem_info($this->assignment['id'], $item['problem']);
+			$pi = $this->problems[$item['problem']];
 
 			$pre_score = ceil($item['pre_score']*$pi['score']/10000);
 
@@ -307,6 +309,7 @@ class Submissions extends CI_Controller
 			'assignment' => $this->assignment,
 			'title' => 'Final Submissions',
 			'style' => 'main.css',
+			'problems' => $this->problems,
 			'items' => $this->submit_model->get_final_submissions($this->assignment['id'], $this->user_level, $this->username, $this->page_number, $this->filter_user, $this->filter_problem),
 			'excel_link' => site_url('submissions/final_excel'.($this->filter_user?'/user/'.$this->filter_user:'').($this->filter_problem?'/problem/'.$this->filter_problem:'')),
 			'filter_user' => $this->filter_user,
@@ -364,6 +367,7 @@ class Submissions extends CI_Controller
 			'assignment' => $this->assignment,
 			'title' => 'All Submissions',
 			'style' => 'main.css',
+			'problems' => $this->problems,
 			'items' => $this->submit_model->get_all_submissions($this->assignment['id'], $this->user_level, $this->username, $this->page_number, $this->filter_user, $this->filter_problem),
 			'final_items' => $this->final_items,
 			'excel_link' => site_url('submissions/all_excel'.($this->filter_user?'/user/'.$this->filter_user:'').($this->filter_problem?'/problem/'.$this->filter_problem:'')),
