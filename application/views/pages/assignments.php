@@ -39,7 +39,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<div class="select_assignment <?php echo ($item['id']==$assignment['id']?'check checked':'check') ?> i<?php echo $item['id'] ?>" data-id="<?php echo $item['id'] ?>"></div>
 				</div>
 				<div class="assignment_item">
-					<div class="assignment_subitem"><?php echo $item['name'] ?></div>
+					<div class="assignment_subitem"><a href="<?php echo site_url('assignments/listproblems/'.$item['id']) ?>"><?php echo $item['name'] ?></a></div>
 					<div class="assignment_subitem"><?php echo $item['problems'] ?> problem<?php echo $item['problems']!=1?'s':'' ?></div>
 					<div class="assignment_subitem"><?php echo $item['total_submits'] ?> submission<?php echo $item['total_submits']!=1?'s':'' ?></div>
 					<div class="assignment_subitem"><?php
@@ -65,7 +65,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					<?php endif ?>
 					</div>
 					<?php if ($user_level>=2): ?>
-						<div class="assignment_subitem_zero"><a href="<?php echo site_url('assignments/downloadtests/'.$item['id']) ?>"><i title="Download Tests" class="splashy-folder_classic_down"></i></a></div>
+						<div class="assignment_subitem_zero"><a href="<?php echo site_url('assignments/downloadtestsdesc/'.$item['id']) ?>"><i title="Download Tests amd Descriptions" class="splashy-folder_classic_down"></i></a></div>
 					<?php endif ?>
 					<?php if ($user_level>=1): ?>
 						<div class="assignment_subitem_zero"><a href="<?php echo site_url('assignments/download/'.$item['id']) ?>"><i title="Download Final Codes" class="splashy-download"></i></a></div>

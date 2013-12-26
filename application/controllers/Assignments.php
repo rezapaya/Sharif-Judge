@@ -67,6 +67,47 @@ class Assignments extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
+	public function listproblems($assignment_id)
+	{
+		$this->assignment = $this->assignment_model->assignment_info($assignment_id);
+
+		$data = array(
+			'username' => $this->username,
+			'user_level' => $this->user_level,
+			'all_assignments' => $this->assignment_model->all_assignments(),
+			'all_problems' => $this->assignment_model->all_problems($assignment_id),
+			'assignment' => $this->assignment,
+
+			'title' => 'Problem List',
+			'style' => 'main.css',
+			'success_messages' => $this->success_messages,
+			'error_messages' => $this->error_messages
+		);
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('pages/list_problems', $data);
+		$this->load->view('templates/footer');
+	}
+
+
+	// ------------------------------------------------------------------------
+
+
+	public function view_problem_desc($assignment_id, $problem_id)
+	{
+		$root_path = rtrim($this->settings_model->get_setting('assignments_root'),'/')."/assignment_{$assignment_id}/p{$problem_id}";
+		$path = "$root_path/desc.html";
+
+		if (file_exists($path))
+		{
+			echo file_get_contents($path);
+		}
+	}
+
+
+	// ------------------------------------------------------------------------
+
+
 	/**
 	 * Used by ajax request (for select assignment from top bar)
 	 */
@@ -92,9 +133,9 @@ class Assignments extends CI_Controller
 
 
 	/**
-	 * Compressing and downloading test data of an assignment to the browser
+	 * Compressing and downloading test data and descriptions of an assignment to the browser
 	 */
-	public function downloadtests($assignment_id = FALSE)
+	public function downloadtestsdesc($assignment_id = FALSE)
 	{
 		if ($assignment_id === FALSE)
 			show_404();
@@ -121,9 +162,17 @@ class Assignments extends CI_Controller
 			$path = $root_path."/p{$i}/tester.cpp";
 			if (file_exists($path))
 				$this->zip->add_data("p{$i}/tester.cpp", file_get_contents($path));
+
+			$path = $root_path."/p{$i}/desc.html";
+			if (file_exists($path))
+				$this->zip->add_data("p{$i}/desc.html", file_get_contents($path));
+
+			$path = $root_path."/p{$i}/desc.md";
+			if (file_exists($path))
+				$this->zip->add_data("p{$i}/desc.md", file_get_contents($path));
 		}
 
-		$this->zip->download("assignment{$assignment_id}_tests_".date('Y-m-d_H-i',shj_now()).'.zip');
+		$this->zip->download("assignment{$assignment_id}_tests_desc_".date('Y-m-d_H-i',shj_now()).'.zip');
 	}
 
 
@@ -357,8 +406,8 @@ class Assignments extends CI_Controller
 			if ( ! file_exists($assignment_dir))
 				mkdir($assignment_dir, 0700);
 
-			// Remove previous test cases
-			shell_exec('cd '.$assignment_dir.'; rm -r */in; rm -r */out; rm -r */tester.cpp;');
+			// Remove previous test cases and description
+			shell_exec('cd '.$assignment_dir.'; rm -r */in; rm -r */out; rm -r */tester.cpp; rm -r */desc.html; rm -r */desc.md;');
 
 			for ($i=1; $i <= $this->input->post('number_of_problems'); $i++)
 				if ( ! file_exists($assignment_dir."/p$i"))
@@ -374,18 +423,18 @@ class Assignments extends CI_Controller
 			}
 		}
 
-		elseif ($this->upload->do_upload('tests'))
+		elseif ($this->upload->do_upload('tests_desc'))
 		{
 			$this->load->library('unzip');
-			$this->unzip->allow(array('txt', 'cpp'));
+			$this->unzip->allow(array('txt', 'cpp', 'html', 'md'));
 			if ( ! file_exists($assignment_dir))
 				mkdir($assignment_dir, 0700);
 			$u_data = $this->upload->data();
 
-			// Remove previous test cases
-			shell_exec('cd '.$assignment_dir.'; rm -r */in; rm -r */out; rm -r */tester.cpp;');
+			// Remove previous test cases and descriptions
+			shell_exec('cd '.$assignment_dir.'; rm -r */in; rm -r */out; rm -r */tester.cpp; rm -r */desc.html; rm -r */desc.md;');
 
-			// Extract and save new tests cases:
+			// Extract and save new test cases and descriptions
 			$extract_result = $this->unzip->extract($u_data['full_path'], $assignment_dir);
 
 			// Remove the zip file
@@ -393,13 +442,21 @@ class Assignments extends CI_Controller
 
 			if ( $extract_result !== FALSE){
 				for ($i=1; $i <= $this->input->post('number_of_problems'); $i++)
+				{
 					if ( ! file_exists($assignment_dir."/p$i"))
 						mkdir($assignment_dir."/p$i", 0700);
+					elseif (file_exists($assignment_dir."/p$i/desc.md"))
+					{
+						$this->load->library('markdown');
+						$html = $this->markdown->parse(file_get_contents($assignment_dir."/p$i/desc.md"));
+						file_put_contents($assignment_dir."/p$i/desc.html", $html);
+					}
+				}
 
 				if ($this->assignment_model->add_assignment($the_id, $this->edit))
 				{
 					$this->success_messages[] = 'Assignment '.($this->edit?'updated':'added').' successfully.';
-					$this->success_messages[] = 'Tests uploaded successfully.';
+					$this->success_messages[] = 'Tests and descriptions uploaded successfully.';
 					return TRUE;
 				}
 				else
