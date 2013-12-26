@@ -43,7 +43,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				<?php foreach ($all_problems as $one_problem): ?>
 					<tr>
 						<td><?php echo $one_problem['id']?></td>
-						<td><?php echo anchor('assignments/problems/'.$assignment['id'].'/'.$one_problem['id'], $one_problem['name']) ?></td>
+						<td><?php echo anchor('problems/'.$assignment['id'].'/'.$one_problem['id'], $one_problem['name']) ?></td>
 						<td><?php echo $one_problem['score'] ?></td>
 						<td><?php echo (($one_problem['is_upload_only']) ? "Yes" : "No") ?></td>
 					</tr>

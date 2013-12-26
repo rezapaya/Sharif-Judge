@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php endif ?>
 		<li <?php echo ($selected=='notifications'?'class="selected"':'') ?>><a href="<?php echo site_url('notifications') ?>"><i class="splashy-comment_reply"></i><span class="sidebar_text">Notifications</span></a></li>
 		<li <?php echo ($selected=='assignments'?'class="selected"':'') ?>><a href="<?php echo site_url('assignments') ?>"><i class="splashy-folder_modernist_opened"></i><span class="sidebar_text">Assignments</span></a></li>
-		<li <?php echo ($selected=='problems'?'class="selected"':'') ?>><a href="<?php echo site_url('assignments/problems') ?>"><i class="splashy-documents"></i><span class="sidebar_text">Problems</span></a></li>
+		<li <?php echo ($selected=='problems'?'class="selected"':'') ?>><a href="<?php echo site_url('problems') ?>"><i class="splashy-documents"></i><span class="sidebar_text">Problems</span></a></li>
 		<li <?php echo ($selected=='submit'?'class="selected"':'') ?>><a href="<?php echo site_url('submit') ?>"><i class="splashy-arrow_large_up"></i><span class="sidebar_text">Submit</span></a></li>
 		<li <?php echo ($selected=='final_submissions'?'class="selected"':'') ?>><a href="<?php echo site_url('submissions/final') ?>"><i class="splashy-marker_rounded_violet"></i><span class="sidebar_text">Final Submissions</span></a></li>
 		<li <?php echo ($selected=='all_submissions'?'class="selected"':'') ?>><a href="<?php echo site_url('submissions/all') ?>"><i class="splashy-view_list_with_thumbnail"></i><span class="sidebar_text">All Submissions</span></a></li>

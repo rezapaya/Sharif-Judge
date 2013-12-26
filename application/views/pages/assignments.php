@@ -40,7 +40,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</div>
 				<div class="assignment_item">
 					<div class="assignment_subitem"><?php echo $item['name'] ?></div>
-					<div class="assignment_subitem"><a href="<?php echo site_url('assignments/problems/'.$item['id']) ?>"><?php echo $item['problems'] ?> problem<?php echo $item['problems']!=1?'s':'' ?></a></div>
+					<div class="assignment_subitem"><a href="<?php echo site_url('problems/'.$item['id']) ?>"><?php echo $item['problems'] ?> problem<?php echo $item['problems']!=1?'s':'' ?></a></div>
 					<div class="assignment_subitem"><a href="<?php echo site_url('submissions/all') ?>"><?php echo $item['total_submits'] ?> submission<?php echo $item['total_submits']!=1?'s':'' ?></a></div>
 					<div class="assignment_subitem"><?php
 						$extra_time = $item['extra_time'];
