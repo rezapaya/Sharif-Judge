@@ -64,7 +64,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			</table>
 		</div>
 
-		<?php echo $problem['description'] ?>
+		<div class="problem_description">
+			<?php echo $problem['description'] ?>
+		</div>
 
 	</div> <!-- main_content -->
 </div> <!-- scroll-content -->
