@@ -49,8 +49,23 @@ pre code {
 	background-color: rgba(0,0,0,0);
 }
 
+textarea {
+	font-size: 12px;
+}
+
+blockquote {
+	border-left: 4px solid #DDD;
+	padding: 0 15px;
+	color: #777;
+	margin: 10px;
+}
+
 .clear {
 	clear: both !important;
+}
+
+.pull-left {
+	float: left;
 }
 
 .pull-right {
@@ -818,8 +833,8 @@ pre, .shj_code {
 	box-shadow: 0 0 10px -2px #AAA;
 	-moz-box-shadow: 0 0 10px -2px #AAA;
 	-webkit-box-shadow: 0 0 10px -2px #AAA;
-	margin: 5px;
-	padding: 10px;
+	margin: 10px 0;
+	padding: 7px;
 	max-height: 500px;
 	overflow: auto;
 }
@@ -1006,10 +1021,13 @@ div.notif_text.latest {
 
 /*  problems page */
 
-div#problems_widget {
+div#right_sidebar {
 	position: absolute;
 	right: 20px;
 	width: 220px;
+}
+
+div#problems_widget {
 	border: 2px dashed #DDD;
 	box-shadow: 0 0 6px -2px #AAA;
 	-moz-box-shadow: 0 0 6px -2px #AAA;
@@ -1026,8 +1044,33 @@ div#problems_widget table td{
 	height: 30px;
 }
 
-div#main_container.desc #main_content {
+div#main_container.two-col #main_content {
 	position: absolute;
 	right: 240px;
 	left: 0;
+}
+
+div#md_div {
+	margin-right: 235px;
+}
+
+div#md_div textarea {
+	width: 100%;
+}
+
+div.md_cheatsheet {
+	width: 220px;
+	font-size : 75%;
+}
+
+div .md_cheatsheet h2, div .md_cheatsheet h3 {
+	margin: 15px 0 0 0;
+}
+
+div.md_cheatsheet pre{
+	padding: 5px;
+}
+
+div.md_cheatsheet p{
+	margin: 0;
 }

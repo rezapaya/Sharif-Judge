@@ -84,7 +84,7 @@ class Problems extends CI_Controller
 	/**
 	 * Edit problem description as html/markdown
 	 *
-	 * $type can be 'md' or 'html'
+	 * $type can be 'md', 'html', or 'plain'
 	 *
 	 * @param string $type
 	 * @param int $assignment_id
@@ -92,11 +92,21 @@ class Problems extends CI_Controller
 	 */
 	public function edit($type = 'md', $assignment_id = NULL, $problem_id = 1)
 	{
-		if ($type !== 'html' && $type !== 'md')
+		if ($type !== 'html' && $type !== 'md' && $type !== 'plain')
 			show_404();
 
 		if ($this->user_level <= 1)
 			show_404();
+
+		switch($type)
+		{
+			case 'html':
+				$ext = 'html'; break;
+			case 'md':
+				$ext = 'md'; break;
+			case 'plain':
+				$ext = 'html'; break;
+		}
 
 		if ($assignment_id === NULL)
 			$assignment_id = $this->assignment['id'];
@@ -105,7 +115,7 @@ class Problems extends CI_Controller
 			'username' => $this->username,
 			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
-			'title' => 'Edit Problem Description ('.($type==='html'?'HTML':'Markdown').')',
+			'title' => 'Edit Problem Description ('.($ext==='html'?'HTML':'Markdown').')',
 			'assignment' => $this->assignment,
 			'description_assignment' => $this->assignment_model->assignment_info($assignment_id),
 			'style' => 'main.css',
@@ -117,7 +127,7 @@ class Problems extends CI_Controller
 		$this->form_validation->set_rules('text', 'text' ,''); /* todo: xss clean */
 		if ($this->form_validation->run())
 		{
-			$this->assignment_model->save_problem_description($assignment_id, $problem_id, $this->input->post('text'), $type);
+			$this->assignment_model->save_problem_description($assignment_id, $problem_id, $this->input->post('text'), $ext);
 			redirect('problems/'.$assignment_id.'/'.$problem_id);
 		}
 
@@ -126,9 +136,12 @@ class Problems extends CI_Controller
 			'description' => ''
 		);
 
-		$path = rtrim($this->settings_model->get_setting('assignments_root'),'/')."/assignment_{$assignment_id}/p{$problem_id}/desc.".$type;
+		$path = rtrim($this->settings_model->get_setting('assignments_root'),'/')."/assignment_{$assignment_id}/p{$problem_id}/desc.".$ext;
 		if (file_exists($path))
 			$data['problem']['description'] = file_get_contents($path);
+
+		if ($ext === 'html')
+			$data['problem']['description'] = htmlspecialchars($data['problem']['description']);
 
 
 		$this->load->view('templates/header', $data);

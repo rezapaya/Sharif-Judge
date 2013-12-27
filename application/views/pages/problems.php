@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <?php $this->view('templates/top_bar'); ?>
 <?php $this->view('templates/side_bar', array('selected'=>'problems')); ?>
 
-<div id="main_container" class="scroll-wrapper desc">
+<div id="main_container" class="scroll-wrapper two-col">
 <div class="scroll-content">
 
 	<div id="page_title">
@@ -32,6 +32,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		<?php if ($user_level>=2): ?>
 			<span class="title_menu_item"><a href="<?php echo site_url('problems/edit/md/'.$description_assignment['id'].'/'.$problem['id']) ?>"><i class="splashy-pencil"></i> Edit Markdown</a></span>
 			<span class="title_menu_item"><a href="<?php echo site_url('problems/edit/html/'.$description_assignment['id'].'/'.$problem['id']) ?>"><i class="splashy-pencil"></i> Edit HTML</a></span>
+			<span class="title_menu_item"><a href="<?php echo site_url('problems/edit/plain/'.$description_assignment['id'].'/'.$problem['id']) ?>"><i class="splashy-pencil"></i> Edit Plain HTML</a></span>
 		<?php endif ?>
 	</div>
 
@@ -43,31 +44,35 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	</div> <!-- main_content -->
 
-	<div id="problems_widget">
-		<p>Problems of "<?php echo $description_assignment['name']?>"</p>
+	<div id="right_sidebar">
 
-		<?php if (count($all_problems)==0): ?>
-			<p style="text-align: center;">Nothing to show...</p>
-		<?php endif ?>
+		<div id="problems_widget">
+			<p>Problems of "<?php echo $description_assignment['name']?>"</p>
 
-		<table class="sharif_table">
-			<thead>
-			<tr>
-				<th rowspan="2">ID</th>
-				<th rowspan="2">Name</th>
-				<th rowspan="2">Score</th>
-				<th rowspan="2">Upload<br>Only</th>
-			</tr>
-			</thead>
-			<?php foreach ($all_problems as $one_problem): ?>
+			<?php if (count($all_problems)==0): ?>
+				<p style="text-align: center;">Nothing to show...</p>
+			<?php endif ?>
+
+			<table class="sharif_table">
+				<thead>
 				<tr>
-					<td><?php echo $one_problem['id']?></td>
-					<td><?php echo anchor('problems/'.$description_assignment['id'].'/'.$one_problem['id'], $one_problem['name']) ?></td>
-					<td><?php echo $one_problem['score'] ?></td>
-					<td><?php echo (($one_problem['is_upload_only']) ? "Yes" : "No") ?></td>
+					<th rowspan="2">ID</th>
+					<th rowspan="2">Name</th>
+					<th rowspan="2">Score</th>
+					<th rowspan="2">Upload<br>Only</th>
 				</tr>
-			<?php endforeach ?>
-		</table>
+				</thead>
+				<?php foreach ($all_problems as $one_problem): ?>
+					<tr>
+						<td><?php echo $one_problem['id']?></td>
+						<td><?php echo anchor('problems/'.$description_assignment['id'].'/'.$one_problem['id'], $one_problem['name']) ?></td>
+						<td><?php echo $one_problem['score'] ?></td>
+						<td><?php echo (($one_problem['is_upload_only']) ? "Yes" : "No") ?></td>
+					</tr>
+				<?php endforeach ?>
+			</table>
+		</div>
+
 	</div>
 
 </div> <!-- scroll-content -->

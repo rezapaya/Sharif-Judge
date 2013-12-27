@@ -160,6 +160,10 @@
 	padding: 0;
 }
 
+.snippet-wrap pre.sh_sourceCode.snippet-textonly {
+	padding: 7px;
+}
+
 .snippet-wrap ol.snippet-num {
 	counter-reset: cnt;
 	list-style-type: none;
