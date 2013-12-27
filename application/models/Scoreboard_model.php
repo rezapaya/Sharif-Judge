@@ -103,6 +103,8 @@ class Scoreboard_model extends CI_Model {
 	 * This function is called after judging/rejudging a submission, and when one
 	 * of these settings is changed for an assignment:
 	 *
+	 * TODO: Better Implementation (faster and with less db queries)
+	 *
 	 *   - Extra Time
 	 *   - Start Time
 	 *   - Finish Time
