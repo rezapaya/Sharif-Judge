@@ -44,7 +44,6 @@ class Dashboard extends CI_Controller
 			'all_assignments'=>$this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
 			'title'=>'Dashboard',
-			'style'=>'main.css',
 			'week_start'=>$this->settings_model->get_setting('week_start'),
 			'widget_positions'=>$this->user_model->get_widget_positions($this->username),
 			'notifications' => $this->notifications_model->get_latest_notifications()

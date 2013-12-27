@@ -47,7 +47,6 @@ class Users extends CI_Controller
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
 			'title' => 'Users',
-			'style' => 'main.css',
 			'users' => $this->user_model->get_all_users()
 		);
 
@@ -72,7 +71,6 @@ class Users extends CI_Controller
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
 			'title' => 'Add Users',
-			'style' => 'main.css',
 		);
 		$this->form_validation->set_rules('new_users', 'New Users', 'required');
 		if ($this->form_validation->run()) {

@@ -43,7 +43,6 @@ class Moss extends CI_Controller
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
 			'title' => 'Detect Similar Codes',
-			'style' => 'main.css',
 			'moss_userid' => $this->settings_model->get_setting('moss_userid'),
 			'moss_assignment' => $this->assignment_model->assignment_info($assignment_id),
 			'update_time' => $this->assignment_model->get_moss_time($assignment_id)

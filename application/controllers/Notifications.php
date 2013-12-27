@@ -43,7 +43,6 @@ class Notifications extends CI_Controller
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
 			'title' => 'Notifications',
-			'style' => 'main.css',
 			'notifications' => $this->notifications_model->get_all_notifications()
 		);
 
@@ -78,7 +77,6 @@ class Notifications extends CI_Controller
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
 			'title' => 'New Notification',
-			'style' => 'main.css',
 			'notif_edit' => $this->notif_edit
 		);
 

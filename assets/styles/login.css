@@ -154,3 +154,13 @@ input#sharif_submit:active {
 	top: 1px;
 	position: relative;
 }
+
+div#install_form {
+	width: 300px;
+	margin: 100px auto;
+}
+
+div#install_success {
+	width: 600px;
+	margin: 100px auto;
+}

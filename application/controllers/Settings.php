@@ -46,7 +46,6 @@ class Settings extends CI_Controller
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
 			'title' => 'Settings',
-			'style' => 'main.css',
 			'sandbox_built' => file_exists(rtrim($this->settings_model->get_setting('tester_path'), '/').'/easysandbox/EasySandbox.so'),
 			'tz' => $this->settings_model->get_setting('timezone'),
 			'tester_path' => $this->settings_model->get_setting('tester_path'),
@@ -95,6 +94,7 @@ class Settings extends CI_Controller
 		$this->form_validation->set_rules('output_size_limit', 'Output size limit', 'integer|greater_than_equal_to[0]');
 		$this->form_validation->set_rules('rpp_all', 'results per page (all submissions)', 'integer|greater_than_equal_to[0]');
 		$this->form_validation->set_rules('rpp_final', 'results per page (final submissions)', 'integer|greater_than_equal_to[0]');
+		$this->form_validation->set_rules('mail_from', 'email', 'valid_email');
 		if($this->form_validation->run()){
 			ob_start();
 			$this->form_status = 'ok';

@@ -72,7 +72,6 @@ class Profile extends CI_Controller
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
 			'title' => 'Profile',
-			'style' => 'main.css',
 			'id' => $user_id,
 			'edit_username' => $this->edit_username,
 			'email' => $user->email,

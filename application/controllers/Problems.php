@@ -57,7 +57,6 @@ class Problems extends CI_Controller
 			'title' => 'Problem '.$problem_id,
 			'assignment' => $this->assignment,
 			'description_assignment' => $this->assignment_model->assignment_info($assignment_id),
-			'style' => 'main.css',
 		);
 
 		if ( ! is_numeric($problem_id) || $problem_id < 1 || $problem_id > $data['description_assignment']['problems'])
@@ -118,7 +117,6 @@ class Problems extends CI_Controller
 			'title' => 'Edit Problem Description ('.($ext==='html'?'HTML':'Markdown').')',
 			'assignment' => $this->assignment,
 			'description_assignment' => $this->assignment_model->assignment_info($assignment_id),
-			'style' => 'main.css',
 		);
 
 		if ( ! is_numeric($problem_id) || $problem_id < 1 || $problem_id > $data['description_assignment']['problems'])

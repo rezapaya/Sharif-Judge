@@ -20,50 +20,6 @@ class Login extends CI_Controller
 
 
 	/**
-	 * Checks whether a user with this username exists (used for validating registration)
-	 *
-	 * @param $username
-	 * @return bool
-	 */
-	public function _username_check($username)
-	{
-		if ($this->user_model->have_user($username))
-			return FALSE;
-		return TRUE;
-	}
-
-
-	// ------------------------------------------------------------------------
-
-
-	public function _lowercase ($string)
-	{
-		if (strtolower($string) === $string)
-			return TRUE;
-		return FALSE;
-	}
-
-
-	// ------------------------------------------------------------------------
-
-
-	/**
-	 * checks whether a user with this email exists (used for validating registration)
-	 *
-	 * @param $email
-	 * @return bool
-	 */
-	public function _email_check($email){
-		if ($this->user_model->have_email($email))
-			return FALSE;
-		return TRUE;
-	}
-
-
-	// ------------------------------------------------------------------------
-
-
-	/**
 	 * checks whether the entered registration code is correct or not
 	 *
 	 */
@@ -91,10 +47,9 @@ class Login extends CI_Controller
 		$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[200]');
 		$data = array(
 			'title' => 'Login',
-			'style' => 'login.css',
 			'error' => FALSE
 		);
-		$this->load->view('templates/simple_header', $data);
+		$this->load->view('templates/login_header', $data);
 		if($this->form_validation->run()){
 			$username = $this->security->xss_clean($this->input->post('username'));
 			$password = $this->input->post('password');
@@ -127,20 +82,17 @@ class Login extends CI_Controller
 		if ( ! $this->settings_model->get_setting('enable_registration'))
 			show_error('Registration is closed.');
 		$this->form_validation->set_message('_registration_code', 'Invalid %s');
-		$this->form_validation->set_message('_username_check', 'User with same %s exists.');
-		$this->form_validation->set_message('_email_check', 'User with same %s exists.');
-		$this->form_validation->set_message('_lowercase', '%s must be lowercase.');
+		$this->form_validation->set_message('is_unique', 'User with same %s exists.');
 		$this->form_validation->set_rules('registration_code', 'registration code', 'callback__registration_code');
-		$this->form_validation->set_rules('username', 'username', 'required|min_length[3]|max_length[20]|alpha_numeric|callback__lowercase|callback__username_check');
-		$this->form_validation->set_rules('email', 'email', 'required|max_length[40]|valid_email|callback__lowercase|callback__email_check');
+		$this->form_validation->set_rules('username', 'username', 'required|min_length[3]|max_length[20]|alpha_numeric|lowercase|is_unique[users.username]');
+		$this->form_validation->set_rules('email', 'email', 'required|max_length[40]|valid_email|lowercase|is_unique[users.email]');
 		$this->form_validation->set_rules('password', 'password', 'required|min_length[6]|max_length[200]');
 		$this->form_validation->set_rules('password_again', 'password confirmation', 'required|matches[password]');
 		$data = array(
 			'title' => 'Register',
-			'style' => 'login.css',
 			'registration_code_required' => $this->settings_model->get_setting('registration_code')=='0'?FALSE:TRUE
 		);
-		$this->load->view('templates/simple_header', $data);
+		$this->load->view('templates/login_header', $data);
 		if ($this->form_validation->run()){
 			$this->user_model->add_user(
 				$this->input->post('username'),
@@ -177,13 +129,12 @@ class Login extends CI_Controller
 	{
 		if ($this->session->userdata('logged_in')) // if logged in
 			redirect('dashboard');
-		$this->form_validation->set_rules('email', 'email', 'required|max_length[40]|callback__lowercase|valid_email');
+		$this->form_validation->set_rules('email', 'email', 'required|max_length[40]|lowercase|valid_email');
 		$data = array(
 			'title' => 'Lost Password',
-			'style' => 'login.css',
 			'sent' => FALSE
 		);
-		$this->load->view('templates/simple_header', $data);
+		$this->load->view('templates/login_header', $data);
 		if ($this->form_validation->run())
 		{
 			$this->user_model->send_password_reset_mail($this->input->post('email'));
@@ -208,12 +159,11 @@ class Login extends CI_Controller
 		$this->form_validation->set_rules('password_again', 'password confirmation', 'required|matches[password]');
 		$data = array(
 			'title' => 'Set New Password',
-			'style' => 'login.css',
 			'key' => $passchange_key,
 			'result' => $result,
 			'reset' => FALSE
 		);
-		$this->load->view('templates/simple_header', $data);
+		$this->load->view('templates/login_header', $data);
 		if ($this->form_validation->run()){
 			$this->user_model->reset_password($passchange_key, $this->input->post('password'));
 			$data['reset'] = TRUE;

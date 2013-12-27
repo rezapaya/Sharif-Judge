@@ -11,6 +11,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<title><?php echo $title ?> - Sharif Judge</title>
 	<meta content="text/html" charset="UTF-8">
 	<link rel="icon" href="<?php echo base_url("assets/images/favicon.ico") ?>"/>
-	<link rel="stylesheet" type='text/css' href="<?php echo base_url("assets/styles/$style") ?>"/>
+	<link rel="stylesheet" type='text/css' href="<?php echo base_url("assets/styles/login.css") ?>"/>
 </head>
 <body id="body">

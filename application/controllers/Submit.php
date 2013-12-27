@@ -113,7 +113,6 @@ class Submit extends CI_Controller
 			'assignment' => $this->assignment,
 			'problems' => $this->problems,
 			'title' => 'Submit',
-			'style' => 'main.css',
 			'in_queue' => FALSE,
 			'coefficient' => $this->coefficient,
 			'upload_state' => ''

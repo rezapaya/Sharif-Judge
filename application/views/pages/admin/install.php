@@ -7,32 +7,32 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 
-<div id="main_container" class="scroll-wrapper">
-<div class="scroll-content">
+<?php if ($status === 'Installed'): ?>
 
-	<div id="page_title">
-		<span><?php echo $title ?></span>
+	<div id="install_success">
+		<h2>Sharif Judge Installed</h2>
+		<?php if ( ! $key_changed): ?>
+			<p class="shj_error">
+				It seems that <code>application/config/config.php</code> is not writable by PHP.
+			</p>
+			<p>
+				For security reasons, you should change the encryption key manually.<br>
+				Open <code>application/config/config.php</code> and change the encryption key in this line:
+			</p>
+			<pre>$config['encryption_key'] = '<?php echo $this->config->item('encryption_key'); ?>';</pre>
+			<p>
+				The key should be a 32-characters string as random as possible, with numbers and uppercase and lowercase letters.<br>
+				You can use this random string: <code><?php echo random_string('alnum', 32) ?></code>
+			</p>
+			<br>
+		<?php endif ?>
+		<p class="shj_ok">Sharif Judge installed! Now you can <?php echo anchor('login','login') ?>.</p>
 	</div>
 
-	<div id="main_content">
-		<?php if($status=="Installed"): ?>
-			<?php if (!$key_changed): ?>
-				<p class="shj_error">
-					It seems that the file <code>application/config/config.php</code> is not writable by PHP.
-				</p>
-				<p>
-					So, for security, you should change the encryption key manually.<br>
-					Open <code>application/config/config.php</code> and change the encryption key in this line:
-				</p>
-				<pre>$config['encryption_key'] = '<?php echo $this->config->item('encryption_key'); ?>';</pre>
-				<p>
-					The key should be a 32-characters string as random as possible, with numbers and uppercase and lowercase letters.<br>
-					You can use this random string: <code><?php echo random_string('alnum',32) ?></code>
-				</p>
-				<br>
-			<?php endif ?>
-			<p class="shj_ok">Sharif Judge installed! Now you can <?php echo anchor('login','login') ?>.</p>
-		<?php else: ?>
+<?php else: ?>
+
+	<div id="install_form">
+		<h2>Sharif Judge Installation</h2>
 		<?php echo form_open('install') ?>
 		<p class="input_p">
 			<label for="form_username">Admin username:</label>
@@ -58,8 +58,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<input class="sharif_input" type="submit" value="Continue"/>
 		</p>
 		</form>
-		<?php endif ?>
+	</div>
 
-	</div> <!-- main_content -->
-</div> <!-- scroll-content -->
-</div> <!-- main_container -->
+<?php endif ?>

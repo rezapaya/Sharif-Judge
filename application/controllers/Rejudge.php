@@ -45,7 +45,6 @@ class Rejudge extends CI_Controller
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
 			'title' => 'Rejudge',
-			'style' => 'main.css',
 			'problems' => $this->problems,
 			'msg' => array()
 		);

@@ -19,27 +19,15 @@ class Install extends CI_Controller
 	// ------------------------------------------------------------------------
 
 
-	public function _lowercase($string)
-	{
-		if (strtolower($string) === $string)
-			return TRUE;
-		return FALSE;
-	}
-
-
-	// ------------------------------------------------------------------------
-
-
 	public function index()
 	{
 
 
 		if ($this->db->table_exists('sessions'))
-			show_error('It seems that Sharif Judge has been already installed.');
+			show_error('Sharif Judge is already installed.');
 
-		$this->form_validation->set_message('_lowercase', '%s must be lowercase.');
-		$this->form_validation->set_rules('username', 'username', 'required|min_length[3]|max_length[20]|alpha_numeric|callback__lowercase');
-		$this->form_validation->set_rules('email', 'email', 'required|max_length[40]|valid_email|callback__lowercase');
+		$this->form_validation->set_rules('username', 'username', 'required|min_length[3]|max_length[20]|alpha_numeric|lowercase');
+		$this->form_validation->set_rules('email', 'email', 'required|max_length[40]|valid_email|lowercase');
 		$this->form_validation->set_rules('password', 'password', 'required|min_length[6]|max_length[200]');
 		$this->form_validation->set_rules('password_again', 'password confirmation', 'required|matches[password]');
 
@@ -289,10 +277,7 @@ class Install extends CI_Controller
 			$data['status'] = 'Installed';
 		}
 
-		$data['title'] = 'Installation';
-		$data['style'] = 'main.css';
-
-		$this->load->view('templates/simple_header', $data);
+		$this->load->view('templates/login_header', array('title' => 'Installation'));
 		$this->load->view('pages/admin/install', $data);
 		$this->load->view('templates/footer');
 

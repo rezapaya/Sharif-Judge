@@ -52,7 +52,6 @@ class Assignments extends CI_Controller
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
 			'title' => 'Assignments',
-			'style' => 'main.css',
 			'success_messages' => $this->success_messages,
 			'error_messages' => $this->error_messages
 		);
@@ -198,7 +197,6 @@ class Assignments extends CI_Controller
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
 			'title' => 'Delete Assignment',
-			'style' => 'main.css',
 			'id' => $assignment_id,
 			'name' => $assignment['name']
 		);
@@ -241,7 +239,6 @@ class Assignments extends CI_Controller
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
 			'title' => ($this->edit?'Edit':'Add').' Assignment',
-			'style' => 'main.css',
 			'error_messages' => $this->error_messages,
 			'success_messages' => $this->success_messages,
 			'edit' => $this->edit
