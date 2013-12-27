@@ -61,16 +61,6 @@ _italic_   __bold__
 <pre><code>`&lt;code&gt;` spans are delimited
 by backticks.</code></pre>
 
-<h3>Preformatted Code Blocks</h3>
-
-<p>Indent every line of a code block by at least 4 spaces or 1 tab.</p>
-
-<pre><code>This is a normal paragraph.
-
-    This is a preformatted
-    code block.
-</code></pre>
-
 <h3>Fenced Code Blocks</h3>
 <pre>
 ```
@@ -85,6 +75,16 @@ function test() {
 def test:
 	print ("Python Syntax")
 ```</pre>
+
+<h3>Preformatted Code Blocks</h3>
+
+<p>Indent every line of a code block by at least 4 spaces or 1 tab.</p>
+
+<pre><code>This is a normal paragraph.
+
+    This is a preformatted
+    code block.
+</code></pre>
 
 <h3>Lists</h3>
 
