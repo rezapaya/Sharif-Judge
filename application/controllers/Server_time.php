@@ -28,6 +28,6 @@ class Server_time extends CI_Controller
 	 */
 	public function index()
 	{
-		echo date("Y-m-d H:i:s", shj_now());
+		echo shj_now_str();
 	}
 }

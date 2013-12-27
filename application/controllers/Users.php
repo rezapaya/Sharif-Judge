@@ -147,7 +147,7 @@ class Users extends CI_Controller
 	public function list_excel()
 	{
 
-		$now=date('Y-m-d H:i:s', shj_now()); // current time
+		$now = shj_now_str(); // current time
 
 		// Load PHPExcel library
 		$this->load->library('phpexcel');

@@ -43,7 +43,7 @@ class Notifications_model extends CI_Model {
 	 * Add a new notification
 	 */
 	public function add_notification($title, $text){
-		$now=date('Y-m-d H:i:s', shj_now());
+		$now = shj_now_str();
 		$this->db->insert('notifications',array('title'=>$title, 'text'=>$text, 'time'=> $now));
 	}
 
@@ -66,7 +66,6 @@ class Notifications_model extends CI_Model {
      * Delete a notification
 	 */
 	public function delete_notification($id){
-		$now=date('Y-m-d H:i:s', shj_now());
 		$this->db->delete('notifications', array('id'=>$id));
 	}
 

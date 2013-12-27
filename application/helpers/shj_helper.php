@@ -14,13 +14,33 @@ if ( ! function_exists('shj_now'))
 	 */
 	function shj_now()
 	{
-		$CI =& get_instance();
-		$CI->load->model('settings_model');
-		$now = new DateTime('now', new DateTimeZone($CI->settings_model->get_setting('timezone')));
-		sscanf($now->format('j-n-Y G:i:s'), '%d-%d-%d %d:%d:%d', $day, $month, $year, $hour, $minute, $second);
-		return mktime($hour, $minute, $second, $month, $day, $year);
+		if ( ! defined('SHJ_NOW') )
+		{
+			$CI =& get_instance();
+			$CI->load->model('settings_model');
+			$now = new DateTime('now', new DateTimeZone($CI->settings_model->get_setting('timezone')));
+			sscanf($now->format('j-n-Y G:i:s'), '%d-%d-%d %d:%d:%d', $day, $month, $year, $hour, $minute, $second);
+			define('SHJ_NOW', mktime($hour, $minute, $second, $month, $day, $year));
+		}
+		return SHJ_NOW;
 	}
 }
+
+
+
+if ( ! function_exists('shj_now_str'))
+{
+	/**
+	 * Returns server time (uses time zone in settings table)
+	 */
+	function shj_now_str()
+	{
+		if ( ! defined('SHJ_NOW_STR') )
+			define('SHJ_NOW_STR', date("Y-m-d H:i:s", shj_now()));
+		return SHJ_NOW_STR;
+	}
+}
+
 
 
 if ( ! function_exists('filetype_to_extension'))

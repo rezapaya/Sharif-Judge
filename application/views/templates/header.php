@@ -36,9 +36,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 shj={};
 shj.site_url = '<?php echo rtrim(site_url(),'/').'/' ?>';
 shj.base_url = '<?php echo rtrim(base_url(),'/').'/' ?>';
-shj.csrf_token = '<?php echo $this->security->get_csrf_hash(); ?>';
+shj.csrf_token = $.cookie('shj_csrf_token');
 // difference of server and browser time:
-shj.offset = moment('<?php echo date("Y-m-d H:i:s", shj_now()); ?>').diff(moment());
+shj.offset = moment('<?php echo shj_now_str() ?>').diff(moment());
 shj.time = moment();
 shj.finish_time = moment("<?php echo $assignment['finish_time'] ?>");
 shj.extra_time = moment.duration(<?php echo $assignment['extra_time'] ?>, 'seconds');

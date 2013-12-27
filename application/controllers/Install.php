@@ -277,7 +277,7 @@ class Install extends CI_Controller
 			$data['status'] = 'Installed';
 		}
 
-		$this->load->view('templates/login_header', array('title' => 'Installation'));
+		$this->load->view('templates/simple_header', array('title' => 'Installation'));
 		$this->load->view('pages/admin/install', $data);
 		$this->load->view('templates/footer');
 

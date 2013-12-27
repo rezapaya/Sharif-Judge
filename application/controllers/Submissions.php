@@ -61,7 +61,7 @@ class Submissions extends CI_Controller
 		if ( ! in_array($view, array('all', 'final')))
 			exit;
 
-		$now=date('Y-m-d H:i:s', shj_now()); // current time
+		$now = shj_now_str(); // current time
 
 		// Load PHPExcel library
 		$this->load->library('phpexcel');

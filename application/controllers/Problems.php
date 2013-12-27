@@ -21,7 +21,6 @@ class Problems extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->output->enable_profiler();
 		$this->load->driver('session');
 		if ( ! $this->session->userdata('logged_in')) // if not logged in
 			redirect('login');

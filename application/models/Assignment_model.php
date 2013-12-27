@@ -355,7 +355,7 @@ class Assignment_model extends CI_Model{
 	 */
 	public function set_moss_time($assignment_id)
 	{
-		$now = date('Y-m-d H:i:s', shj_now());
+		$now = shj_now_str();
 		$this->db->where('id', $assignment_id)->update('assignments', array('moss_update'=>$now));
 	}
 

@@ -49,7 +49,7 @@ class Login extends CI_Controller
 			'title' => 'Login',
 			'error' => FALSE
 		);
-		$this->load->view('templates/login_header', $data);
+		$this->load->view('templates/simple_header', $data);
 		if($this->form_validation->run()){
 			$username = $this->security->xss_clean($this->input->post('username'));
 			$password = $this->input->post('password');
@@ -92,7 +92,7 @@ class Login extends CI_Controller
 			'title' => 'Register',
 			'registration_code_required' => $this->settings_model->get_setting('registration_code')=='0'?FALSE:TRUE
 		);
-		$this->load->view('templates/login_header', $data);
+		$this->load->view('templates/simple_header', $data);
 		if ($this->form_validation->run()){
 			$this->user_model->add_user(
 				$this->input->post('username'),
@@ -134,7 +134,7 @@ class Login extends CI_Controller
 			'title' => 'Lost Password',
 			'sent' => FALSE
 		);
-		$this->load->view('templates/login_header', $data);
+		$this->load->view('templates/simple_header', $data);
 		if ($this->form_validation->run())
 		{
 			$this->user_model->send_password_reset_mail($this->input->post('email'));
@@ -163,7 +163,7 @@ class Login extends CI_Controller
 			'result' => $result,
 			'reset' => FALSE
 		);
-		$this->load->view('templates/login_header', $data);
+		$this->load->view('templates/simple_header', $data);
 		if ($this->form_validation->run()){
 			$this->user_model->reset_password($passchange_key, $this->input->post('password'));
 			$data['reset'] = TRUE;
