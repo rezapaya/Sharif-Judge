@@ -63,7 +63,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 				</tr>
 				</thead>
 				<?php foreach ($all_problems as $one_problem): ?>
-					<tr>
+					<tr<?php echo $problem['id']==$one_problem['id']?' class="hl"':'' ?>>
 						<td><?php echo $one_problem['id']?></td>
 						<td><?php echo anchor('problems/'.$description_assignment['id'].'/'.$one_problem['id'], $one_problem['name']) ?></td>
 						<td><?php echo $one_problem['score'] ?></td>
