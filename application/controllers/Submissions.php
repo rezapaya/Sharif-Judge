@@ -418,7 +418,7 @@ class Submissions extends CI_Controller
 			echo ($res?'shj_success':'shj_failed');
 
 			if ($res) {
-				// each time a users changes final submission, we should update scoreboard of that assignment
+				// each time a user changes final submission, we should update scoreboard of that assignment
 				$this->load->model('scoreboard_model');
 				$this->scoreboard_model->update_scoreboard($this->assignment['id']);
 			}

@@ -22,6 +22,7 @@ class Settings extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
+		$this->output->enable_profiler();
 		$this->load->driver('session');
 		if ( ! $this->session->userdata('logged_in')) // if not logged in
 			redirect('login');
@@ -40,43 +41,24 @@ class Settings extends CI_Controller
 
 	public function index()
 	{
-		$data = array(
-			'username' => $this->username,
-			'user_level' => $this->user_level,
-			'all_assignments' => $this->assignment_model->all_assignments(),
-			'assignment' => $this->assignment,
-			'title' => 'Settings',
-			'sandbox_built' => file_exists(rtrim($this->settings_model->get_setting('tester_path'), '/').'/easysandbox/EasySandbox.so'),
-			'tz' => $this->settings_model->get_setting('timezone'),
-			'tester_path' => $this->settings_model->get_setting('tester_path'),
-			'assignments_root' => $this->settings_model->get_setting('assignments_root'),
-			'file_size_limit' => $this->settings_model->get_setting('file_size_limit'),
-			'output_size_limit' => $this->settings_model->get_setting('output_size_limit'),
-			'default_late_rule' => $this->settings_model->get_setting('default_late_rule'),
-			'enable_easysandbox' => $this->settings_model->get_setting('enable_easysandbox'),
-			'enable_c_shield' => $this->settings_model->get_setting('enable_c_shield'),
-			'enable_cpp_shield' => $this->settings_model->get_setting('enable_cpp_shield'),
-			'enable_py2_shield' => $this->settings_model->get_setting('enable_py2_shield'),
-			'enable_py3_shield' => $this->settings_model->get_setting('enable_py3_shield'),
-			'enable_java_policy' => $this->settings_model->get_setting('enable_java_policy'),
-			'enable_log' => $this->settings_model->get_setting('enable_log'),
-			'enable_registration' => $this->settings_model->get_setting('enable_registration'),
-			'registration_code' => $this->settings_model->get_setting('registration_code'),
-			'mail_from' => $this->settings_model->get_setting('mail_from'),
-			'mail_from_name' => $this->settings_model->get_setting('mail_from_name'),
-			'reset_password_mail' => $this->settings_model->get_setting('reset_password_mail'),
-			'add_user_mail' => $this->settings_model->get_setting('add_user_mail'),
-			'results_per_page_all' => $this->settings_model->get_setting('results_per_page_all'),
-			'results_per_page_final' => $this->settings_model->get_setting('results_per_page_final'),
-			'week_start' => $this->settings_model->get_setting('week_start'),
-			'form_status' => $this->form_status,
-			'errors' => $this->errors
+		$settings = $this->settings_model->get_all_settings();
+		$data = array_merge($settings,
+			array(
+				'username' => $this->username,
+				'user_level' => $this->user_level,
+				'all_assignments' => $this->assignment_model->all_assignments(),
+				'assignment' => $this->assignment,
+				'title' => 'Settings',
+				'sandbox_built' => file_exists(rtrim($settings['tester_path'], '/').'/easysandbox/EasySandbox.so'),
+				'form_status' => $this->form_status,
+				'errors' => $this->errors
+			)
 		);
 		ob_start();
-		$data ['defc'] = file_get_contents(rtrim($this->settings_model->get_setting('tester_path'), '/').'/shield/defc.h');
-		$data ['defcpp'] = file_get_contents(rtrim($this->settings_model->get_setting('tester_path'), '/').'/shield/defcpp.h');
-		$data ['shield_py2'] = file_get_contents(rtrim($this->settings_model->get_setting('tester_path'), '/').'/shield/shield_py2.py');
-		$data ['shield_py3'] = file_get_contents(rtrim($this->settings_model->get_setting('tester_path'), '/').'/shield/shield_py3.py');
+		$data ['defc'] = file_get_contents(rtrim($settings['tester_path'], '/').'/shield/defc.h');
+		$data ['defcpp'] = file_get_contents(rtrim($settings['tester_path'], '/').'/shield/defcpp.h');
+		$data ['shield_py2'] = file_get_contents(rtrim($settings['tester_path'], '/').'/shield/shield_py2.py');
+		$data ['shield_py3'] = file_get_contents(rtrim($settings['tester_path'], '/').'/shield/shield_py3.py');
 		ob_end_clean();
 		$this->load->view('templates/header', $data);
 		$this->load->view('pages/admin/settings', $data);
@@ -98,10 +80,11 @@ class Settings extends CI_Controller
 		if($this->form_validation->run()){
 			ob_start();
 			$this->form_status = 'ok';
-			$defc_path = rtrim($this->settings_model->get_setting('tester_path'), '/').'/shield/defc.h';
-			$defcpp_path = rtrim($this->settings_model->get_setting('tester_path'), '/').'/shield/defcpp.h';
-			$shpy2_path = rtrim($this->settings_model->get_setting('tester_path'), '/').'/shield/shield_py2.py';
-			$shpy3_path = rtrim($this->settings_model->get_setting('tester_path'), '/').'/shield/shield_py3.py';
+			$tester_path = rtrim($this->settings_model->get_setting('tester_path'), '/');
+			$defc_path = $tester_path.'/shield/defc.h';
+			$defcpp_path = $tester_path.'/shield/defcpp.h';
+			$shpy2_path = $tester_path.'/shield/shield_py2.py';
+			$shpy3_path = $tester_path.'/shield/shield_py3.py';
 			if ($this->input->post('def_c') !== file_get_contents($defc_path))
 				if (file_exists($defc_path) && file_put_contents($defc_path,$this->input->post('def_c')) === FALSE)
 					array_push($this->errors, 'File defc.h is not writable. Edit it manually.');
@@ -119,28 +102,34 @@ class Settings extends CI_Controller
 			// if timezone is invalid, set it to 'Asia/Tehran' :
 			if ( ! in_array($timezone, DateTimeZone::listIdentifiers()) )
 				$timezone='Asia/Tehran';
-			$this->settings_model->set_setting('timezone', $timezone);
-			$this->settings_model->set_setting('tester_path', $this->input->post('tester_path'));
-			$this->settings_model->set_setting('assignments_root', $this->input->post('assignments_root'));
-			$this->settings_model->set_setting('file_size_limit', $this->input->post('file_size_limit'));
-			$this->settings_model->set_setting('output_size_limit', $this->input->post('output_size_limit'));
-			$this->settings_model->set_setting('default_late_rule', $this->input->post('default_late_rule'));
-			$this->settings_model->set_setting('enable_easysandbox', $this->input->post('enable_easysandbox')===NULL?0:1);
-			$this->settings_model->set_setting('enable_c_shield', $this->input->post('enable_c_shield')===NULL?0:1);
-			$this->settings_model->set_setting('enable_cpp_shield', $this->input->post('enable_cpp_shield')===NULL?0:1);
-			$this->settings_model->set_setting('enable_py2_shield', $this->input->post('enable_py2_shield')===NULL?0:1);
-			$this->settings_model->set_setting('enable_py3_shield', $this->input->post('enable_py3_shield')===NULL?0:1);
-			$this->settings_model->set_setting('enable_java_policy', $this->input->post('enable_java_policy')===NULL?0:1);
-			$this->settings_model->set_setting('enable_log', $this->input->post('enable_log')===NULL?0:1);
-			$this->settings_model->set_setting('enable_registration', $this->input->post('enable_registration')===NULL?0:1);
-			$this->settings_model->set_setting('registration_code', $this->input->post('registration_code'));
-			$this->settings_model->set_setting('mail_from', $this->input->post('mail_from'));
-			$this->settings_model->set_setting('mail_from_name', $this->input->post('mail_from_name'));
-			$this->settings_model->set_setting('reset_password_mail', $this->input->post('reset_password_mail'));
-			$this->settings_model->set_setting('add_user_mail', $this->input->post('add_user_mail'));
-			$this->settings_model->set_setting('results_per_page_all', $this->input->post('rpp_all'));
-			$this->settings_model->set_setting('results_per_page_final', $this->input->post('rpp_final'));
-			$this->settings_model->set_setting('week_start', $this->input->post('week_start'));
+
+			$this->settings_model->set_settings(
+				array(
+					'timezone' => $timezone,
+					'tester_path' => $this->input->post('tester_path'),
+					'assignments_root' => $this->input->post('assignments_root'),
+					'file_size_limit' => $this->input->post('file_size_limit'),
+					'output_size_limit' => $this->input->post('output_size_limit'),
+					'default_late_rule' => $this->input->post('default_late_rule'),
+					'enable_easysandbox' => $this->input->post('enable_easysandbox')===NULL?0:1,
+					'enable_c_shield' => $this->input->post('enable_c_shield')===NULL?0:1,
+					'enable_cpp_shield' => $this->input->post('enable_cpp_shield')===NULL?0:1,
+					'enable_py2_shield' => $this->input->post('enable_py2_shield')===NULL?0:1,
+					'enable_py3_shield' => $this->input->post('enable_py3_shield')===NULL?0:1,
+					'enable_java_policy' => $this->input->post('enable_java_policy')===NULL?0:1,
+					'enable_log' => $this->input->post('enable_log')===NULL?0:1,
+					'enable_registration' => $this->input->post('enable_registration')===NULL?0:1,
+					'registration_code' => $this->input->post('registration_code'),
+					'mail_from' => $this->input->post('mail_from'),
+					'mail_from_name' => $this->input->post('mail_from_name'),
+					'reset_password_mail' => $this->input->post('reset_password_mail'),
+					'add_user_mail' => $this->input->post('add_user_mail'),
+					'results_per_page_all' => $this->input->post('rpp_all'),
+					'results_per_page_final' => $this->input->post('rpp_final'),
+					'week_start' => $this->input->post('week_start'),
+				)
+			);
+			
 		}
 		else
 			$this->form_status = 'error';

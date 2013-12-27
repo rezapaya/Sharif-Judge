@@ -58,9 +58,12 @@ class Assignment_model extends CI_Model{
 			{
 				// each time we edit an assignment, we should update coefficient of all submissions of that assignment
 				$this->_update_coefficients($id, $assignment['extra_time'], $assignment['finish_time'], $assignment['late_rule']);
-				// each time we edit an assignment, we should update scoreboard of that assignment
-				$this->load->model('scoreboard_model');
-				$this->scoreboard_model->update_scoreboard($id);
+				if ($assignment['scoreboard'])
+				{
+					// We must update scoreboard of the assignment
+					$this->load->model('scoreboard_model');
+					$this->scoreboard_model->update_scoreboard($id);
+				}
 			}
 			elseif ($assignment['scoreboard'] && ! $before['scoreboard'])
 			{
@@ -458,13 +461,28 @@ class Assignment_model extends CI_Model{
 		// For better performance, we update each 1000 rows in one SQL query
 		$size = count($all_submissions);
 		for ($i=0; $i<=($size-1)/1000; $i++) {
-			$query = 'UPDATE '.$this->db->dbprefix('all_submissions')." SET coefficient = CASE\n";
+			if ($this->db->dbdriver === 'postgre')
+				$query = 'UPDATE '.$this->db->dbprefix('all_submissions')." AS t SET coefficient = c.coeff FROM (values \n";
+			else
+				$query = 'UPDATE '.$this->db->dbprefix('all_submissions')." SET coefficient = CASE\n";
+
 			for ($j=1000*$i; $j<1000*($i+1) && $j<$size; $j++){
 				$item = $all_submissions[$j];
-				$query.="WHEN assignment='".$assignment_id."' AND problem='".$item['problem']."' AND username='".$item['username']."' AND submit_id='".$item['submit_id']."' THEN ".$item['coefficient']."\n";
+				if ($this->db->dbdriver === 'postgre'){
+					$query.="($assignment_id, {$item['problem']}, '{$item['username']}', {$item['submit_id']}, '{$item['coefficient']}')";
+					if ($j+1<1000*($i+1) && $j+1<$size )
+						$query.=",\n";
+				}
+				else
+					$query.="WHEN assignment='".$assignment_id."' AND problem='".$item['problem']."' AND username='".$item['username']."' AND submit_id='".$item['submit_id']."' THEN ".$item['coefficient']."\n";
 			}
-			$query.="END";
-			$this->db->simple_query($query);
+
+			if ($this->db->dbdriver === 'postgre')
+				$query.=") AS c(assignment, problem, username, submit_id, coeff)\n"
+				."WHERE t.assignment=c.assignment AND t.problem=c.problem AND t.username=c.username AND t.submit_id=c.submit_id;";
+			else
+				$query.="END";
+			$this->db->query($query);
 		}
 
 
@@ -482,13 +500,26 @@ class Assignment_model extends CI_Model{
 		// For better performance, we update each 1000 rows in one SQL query
 		$size = count($final_submissions);
 		for ($i=0; $i<=($size-1)/1000; $i++) {
-			$query = 'UPDATE '.$this->db->dbprefix('final_submissions')." SET coefficient = CASE\n";
+			if ($this->db->dbdriver === 'postgre')
+				$query = 'UPDATE '.$this->db->dbprefix('final_submissions')." AS t SET coefficient = c.coeff FROM (values \n";
+			else
+				$query = 'UPDATE '.$this->db->dbprefix('final_submissions')." SET coefficient = CASE\n";
 			for ($j=1000*$i; $j<1000*($i+1) && $j<$size; $j++){
 				$item = $final_submissions[$j];
-				$query.="WHEN assignment='".$assignment_id."' AND problem='".$item['problem']."' AND username='".$item['username']."' AND submit_id='".$item['submit_id']."' THEN ".$item['coefficient']."\n";
+				if ($this->db->dbdriver === 'postgre'){
+					$query.="($assignment_id, {$item['problem']}, '{$item['username']}', {$item['submit_id']}, '{$item['coefficient']}')";
+					if ($j+1<1000*($i+1) && $j+1<$size )
+						$query.=",\n";
+				}
+				else
+					$query.="WHEN assignment='".$assignment_id."' AND problem='".$item['problem']."' AND username='".$item['username']."' AND submit_id='".$item['submit_id']."' THEN ".$item['coefficient']."\n";
 			}
-			$query.="END";
-			$this->db->simple_query($query);
+			if ($this->db->dbdriver === 'postgre')
+				$query.=") AS c(assignment, problem, username, submit_id, coeff)\n"
+					."WHERE t.assignment=c.assignment AND t.problem=c.problem AND t.username=c.username AND t.submit_id=c.submit_id;";
+			else
+				$query.="END";
+			$this->db->query($query);
 		}
 	}
 
