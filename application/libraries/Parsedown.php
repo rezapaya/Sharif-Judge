@@ -12,6 +12,7 @@
 # distributed with this source code.
 #
 #
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Parsedown
 {
