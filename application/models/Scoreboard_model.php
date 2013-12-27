@@ -122,6 +122,7 @@ class Scoreboard_model extends CI_Model {
 		list ($scores, $scoreboard) = $this->_generate_scoreboard($assignment_id);
 
 		// Generate the scoreboard's html code
+		// todo: Save Scoreboard as json (generate html at client side)
 		$data = array(
 			'problems' => $this->assignment_model->all_problems($assignment_id),
 			'scores' => $scores,
