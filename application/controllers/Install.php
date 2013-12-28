@@ -43,6 +43,11 @@ class Install extends CI_Controller
 			$this->load->dbforge();
 
 
+			// Use InnoDB engine for MySql database
+			if ($this->db->dbdriver === 'mysql' || $this->db->dbdriver === 'mysqli')
+				$this->db->query('SET storage_engine=InnoDB;');
+
+
 			// create table 'sessions'
 			$fields = array(
 				'session_id'    => array('type' => 'VARCHAR', 'constraint' => 40, 'default' => '0'),
