@@ -362,11 +362,11 @@ class Assignments extends CI_Controller
 				mkdir($assignment_dir, 0700);
 
 			// Remove previous test cases and description
-			shell_exec('cd '.$assignment_dir.'; rm -r */in; rm -r */out; rm -r */tester.cpp; rm -r */desc.html; rm -r */desc.md;');
+			shell_exec("cd $assignment_dir; rm -rf */in; rm -rf */out; rm -f */tester.cpp; rm -f */tester.executable; rm -f */desc.html; rm -f */desc.md;");
 
 			for ($i=1; $i <= $this->input->post('number_of_problems'); $i++)
-				if ( ! file_exists($assignment_dir."/p$i"))
-					mkdir($assignment_dir."/p$i", 0700);
+				if ( ! file_exists("$assignment_dir/p$i"))
+					mkdir("$assignment_dir/p$i", 0700);
 
 			if($this->assignment_model->add_assignment($the_id, $this->edit)){
 				$this->success_messages[] = 'Assignment '.($this->edit?'updated':'added').' successfully.';
@@ -387,7 +387,7 @@ class Assignments extends CI_Controller
 			$u_data = $this->upload->data();
 
 			// Remove previous test cases and descriptions
-			shell_exec('cd '.$assignment_dir.'; rm -r */in; rm -r */out; rm -r */tester.cpp; rm -r */desc.html; rm -r */desc.md;');
+			shell_exec("cd $assignment_dir; rm -rf */in; rm -rf */out; rm -f */tester.cpp; rm -f */tester.executable; rm -f */desc.html; rm -f */desc.md;");
 
 			// Extract and save new test cases and descriptions
 			$extract_result = $this->unzip->extract($u_data['full_path'], $assignment_dir);
@@ -398,13 +398,13 @@ class Assignments extends CI_Controller
 			if ( $extract_result !== FALSE){
 				for ($i=1; $i <= $this->input->post('number_of_problems'); $i++)
 				{
-					if ( ! file_exists($assignment_dir."/p$i"))
-						mkdir($assignment_dir."/p$i", 0700);
-					elseif (file_exists($assignment_dir."/p$i/desc.md"))
+					if ( ! file_exists("$assignment_dir/p$i"))
+						mkdir("$assignment_dir/p$i", 0700);
+					elseif (file_exists("$assignment_dir/p$i/desc.md"))
 					{
 						$this->load->library('parsedown');
-						$html = $this->parsedown->parse(file_get_contents($assignment_dir."/p$i/desc.md"));
-						file_put_contents($assignment_dir."/p$i/desc.html", $html);
+						$html = $this->parsedown->parse(file_get_contents("$assignment_dir/p$i/desc.md"));
+						file_put_contents("$assignment_dir/p$i/desc.html", $html);
 					}
 				}
 

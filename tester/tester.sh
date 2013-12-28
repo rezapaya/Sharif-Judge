@@ -37,6 +37,9 @@
 #      -5              File format not supported
 #      -6              Judge Error
 
+# Get Current Time (in milliseconds)
+START=$(($(date +%s%N)/1000000));
+
 ################### Getting Arguments ###################
 # problem directory
 PROBLEMPATH=${1}
@@ -153,6 +156,7 @@ fi
 
 
 
+COMPILE_BEGIN_TIME=$(($(date +%s%N)/1000000));
 
 
 ########################################################################################################
@@ -164,7 +168,8 @@ if [ "$EXT" = "java" ]; then
 	judge_log "Compiling as Java"
 	javac $MAINFILENAME.java >/dev/null 2>cerr
 	EXITCODE=$?
-	judge_log "Compiled. Exit Code=$EXITCODE"
+	COMPILE_END_TIME=$(($(date +%s%N)/1000000));
+	judge_log "Compiled. Exit Code=$EXITCODE  Execution Time: $((COMPILE_END_TIME-COMPILE_BEGIN_TIME)) ms"
 	if [ $EXITCODE -ne 0 ]; then
 		judge_log "Compile Error"
 		judge_log "$(cat cerr|head -10)"
@@ -193,7 +198,8 @@ if [ "$EXT" = "py2" ]; then
 	judge_log "Checking Python Syntax"
 	python -O -m py_compile $FILENAME.py >/dev/null 2>cerr
 	EXITCODE=$?
-	judge_log "Syntax checked. Exit Code=$EXITCODE"
+	COMPILE_END_TIME=$(($(date +%s%N)/1000000));
+	judge_log "Syntax checked. Exit Code=$EXITCODE  Execution Time: $((COMPILE_END_TIME-COMPILE_BEGIN_TIME)) ms"
 	if [ $EXITCODE -ne 0 ]; then
 		judge_log "Syntax Error"
 		judge_log "$(cat cerr | head -10)"
@@ -225,7 +231,8 @@ if [ "$EXT" = "py3" ]; then
 	judge_log "Checking Python Syntax"
 	python3 -O -m py_compile $FILENAME.py >/dev/null 2>cerr
 	EXITCODE=$?
-	judge_log "Syntax checked. Exit Code=$EXITCODE"
+	COMPILE_END_TIME=$(($(date +%s%N)/1000000));
+	judge_log "Syntax checked. Exit Code=$EXITCODE  Execution Time: $((COMPILE_END_TIME-COMPILE_BEGIN_TIME)) ms"
 	if [ $EXITCODE -ne 0 ]; then
 		judge_log "Syntax Error"
 		judge_log "$(cat cerr | head -10)"
@@ -303,7 +310,8 @@ if [ "$EXT" = "c" ] || [ "$EXT" = "cpp" ]; then
 		$COMPILER code.$EXT $OPTIONS $WARNING_OPTION -o $EXEFILE >/dev/null 2>cerr
 		EXITCODE=$?
 	fi
-	judge_log "Compiled. Exit Code=$EXITCODE"
+	COMPILE_END_TIME=$(($(date +%s%N)/1000000));
+	judge_log "Compiled. Exit Code=$EXITCODE  Execution Time: $((COMPILE_END_TIME-COMPILE_BEGIN_TIME)) ms"
 	if [ $EXITCODE -ne 0 ]; then
 		judge_log "Compile Error"
 		judge_log "$(cat cerr | head -10)"
@@ -359,6 +367,32 @@ judge_log "$TST test cases found"
 echo "" >$PROBLEMPATH/$UN/result.html
 
 PASSEDTESTS=0
+
+
+if [ -f "$PROBLEMPATH/tester.cpp" ] && [ ! -f "$PROBLEMPATH/tester.executable" ]; then
+	judge_log "Tester file found. Compiling tester..."
+	TST_COMPILE_BEGIN_TIME=$(($(date +%s%N)/1000000));
+	g++ $PROBLEMPATH/tester.cpp -lm -O2 -o $PROBLEMPATH/tester.executable
+	EC=$?
+	TST_COMPILE_END_TIME=$(($(date +%s%N)/1000000));
+	if [ $EC -ne 0 ]; then
+		judge_log "Compiling tester failed."
+		echo -4
+		cd ..
+		rm -r $JAIL >/dev/null 2>/dev/null
+		exit 0
+	else
+		judge_log "Tester compiled. Execution Time: $((TST_COMPILE_END_TIME-TST_COMPILE_BEGIN_TIME)) ms"
+	fi
+fi
+
+if [ -f "$PROBLEMPATH/tester.executable" ]; then
+	judge_log "Copying tester executable to current directory"
+	cp $PROBLEMPATH/tester.executable shj_tester
+	chmod +x shj_tester
+fi
+
+
 
 for((i=1;i<=TST;i++)); do
 	judge_log "\n=== TEST $i ==="
@@ -486,17 +520,8 @@ for((i=1;i<=TST;i++)); do
 	
 	# checking correctness of output
 	ACCEPTED=false
-	if [ -e "$PROBLEMPATH/tester.cpp" ]; then
-		cp $PROBLEMPATH/tester.cpp tester.cpp
-		g++ tester.cpp -otester
-		EC=$?
-		if [ $EC -ne 0 ]; then
-			echo -4
-			cd ..
-			rm -r $JAIL >/dev/null 2>/dev/null
-			exit 0
-		fi
-		./tester $PROBLEMPATH/in/input$i.txt $PROBLEMPATH/out/output$i.txt out
+	if [ -f shj_tester ]; then
+		./shj_tester $PROBLEMPATH/in/input$i.txt $PROBLEMPATH/out/output$i.txt out
 		EC=$?
 		if [ $EC -eq 0 ]; then
 			ACCEPTED=true
@@ -530,7 +555,13 @@ done
 
 cd ..
 rm -r $JAIL >/dev/null 2>/dev/null # removing files
+
 ((SCORE=PASSEDTESTS*10000/TST)) # give score from 10,000
 judge_log "\nScore from 10000: $SCORE"
 echo $SCORE
+
+# Get Current Time (in milliseconds)
+END=$(($(date +%s%N)/1000000));
+judge_log "\nTotal Execution Time: $((END-START)) ms"
+
 exit 0
