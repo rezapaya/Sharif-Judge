@@ -477,11 +477,12 @@ class Submissions extends CI_Controller
 			elseif ($type === 'log')
 				$file_path = rtrim($this->settings_model->get_setting('assignments_root'),'/').
 					"/assignment_{$submission['assignment']}/p{$submission['problem']}/{$submission['username']}/log";
-
+			else
+				$file_path = '/nowhere'; // This line is never reached!
 
 			$result = array(
 				'file_name' => $submission['main_file_name'].'.'.filetype_to_extension($submission['file_type']),
-				'text' => file_get_contents($file_path)
+				'text' => file_exists($file_path)?file_get_contents($file_path):'File Not Found'
 			);
 
 			if ($type === 'code') {

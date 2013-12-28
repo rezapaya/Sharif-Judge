@@ -110,18 +110,16 @@ class Queueprocess extends CI_Controller
 			shell_exec("cd $tester_path; rm -rf jail*");
 
 			// Saving judge result
-			if ( $output != -4 && $output != -5 && $output != -6 )
+			if ( is_numeric($output) || $output === 'Compilation Error' || $output === 'Syntax Error' )
 				shell_exec("cp $userdir/result.html $userdir/result-{$submit_id}.html");
 
-			$submission['pre_score'] = ($output<0?0:$output);
-			$submission['status'] = 'SCORE';
-			switch($output){
-				case -1: $submission['status'] = 'Compilation Error'; break;
-				case -2: $submission['status'] = 'Syntax Error'; break;
-				case -3: $submission['status'] = 'Bad System Call'; break;
-				case -4: $submission['status'] = 'Invalid Special Judge'; break;
-				case -5: $submission['status'] = 'File Format not Supported'; break;
-				case -6: $submission['status'] = 'Judge Error'; break;
+			if (is_numeric($output)) {
+				$submission['pre_score'] = $output;
+				$submission['status'] = 'SCORE';
+			}
+			else {
+				$submission['pre_score'] = 0;
+				$submission['status'] = $output;
 			}
 
 			// Save the result
