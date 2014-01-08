@@ -152,7 +152,7 @@ $finish = strtotime($assignment['finish_time']);
 						echo $delay <= 0 ? 'No Delay' : '<span title="HH:MM">'.time_hhmm($delay).'</span>';
 						echo '</span><br>';
 
-						echo $item['coefficient'];
+						echo $item['coefficient'].'%';
 					?></td>
 					<td style="font-weight: bold;"><?php echo $final_score ?> </td>
 					<td>

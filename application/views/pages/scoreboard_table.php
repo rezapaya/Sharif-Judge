@@ -11,9 +11,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <tr>
 <th>#</th><th>Username</th><th>Name</th>
 <?php foreach ($problems as $problem): ?>
-<th><?php echo anchor('problems/'.$assignment_id.'/'.$problem['id'], $problem['name']) ?><br><span class="tiny_text"><?php echo $problem['score'] ?></span></th>
+<th><?php echo anchor('problems/'.$assignment_id.'/'.$problem['id'], $problem['name']) ?><br><span class="tiny_text_b"><?php echo $problem['score'] ?></span></th>
 <?php endforeach ?>
-<th>Total<br><span class="tiny_text"><?php echo $total_score ?></span></th>
+<th>Total<br><span class="tiny_text_b"><?php echo $total_score ?></span></th>
 </tr>
 </thead>
 <?php $i=0; foreach ($scoreboard['username'] as $sc_username): ?>

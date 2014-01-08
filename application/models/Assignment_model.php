@@ -54,28 +54,14 @@ class Assignment_model extends CI_Model{
 			$before = $this->db->get_where('assignments', array('id'=>$id))->row_array();
 			unset($assignment['total_submits']);
 			$this->db->where('id', $id)->update('assignments', $assignment);
+			// each time we edit an assignment, we should update coefficient of all submissions of that assignment
 			if ($assignment['extra_time']!=$before['extra_time'] OR $assignment['start_time']!=$before['start_time'] OR $assignment['finish_time']!=$before['finish_time'] OR $assignment['late_rule']!=$before['late_rule'])
-			{
-				// each time we edit an assignment, we should update coefficient of all submissions of that assignment
 				$this->_update_coefficients($id, $assignment['extra_time'], $assignment['finish_time'], $assignment['late_rule']);
-				if ($assignment['scoreboard'])
-				{
-					// We must update scoreboard of the assignment
-					$this->load->model('scoreboard_model');
-					$this->scoreboard_model->update_scoreboard($id);
-				}
-			}
-			elseif ($assignment['scoreboard'] && ! $before['scoreboard'])
-			{
-				// each time we enable scoreboard of an assignment, we should update scoreboard of that assignment
-				$this->load->model('scoreboard_model');
-				$this->scoreboard_model->update_scoreboard($id);
-			}
 		}
 		else
 			$this->db->insert('assignments', $assignment);
 
-		// Adding problems to "problems" table
+		/* **** Adding problems to "problems" table **** */
 
 		//First remove all previous problems
 		$this->db->delete('problems', array('assignment'=>$id));
@@ -130,6 +116,13 @@ class Assignment_model extends CI_Model{
 				'diff_arg' => $da[$i-1],
 			);
 			$this->db->insert('problems', $problem);
+		}
+
+		if ($edit)
+		{
+			// We must update scoreboard of the assignment
+			$this->load->model('scoreboard_model');
+			$this->scoreboard_model->update_scoreboard($id);
 		}
 
 		// Complete Database Transaction
