@@ -43,7 +43,7 @@ if ( ! function_exists('shj_now_str'))
 
 
 
-if ( !function_exists('time_hhmm') )
+if ( ! function_exists('time_hhmm') )
 {
 	/**
 	 * Formats time (HH:MM)
@@ -55,9 +55,9 @@ if ( !function_exists('time_hhmm') )
 	 */
 	function time_hhmm($seconds)
 	{
-		$m = floor($seconds/60);
-		$hours = str_pad(floor($m/60), 2, STR_PAD_LEFT);
-		$minutes = str_pad(floor($m%60), 2, STR_PAD_LEFT);
+		$m = floor($seconds / 60);
+		$hours = str_pad(floor($m / 60), 2, STR_PAD_LEFT);
+		$minutes = str_pad($m % 60, 2, STR_PAD_LEFT);
 		return "$hours:$minutes";
 	}
 }
