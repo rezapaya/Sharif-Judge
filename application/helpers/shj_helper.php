@@ -43,6 +43,27 @@ if ( ! function_exists('shj_now_str'))
 
 
 
+if ( !function_exists('time_hhmm') )
+{
+	/**
+	 * Formats time (HH:MM)
+	 *
+	 * HH is total hours
+	 *
+	 * @param $seconds
+	 * @return string
+	 */
+	function time_hhmm($seconds)
+	{
+		$m = floor($seconds/60);
+		$hours = str_pad(floor($m/60), 2, STR_PAD_LEFT);
+		$minutes = str_pad(floor($m%60), 2, STR_PAD_LEFT);
+		return "$hours:$minutes";
+	}
+}
+
+
+
 if ( ! function_exists('filetype_to_extension'))
 {
 

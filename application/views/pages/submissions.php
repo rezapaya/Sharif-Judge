@@ -148,24 +148,8 @@ $finish = strtotime($assignment['finish_time']);
 						else
 							$final_score = ceil($pre_score*$item['coefficient']/100);
 
-						$neg = FALSE;
-						if ($delay<0){
-							$delay = 0;
-							$neg = TRUE;
-						}
-						$delay /= 60;
-						$h = floor($delay/60);
-						$m = floor($delay%60);
-						if ($h<10)
-							$h="0$h";
-						if ($m<10)
-							$m="0$m";
-
-						echo '<span style="font-size: 80%; opacity:0.7; '.($neg?'':'color:red;').'">';
-						if ($delay === 0)
-							echo 'No Delay';
-						else
-							echo '<span title="Hours">'.$h.'</span>:<span title="Minutes">'.$m.'</span>';
+						echo '<span style="font-size: 80%; opacity:0.7; '.($delay<=0?'':'color:red;').'">';
+						echo $delay <= 0 ? 'No Delay' : '<span title="HH:MM">'.time_hhmm($delay).'</span>';
 						echo '</span><br>';
 
 						echo $item['coefficient'];
