@@ -148,7 +148,7 @@ $finish = strtotime($assignment['finish_time']);
 						else
 							$final_score = ceil($pre_score*$item['coefficient']/100);
 
-						echo '<span style="font-size: 80%; opacity:0.7; '.($delay<=0?'':'color:red;').'">';
+						echo '<span class="tiny_text"'.($delay<=0?'':' style="color:red;"').'>';
 						echo $delay <= 0 ? 'No Delay' : '<span title="HH:MM">'.time_hhmm($delay).'</span>';
 						echo '</span><br>';
 

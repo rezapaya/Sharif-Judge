@@ -11,9 +11,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <tr>
 <th>#</th><th>Username</th><th>Name</th>
 <?php foreach ($problems as $problem): ?>
-<th>Problem <?php echo $problem['id'] ?><br>(<?php echo $problem['name'] ?>)</th>
+<th><?php echo anchor('problems/'.$assignment_id.'/'.$problem['id'], $problem['name']) ?><br><span class="tiny_text"><?php echo $problem['score'] ?></span></th>
 <?php endforeach ?>
-<th>Total</th>
+<th>Total<br><span class="tiny_text"><?php echo $total_score ?></span></th>
 </tr>
 </thead>
 <?php $i=0; foreach ($scoreboard['username'] as $sc_username): ?>
@@ -26,7 +26,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 	<?php if (isset($scores[$sc_username][$problem['id']]['score'])): ?>
 		<?php echo $scores[$sc_username][$problem['id']]['score']; ?>
 		<br>
-		<span class="scoreboard_hours" title="Time"><?php echo time_hhmm($scores[$sc_username][$problem['id']]['time']) ?></span>
+		<span class="tiny_text" title="Time"><?php echo time_hhmm($scores[$sc_username][$problem['id']]['time']) ?></span>
 	<?php else: ?>
 		-
 	<?php endif ?>
@@ -35,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <td>
 <span style="font-weight: bold;"><?php echo $scoreboard['score'][$i] ?></span>
 <br>
-<span class="scoreboard_hours" title="Total Time + Submit Penalty"><?php echo time_hhmm($scoreboard['submit_penalty'][$i]) ?></span>
+<span class="tiny_text" title="Total Time + Submit Penalty"><?php echo time_hhmm($scoreboard['submit_penalty'][$i]) ?></span>
 </td>
 </tr>
 <?php $i++ ?>

@@ -234,7 +234,7 @@ class Assignment_model extends CI_Model{
 	 */
 	public function all_problems($assignment_id)
 	{
-		$result = $this->db->get_where('problems', array('assignment'=>$assignment_id))->result_array();
+		$result = $this->db->order_by('id')->get_where('problems', array('assignment'=>$assignment_id))->result_array();
 		$problems = array();
 		foreach ($result as $row)
 			$problems[$row['id']] = $row;

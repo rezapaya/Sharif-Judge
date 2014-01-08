@@ -855,9 +855,9 @@ span.shj_g {
 	color: green;
 }
 
-.scoreboard_hours {
+.tiny_text {
 	font-size: 9px;
-	color: #AAA;
+	opacity: 0.7;
 }
 
 /** pagination **/
