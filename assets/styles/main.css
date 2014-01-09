@@ -23,6 +23,14 @@ body {
 	font-family: iraniansansz, sans-serif;
 }
 
+::selection {
+	background-color: #b2cce6;
+}
+
+::-moz-selection {
+	background-color: #b2cce6;
+}
+
 input {
 	font-family: iraniansansz, sans-serif;
 }
