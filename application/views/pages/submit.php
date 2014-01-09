@@ -22,7 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 		$("select#problems").change(function(){
 			var v = $(this).val();
 			$('select#languages').empty();
-			$('<option value="0" selected="selected">-- Select One --</option>').appendTo('select#languages');
+			$('<option value="0" selected="selected">-- Select Language --</option>').appendTo('select#languages');
 			if (v==0)
 				return;
 			for (var i=0;i<shj.p[v].length;i++)
@@ -62,7 +62,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<p class="input_p">
 				<label for="problems" class="tiny">Problem:</label>
 				<select id="problems" name ="problem" class="sharif_input">
-					<option value="0" selected="selected">-- Select One --</option>
+					<option value="0" selected="selected">-- Select Problem --</option>
 					<?php foreach ($problems as $problem): ?>
 						<option value="<?php echo $problem['id'] ?>"><?php echo $problem['name'] ?></option>
 					<?php endforeach ?>
@@ -72,7 +72,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 			<p class="input_p">
 				<label for="languages" class="tiny">Language:</label>
 				<select id="languages" name="language" class="sharif_input">
-					<option value="0" selected="selected">-- Select One --</option>
+					<option value="0" selected="selected">-- Select Language --</option>
 				</select>
 				<?php echo form_error('language','<div class="shj_error">','</div>') ?>
 			</p>

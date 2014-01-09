@@ -12,12 +12,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script type='text/javascript' src="<?php echo base_url("assets/snippet/jquery.snippet.js") ?>"></script>
 
 <script>
-	$(document).ready(function(){
-		$('pre code.language-c').parent().snippet('c', {style: shj.color_scheme, showNum: false, menu: false});
-		$('pre code.language-cpp').parent().snippet('cpp', {style: shj.color_scheme, showNum: false, menu: false});
-		$('pre code.language-python').parent().snippet('python', {style: shj.color_scheme, showNum: false, menu: false});
-		$('pre code.language-java').parent().snippet('java', {style: shj.color_scheme, showNum: false, menu: false});
-	});
+$(document).ready(function(){
+	$('pre code.language-c').parent().snippet('c', {style: shj.color_scheme});
+	$('pre code.language-cpp').parent().snippet('cpp', {style: shj.color_scheme});
+	$('pre code.language-python').parent().snippet('python', {style: shj.color_scheme});
+	$('pre code.language-java').parent().snippet('java', {style: shj.color_scheme});
+});
 </script>
 
 <?php $this->view('templates/top_bar'); ?>
@@ -28,7 +28,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<div id="page_title">
 		<img src="<?php echo base_url('assets/images/icons/problem.png') ?>"/>
-		<span>Problem <?php echo $problem['id'] ?></span>
+		<span><?php echo $all_problems[$problem['id']]['name'] ?></span>
 		<?php if ($user_level>=2): ?>
 			<span class="title_menu_item"><a href="<?php echo site_url('problems/edit/md/'.$description_assignment['id'].'/'.$problem['id']) ?>"><i class="splashy-pencil"></i> Edit Markdown</a></span>
 			<span class="title_menu_item"><a href="<?php echo site_url('problems/edit/html/'.$description_assignment['id'].'/'.$problem['id']) ?>"><i class="splashy-pencil"></i> Edit HTML</a></span>
@@ -46,8 +46,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 	<div id="right_sidebar">
 
-		<div id="problems_widget">
-			<p>Problems of "<?php echo $description_assignment['name']?>"</p>
+		<div class="problems_widget">
+			<p><i class="splashy-documents"></i> Problems of "<?php echo $description_assignment['name']?>"</p>
 
 			<?php if (count($all_problems)==0): ?>
 				<p style="text-align: center;">Nothing to show...</p>
@@ -71,6 +71,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 					</tr>
 				<?php endforeach ?>
 			</table>
+		</div>
+
+		<div class="problems_widget">
+			<p><i class="splashy-arrow_medium_up"></i> Submit</p>
+			<?php echo form_open_multipart('submit') ?>
+			<input type="hidden" name="problem" value="<?php echo $problem['id'] ?>" />
+			<p class="input_p">
+				<select id="languages" name="language" class="sharif_input full-width">
+					<option value="0" selected="selected">-- Select Language --</option>
+					<?php foreach ($problem['allowed_languages'] as $l): ?>
+					<option value="<?php echo $l ?>"><?php echo $l ?></option>
+					<?php endforeach ?>
+				</select>
+			</p>
+			<p class="input_p">
+				<input type="file" id="file" class="sharif_input full-width" name="userfile" />
+			</p>
+			<p class="input_p">
+				<input type="submit" value="Submit" class="sharif_input"/>
+			</p>
+			</form>
 		</div>
 
 	</div>

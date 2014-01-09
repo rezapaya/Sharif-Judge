@@ -160,8 +160,13 @@
 	padding: 0;
 }
 
+.snippet-menu pre {
+	border: none;
+	box-shadow: none;
+}
+
 .snippet-wrap pre.sh_sourceCode.snippet-textonly {
-	padding: 7px;
+	padding: 10px;
 }
 
 .snippet-wrap ol.snippet-num {

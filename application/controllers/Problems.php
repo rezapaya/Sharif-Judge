@@ -61,9 +61,12 @@ class Problems extends CI_Controller
 		if ( ! is_numeric($problem_id) || $problem_id < 1 || $problem_id > $data['description_assignment']['problems'])
 			show_404();
 
+		$languages = explode(',',$data['all_problems'][$problem_id]['allowed_languages']);
+
 		$data['problem'] = array(
 			'id' => $problem_id,
-			'description' => '<p>Description not found</p>'
+			'description' => '<p>Description not found</p>',
+			'allowed_languages' => $languages,
 		);
 
 		$path = rtrim($this->settings_model->get_setting('assignments_root'),'/')."/assignment_{$assignment_id}/p{$problem_id}/desc.html";

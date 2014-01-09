@@ -72,6 +72,10 @@ blockquote {
 	float: right;
 }
 
+.full-width {
+	width: 100%;
+}
+
 /********************************************/
 div#top_bar {
 	top: 0;
@@ -1032,7 +1036,7 @@ div#right_sidebar {
 	width: 220px;
 }
 
-div#problems_widget {
+div.problems_widget {
 	border: 2px dashed #DDD;
 	box-shadow: 0 0 6px -2px #AAA;
 	-moz-box-shadow: 0 0 6px -2px #AAA;
@@ -1041,11 +1045,11 @@ div#problems_widget {
 	padding: 10px;
 }
 
-div#problems_widget p{
+div.problems_widget p{
 	margin: 0 0 5px 0;
 }
 
-div#problems_widget table td{
+div.problems_widget table td{
 	height: 30px;
 }
 
