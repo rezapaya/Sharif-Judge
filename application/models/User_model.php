@@ -605,7 +605,7 @@ class User_model extends CI_Model{
 	 */
 	public function get_all_users()
 	{
-		return $this->db->order_by('role', 'asc')->get('users')->result_array();
+		return $this->db->order_by('role', 'asc')->order_by('id')->get('users')->result_array();
 	}
 
 
