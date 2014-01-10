@@ -31,8 +31,7 @@ class Submit extends CI_Controller
 		$this->load->driver('session');
 		if ( ! $this->session->userdata('logged_in')) // if not logged in
 			redirect('login');
-		$this->load->library('upload');
-		$this->load->model('queue_model');
+		$this->load->library('upload')->model('queue_model');
 		$this->username = $this->session->userdata('username');
 		$this->user_level = $this->user_model->get_user_level($this->username);
 		$this->assignment = $this->assignment_model->assignment_info($this->user_model->selected_assignment($this->username));
@@ -117,10 +116,8 @@ class Submit extends CI_Controller
 			'coefficient' => $this->coefficient,
 			'upload_state' => ''
 		);
-		$this->form_validation->set_message('greater_than', 'Select a %s.');
-		$this->form_validation->set_message('_check_language', 'Select a valid %s.');
-		$this->form_validation->set_rules('problem', 'problem', 'required|integer|greater_than[0]');
-		$this->form_validation->set_rules('language', 'language', 'required|callback__check_language');
+		$this->form_validation->set_rules('problem', 'problem', 'required|integer|greater_than[0]', array('greater_than' => 'Select a %s.'));
+		$this->form_validation->set_rules('language', 'language', 'required|callback__check_language', array('_check_language' => 'Select a valid %s.'));
 
 		if ($this->form_validation->run()){
 			if ($this->_upload())

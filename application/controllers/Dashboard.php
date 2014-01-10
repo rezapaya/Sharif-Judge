@@ -28,8 +28,7 @@ class Dashboard extends CI_Controller
 		$this->username = $this->session->userdata('username');
 		$this->assignment = $this->assignment_model->assignment_info($this->user_model->selected_assignment($this->username));
 		$this->user_level = $this->user_model->get_user_level($this->username);
-		$this->load->model('notifications_model');
-		$this->load->helper('text');
+		$this->load->model('notifications_model')->helper('text');
 	}
 
 

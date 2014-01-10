@@ -16,8 +16,7 @@ class Queueprocess extends CI_Controller
 		// This controller should not be called from a browser
 		if ( ! is_cli() )
 			show_404();
-		$this->load->model('queue_model');
-		$this->load->model('submit_model');
+		$this->load->model('queue_model')->model('submit_model');
 	}
 
 

@@ -53,14 +53,11 @@ class Profile extends CI_Controller
 		if ($this->user_level <= 2 && $this->username != $this->edit_username) // permission denied
 			show_404();
 
-		$this->form_validation->set_message('_email_check', 'User with same %s exists.');
-		$this->form_validation->set_message('_password_check', 'Password must be between 6 and 30 characters in length.');
-		$this->form_validation->set_message('_password_again_check', 'The Password Confirmation field does not match the Password field.');
-		$this->form_validation->set_rules('display_name', 'Display Name', 'max_length[40]|xss_clean|strip_tags');
-		$this->form_validation->set_rules('email', 'Email Address', 'required|max_length[40]|valid_email|callback__email_check');
-		$this->form_validation->set_rules('password', 'Password', 'callback__password_check');
-		$this->form_validation->set_rules('password_again', 'Password Confirmation', 'callback__password_again_check');
-		$this->form_validation->set_rules('role', 'Role', 'callback__role_check');
+		$this->form_validation->set_rules('display_name', 'name', 'max_length[40]|xss_clean|strip_tags');
+		$this->form_validation->set_rules('email', 'email address', 'required|max_length[40]|valid_email|callback__email_check', array('_email_check' => 'This %s already exists.'));
+		$this->form_validation->set_rules('password', 'password', 'callback__password_check', array('_password_check' => 'Password must be between 6 and 200 characters in length.'));
+		$this->form_validation->set_rules('password_again', 'password confirmation', 'callback__password_again_check', array('_password_again_check' => 'The Password Confirmation field does not match the Password field.'));
+		$this->form_validation->set_rules('role', 'role', 'callback__role_check');
 		if ($this->form_validation->run()){
 			$this->user_model->update_profile($user_id);
 			$user = $this->user_model->get_user($user_id);
