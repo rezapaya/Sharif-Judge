@@ -31,7 +31,7 @@ class Queueprocess extends CI_Controller
 	 * This is the main function for processing the queue
 	 * This function judges queue items one by one
 	 */
-	public function run($base_url = '')
+	public function run()
 	{
 
 		// Set correct base_url
