@@ -31,8 +31,13 @@ class Queueprocess extends CI_Controller
 	 * This is the main function for processing the queue
 	 * This function judges queue items one by one
 	 */
-	public function run()
+	public function run($base_url = '')
 	{
+
+		// Set correct base_url
+		// Because we are in cli mode, base_url is not available, and we get
+		// it from an environment variable that we have set in shj_helper.php
+		$this->config->set_item('base_url', getenv('SHJ_BASE_URL'));
 
 		$queue_item = $this->queue_model->get_first_item();
 		if ($queue_item === NULL) {
