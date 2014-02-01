@@ -22,6 +22,7 @@ Download the latest release from [http://sharifjudge.ir/download](http://sharifj
   * Download submitted codes in zip file
   * _"Output Comparison"_ and _"Tester Script"_ methods for checking output correctness
   * Add multiple users
+  * Problem Descriptions (Editable in Markdown and HTML formats)
   * Rejudge
   * Scoreboard
   * Notifications
@@ -41,12 +42,13 @@ For running Sharif Judge, a Linux server with following requirements is needed:
 ## Installation
 
   1. Download the latest release from [download page](http://sharifjudge.ir/download) and unpack downloaded file in your public html directory.
-  2. Create a MySql database for Sharif Judge.
+  2. Create a MySql or PostgreSql database for Sharif Judge.
   3. Set database connection settings in file `application/config/database.php`.
-  4. Open the main page of Sharif Judge in a web browser and follow the installation process.
-  5. Log in with your admin account.
-  6. **[IMPORTANT]** Move folders `tester` and `assignments` somewhere outside your public directory. Then save their full path in `Settings` page. **These two folders must be writable by PHP.** Submitted files will be stored in `assignments` folder. So it should be somewhere not publicly accessible.
-  7. **[IMPORTANT]** [Secure Sharif Judge](http://docs.sharifjudge.ir/security)
+  4. Make `application/cache/Twig` writable by php.
+  5. Open the main page of Sharif Judge in a web browser and follow the installation process.
+  6. Log in with your admin account.
+  7. **[IMPORTANT]** Move folders `tester` and `assignments` somewhere outside your public directory. Then save their full path in `Settings` page. **These two folders must be writable by PHP.** Submitted files will be stored in `assignments` folder. So it should be somewhere not publicly accessible.
+  8. **[IMPORTANT]** [Secure Sharif Judge](http://docs.sharifjudge.ir/security)
 
 ## After Installation
 

@@ -47,7 +47,7 @@
 </thead>
 {% for item in all_assignments %}
 <tr>
-	<td><div class="select_assignment check {{ item.id == assignment.id ? 'checked' }} i{{ item.id }}" data-id="{{ item.id }}"></div></td>
+	<td><i class="pointer select_assignment fa {{ item.id == assignment.id ? 'fa-check-square-o' : 'fa-square-o' }} fa-2x" data-id="{{ item.id }}"></i></td>
 	<td dir="auto">{{ item.name }}</td>
 	<td><a href="{{ site_url('problems/'~item.id) }}">{{ item.problems }} problem{{ item.problems != 1 ? 's' }}</a></td>
 	<td>{{ item.total_submits }} submission{{ item.total_submits != 1 ? 's' }}</td>

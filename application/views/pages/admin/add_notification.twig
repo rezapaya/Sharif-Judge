@@ -6,8 +6,8 @@
 {% set selected = 'notifications' %}
 {% extends 'templates/base.twig' %}
 {% block icon %}{{ notif_edit ? 'fa-edit' : 'fa-plus' }}{% endblock %}
-{% block title %}{{ notif_edit ? 'Edit' : 'Add' }} Notification{% endblock %}
-{% block head_title %}{{ notif_edit ? 'Edit' : 'Add' }} Notification{% endblock %}
+{% block title %}{{ notif_edit ? 'Edit' : 'New' }} Notification{% endblock %}
+{% block head_title %}{{ notif_edit ? 'Edit' : 'New' }} Notification{% endblock %}
 
 {% block other_assets %}
 <script type='text/javascript' src="{{ base_url('assets/tinymce/tinymce.min.js') }}"></script>

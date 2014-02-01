@@ -59,8 +59,8 @@
 		<a href="{{ site_url('assignments') }}"><span dir="auto" class="assignment_name">{{ assignment.name|length > 30 ? assignment.name|slice(0, 30) ~ '...' : assignment.name }}</span></a>
 		<ul class="top_menu" id="select_assignment_menu">
 			{% for assignment_item in all_assignments %}
-				<li class="assignment_block">
-					<i class="fa {{ assignment_item.id == assignment.id ? 'fa-check-square' : 'fa-square' }} i{{ assignment_item.id }}" data-id="{{ assignment_item.id }}"></i>
+				<li class="assignment_block select_assignment">
+					<i class="fa {{ assignment_item.id == assignment.id ? 'fa-check-square-o' : 'fa-square-o' }}" data-id="{{ assignment_item.id }}"></i>
 					<span class="assignment_item" dir="auto">{{ assignment_item.name }}</span>
 				</li>
 			{% endfor %}

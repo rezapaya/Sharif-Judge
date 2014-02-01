@@ -1306,11 +1306,3 @@ div.md_cheatsheet pre{
 div.md_cheatsheet p{
 	margin: 0;
 }
-
-
-/**************************/
-
-i.set_final {
-	cursor: pointer;
-	color: #007e5f;
-}

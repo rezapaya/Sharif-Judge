@@ -42,7 +42,6 @@ class Queue extends CI_Controller
 			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
-			'title' => 'Submission Queue',
 			'queue' => $this->queue_model->get_queue(),
 			'working' => $this->settings_model->get_setting('queue_is_working')
 		);

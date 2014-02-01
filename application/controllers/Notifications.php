@@ -74,7 +74,6 @@ class Notifications extends CI_Controller
 			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
-			'title' => 'New Notification',
 			'notif_edit' => $this->notif_edit
 		);
 

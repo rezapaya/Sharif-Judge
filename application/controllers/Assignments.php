@@ -50,7 +50,6 @@ class Assignments extends CI_Controller
 			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
-			'title' => 'Assignments',
 			'success_messages' => $this->success_messages,
 			'error_messages' => $this->error_messages
 		);

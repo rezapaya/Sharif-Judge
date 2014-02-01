@@ -122,7 +122,6 @@ class Problems extends CI_Controller
 			'username' => $this->username,
 			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
-			'title' => 'Edit Problem Description ('.($ext==='html'?'HTML':'Markdown').')',
 			'assignment' => $this->assignment,
 			'description_assignment' => $this->assignment_model->assignment_info($assignment_id),
 		);

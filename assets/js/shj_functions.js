@@ -314,23 +314,24 @@ $(document).ready(function () {
 		},
 		selector: '.top_object.shj_menu'
 	});
-	$(".assignment_block").click(
+	$(".select_assignment").click(
 		function () {
-			var id = $(this).children('i').data('id');
+			var id = $(this).children('i').addBack('i').data('id');
 			$.post(
 				shj.site_url + 'assignments/select',
 				{
 					assignment_select: id,
 					shj_csrf_token: shj.csrf_token
 				},
-				function (a) {
-					if (a != "shj_failed") {
-						$(".assignment_block i").removeClass('fa-check-square');
-						$(".assignment_block i").addClass('fa-square');
-						$(".assignment_block .i" + id).addClass('fa-check-square');
+				function (response) {
+					if (response != "shj_failed") {
+						var checkboxes = $(".select_assignment").children('i').addBack('i');
+						checkboxes.removeClass('fa-check-square-o').addClass('fa-square-o');
+						checkboxes.filter("[data-id='" + id + "']").removeClass('fa-square-o').addClass('fa-check-square-o');
 						$(".assignment_name").html($('.top_object [data-id="' + id + '"]').parents('.assignment_block').children('.assignment_item').html());
-						shj.finish_time = moment(a.split(',')[0]);
-						shj.extra_time = moment.duration(parseInt(a.split(',')[1], 10), 'seconds');
+						shj.finish_time = moment(response.split(',')[0]);
+						shj.extra_time  = moment.duration(parseInt(response.split(',')[1], 10), 'seconds');
+						shj.update_clock();
 					}
 				}
 			);
