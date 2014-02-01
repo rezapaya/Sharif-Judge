@@ -44,7 +44,7 @@ class Dashboard extends CI_Controller
 			'assignment' => $this->assignment,
 			'title'=>'Dashboard',
 			'week_start'=>$this->settings_model->get_setting('week_start'),
-			'widget_positions'=>$this->user_model->get_widget_positions($this->username),
+			'wp'=>$this->user_model->get_widget_positions($this->username),
 			'notifications' => $this->notifications_model->get_latest_notifications()
 		);
 
@@ -64,9 +64,7 @@ class Dashboard extends CI_Controller
 				array_push($data['errors'], 'The folder <code>"'.$path.'"</code> is not writable by PHP. Make it writable. But make sure that this folder is only accessible by you.');
 		}
 
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/dashboard', $data);
-		$this->load->view('templates/footer');
+		$this->twig->display('pages/dashboard.twig', $data);
 	}
 
 

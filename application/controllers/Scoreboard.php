@@ -44,13 +44,10 @@ class Scoreboard extends CI_Controller
 			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
-			'title' => 'Scoreboard',
 			'scoreboard' => $this->scoreboard_model->get_scoreboard($this->assignment['id'])
 		);
 
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/scoreboard', $data);
-		$this->load->view('templates/footer');
+		$this->twig->display('pages/scoreboard.twig', $data);
 	}
 
 

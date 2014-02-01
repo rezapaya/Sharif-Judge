@@ -55,9 +55,24 @@ class Assignments extends CI_Controller
 			'error_messages' => $this->error_messages
 		);
 
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/assignments', $data);
-		$this->load->view('templates/footer');
+		foreach ($data['all_assignments'] as &$item)
+		{
+			$extra_time = $item['extra_time'];
+			$delay = shj_now()-strtotime($item['finish_time']);;
+			ob_start();
+			if ( eval($item['late_rule']) === FALSE )
+				$coefficient = "error";
+			if (!isset($coefficient))
+				$coefficient = "error";
+			ob_end_clean();
+			$item['coefficient'] = $coefficient;
+			$item['delay'] = $delay;
+			$item['extra_time'] = $extra_time;
+			$item['start_time'] = date("Y-m-d H:i", strtotime($item['start_time']));
+			$item['finish_time'] = date("Y-m-d H:i", strtotime($item['finish_time']));
+		}
+
+		$this->twig->display('pages/assignments.twig', $data);
 
 	}
 
@@ -195,14 +210,11 @@ class Assignments extends CI_Controller
 			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
-			'title' => 'Delete Assignment',
 			'id' => $assignment_id,
 			'name' => $assignment['name']
 		);
 
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/admin/delete_assignment', $data);
-		$this->load->view('templates/footer');
+		$this->twig->display('pages/admin/delete_assignment.twig', $data);
 
 	}
 
@@ -237,10 +249,11 @@ class Assignments extends CI_Controller
 			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
-			'title' => ($this->edit?'Edit':'Add').' Assignment',
 			'error_messages' => $this->error_messages,
 			'success_messages' => $this->success_messages,
-			'edit' => $this->edit
+			'edit' => $this->edit,
+			'upload_error' => $this->upload->display_errors('', ''),
+			'default_late_rule' => $this->settings_model->get_setting('default_late_rule'),
 		);
 
 		if ($this->edit)
@@ -302,9 +315,7 @@ class Assignments extends CI_Controller
 			}
 		}
 
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/admin/add_assignment', $data);
-		$this->load->view('templates/footer');
+		$this->twig->display('pages/admin/add_assignment.twig', $data);
 	}
 
 
@@ -326,8 +337,6 @@ class Assignments extends CI_Controller
 		$this->form_validation->set_rules('extra_time', 'extra time', 'required');
 		$this->form_validation->set_rules('participants', 'participants', '');
 		$this->form_validation->set_rules('late_rule', 'coefficient rule', 'required');
-		$this->form_validation->set_rules('open', 'open', '');
-		$this->form_validation->set_rules('scoreboard', 'scoreboard rule', '');
 		$this->form_validation->set_rules('name[]', 'problem name', 'required|max_length[50]');
 		$this->form_validation->set_rules('score[]', 'problem score', 'required|integer');
 		$this->form_validation->set_rules('c_time_limit[]', 'C/C++ time limit', 'required|integer');

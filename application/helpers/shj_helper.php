@@ -122,19 +122,6 @@ if ( ! function_exists('process_the_queue'))
 }
 
 
-if ( ! function_exists('status_to_class'))
-{
-	function status_to_class($status, $pre_score)
-	{
-		switch(strtolower($status)){
-			case 'pending': return 'btn';
-			case 'score': return ($pre_score==10000?'btn shj-green':'btn shj-red');
-			default: return 'btn shj-blue';
-		}
-	}
-}
-
-
 if ( ! function_exists('shj_random_password'))
 {
 	function shj_random_password($len = 6)

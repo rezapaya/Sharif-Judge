@@ -17,6 +17,13 @@ a {
 	color: #232323;
 }
 
+::selection {
+	background-color: #b2cce6;
+}
+::-moz-selection {
+	background-color: #b2cce6;
+}
+
 div.box {
 	top: 50%;
 	left: 50%;
@@ -86,7 +93,6 @@ input.sharif_input {
 	font-size: 20px;
 	padding: 6px 5px;
 	margin-top: 4px;
-	margin-right: 5px;
 	border-radius: 2px;
 	border: 1px solid #c4c4c4;
 	transition: box-shadow 200ms ease;

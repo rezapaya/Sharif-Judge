@@ -65,7 +65,7 @@ $(document).ready(function () {
 	$(".shj_rejudge").click(function () {
 		var row = $(this).parents('tr');
 		$.post(
-			shj.site_url + 'rejudge/rejudge_one',
+			shj.site_url + 'rejudge/rejudge_single',
 			{
 				username: row.data('u'),
 				assignment: row.data('a'),
@@ -97,8 +97,8 @@ $(document).ready(function () {
 				},
 				function (response) {
 					if (response == "shj_success") {
-						$("tr[data-u='" + username + "'][data-p='" + problem + "'] .set_final").removeClass('checked');
-						$("tr[data-u='" + username + "'][data-p='" + problem + "'][data-s='"+submit_id+"'] .set_final").addClass('checked');
+						$("tr[data-u='" + username + "'][data-p='" + problem + "'] i.set_final").removeClass('fa-check-circle-o').addClass('fa-circle-o');
+						$("tr[data-u='" + username + "'][data-p='" + problem + "'][data-s='" + submit_id + "'] i.set_final").removeClass('fa-circle-o').addClass('fa-check-circle-o');
 					}
 					else if (response == "shj_finished") {
 						noty({

@@ -47,9 +47,7 @@ class Queue extends CI_Controller
 			'working' => $this->settings_model->get_setting('queue_is_working')
 		);
 
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/admin/queue', $data);
-		$this->load->view('templates/footer');
+		$this->twig->display('pages/admin/queue.twig', $data);
 	}
 
 

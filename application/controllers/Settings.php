@@ -47,7 +47,6 @@ class Settings extends CI_Controller
 				'user_level' => $this->user_level,
 				'all_assignments' => $this->assignment_model->all_assignments(),
 				'assignment' => $this->assignment,
-				'title' => 'Settings',
 				'sandbox_built' => file_exists(rtrim($settings['tester_path'], '/').'/easysandbox/EasySandbox.so'),
 				'form_status' => $this->form_status,
 				'errors' => $this->errors
@@ -59,9 +58,7 @@ class Settings extends CI_Controller
 		$data ['shield_py2'] = file_get_contents(rtrim($settings['tester_path'], '/').'/shield/shield_py2.py');
 		$data ['shield_py3'] = file_get_contents(rtrim($settings['tester_path'], '/').'/shield/shield_py3.py');
 		ob_end_clean();
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/admin/settings', $data);
-		$this->load->view('templates/footer');
+		$this->twig->display('pages/admin/settings.twig', $data);
 	}
 
 

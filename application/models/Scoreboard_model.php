@@ -6,7 +6,8 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Scoreboard_model extends CI_Model {
+class Scoreboard_model extends CI_Model
+{
 
 	public function __construct()
 	{
@@ -23,14 +24,10 @@ class Scoreboard_model extends CI_Model {
 	 * @param int $assignment_id
 	 * @return array
 	 */
-	private function _generate_scoreboard($assignment_id){
+	private function _generate_scoreboard($assignment_id)
+	{
 		$assignment = $this->assignment_model->assignment_info($assignment_id);
-		$submissions = $this->db->get_where('final_submissions', array('assignment'=>$assignment_id))->result_array();
-		$scoreboard = array(
-			'username' => array(),
-			'score' => array(),
-			'submit_penalty' => array()
-		);
+		$submissions = $this->db->get_where('submissions', array('is_final' => 1 , 'assignment' => $assignment_id))->result_array();
 		$total_score = array();
 		$penalty = array();
 		$users = array();
@@ -56,17 +53,30 @@ class Scoreboard_model extends CI_Model {
 				$penalty[$submission['username']] = 0;
 
 			$total_score[$submission['username']] += $final_score;
-			$penalty[$submission['username']] += $delay+$submission['submit_count']*$submit_penalty;
-			$users[$submission['username']] = 1;
+
+			$number_of_submissions = $this->db->where(array(
+				'assignment' => $submission['assignment'],
+				'problem' => $submission['problem'],
+				'username' => $submission['username'],
+			))->count_all_results('submissions');
+
+			$penalty[$submission['username']] += $delay + $number_of_submissions*$submit_penalty;
+			$users[] = $submission['username'];
 		}
-		foreach($users as $user => $tmp){
-			array_push($scoreboard['username'], $user);
-			array_push($scoreboard['score'], $total_score[$user]);
-			array_push($scoreboard['submit_penalty'], $penalty[$user]);
+		$scoreboard = array(
+			'username' => array(),
+			'score' => array(),
+			'submit_penalty' => array()
+		);
+		$users = array_unique($users);
+		foreach($users as $username){
+			array_push($scoreboard['username'], $username);
+			array_push($scoreboard['score'], $total_score[$username]);
+			array_push($scoreboard['submit_penalty'], $penalty[$username]);
 		}
 		array_multisort(
-			$scoreboard['score'], SORT_NUMERIC,SORT_DESC,
-			$scoreboard['submit_penalty'], SORT_NUMERIC,SORT_ASC,
+			$scoreboard['score'], SORT_NUMERIC, SORT_DESC,
+			$scoreboard['submit_penalty'], SORT_NUMERIC, SORT_ASC,
 			$scoreboard['username']
 		);
 		return array($scores, $scoreboard);
@@ -83,7 +93,8 @@ class Scoreboard_model extends CI_Model {
 	 * This function is called each time a user is deleted, or all submissions
 	 * of a user is deleted.
 	 */
-	public function update_scoreboards() {
+	public function update_scoreboards()
+	{
 		$assignments = $this->db->select('id')->get('assignments')->result_array();
 		foreach ($assignments as $assignment){
 			$this->update_scoreboard($assignment['id']);
@@ -113,7 +124,8 @@ class Scoreboard_model extends CI_Model {
 	 *
 	 * @param int $assignment_id
 	 */
-	public function update_scoreboard($assignment_id) {
+	public function update_scoreboard($assignment_id)
+	{
 
 		// If scoreboard in not enabled, do nothing
 		$scoreboard_enabled = $this->db->select('scoreboard')->get_where('assignments', array('id'=>$assignment_id))->row()->scoreboard;
@@ -134,12 +146,15 @@ class Scoreboard_model extends CI_Model {
 			'problems' => $all_problems,
 			'total_score' => $total_score,
 			'scores' => $scores,
-			'scoreboard' => $scoreboard
+			'scoreboard' => $scoreboard,
+			'names' => $this->user_model->get_names(),
 		);
-		$scoreboard_table = $this->load->view('pages/scoreboard_table', $data, TRUE);
+
+		$scoreboard_table = $this->twig->render('pages/scoreboard_table.twig', $data);
+
 
 		// Minify the scoreboard's html code
-		$scoreboard_table = $this->output->minify($scoreboard_table, 'text/html');
+		// $scoreboard_table = $this->output->minify($scoreboard_table, 'text/html');
 
 		// Save the scoreboard's html code in Database
 		$query = $this->db->select('assignment')->get_where('scoreboard', array('assignment'=>$assignment_id));
@@ -161,7 +176,8 @@ class Scoreboard_model extends CI_Model {
 	 * @param int $assignment_id
 	 * @return string
 	 */
-	public function get_scoreboard($assignment_id) {
+	public function get_scoreboard($assignment_id)
+	{
 		$query =  $this->db->select('scoreboard')->get_where('scoreboard', array('assignment'=>$assignment_id));
 		if ($query->num_rows() != 1)
 			return 'Scoreboard not found';

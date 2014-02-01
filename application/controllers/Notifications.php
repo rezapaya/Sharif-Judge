@@ -42,13 +42,11 @@ class Notifications extends CI_Controller
 			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
-			'title' => 'Notifications',
 			'notifications' => $this->notifications_model->get_all_notifications()
 		);
 
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/notifications', $data);
-		$this->load->view('templates/footer');
+		$this->twig->display('pages/notifications.twig', $data);
+
 	}
 
 
@@ -84,9 +82,7 @@ class Notifications extends CI_Controller
 			$data['title'] = 'Edit Notification';
 
 
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/admin/add_notification', $data);
-		$this->load->view('templates/footer');
+		$this->twig->display('pages/admin/add_notification.twig', $data);
 
 	}
 

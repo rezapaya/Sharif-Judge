@@ -31,7 +31,7 @@ class Install extends CI_Controller
 		$this->form_validation->set_rules('password', 'password', 'required|min_length[6]|max_length[200]');
 		$this->form_validation->set_rules('password_again', 'password confirmation', 'required|matches[password]');
 
-		$data['status'] = '';
+		$data['installed'] = FALSE;
 
 		if ($this->form_validation->run()) {
 
@@ -46,6 +46,9 @@ class Install extends CI_Controller
 			// Use InnoDB engine for MySql database
 			if ($this->db->dbdriver === 'mysql' || $this->db->dbdriver === 'mysqli')
 				$this->db->query('SET storage_engine=InnoDB;');
+
+			// Creating Tables:
+			// sessions, submissions, assignments, notifications, problems, queue, scoreboard, settings, users
 
 
 			// create table 'sessions'
@@ -64,25 +67,25 @@ class Install extends CI_Controller
 
 
 
-			// create table 'all_submissions'
+			// create table 'submissions'
 			$fields = array(
 				'submit_id'     => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE),
 				'username'      => array('type' => 'VARCHAR', 'constraint' => 20),
 				'assignment'    => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
 				'problem'       => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
+				'is_final'      => array('type' => 'TINYINT', 'constraint' => 1, 'default' => 0),
 				'time'          => array('type' => $DATETIME),
 				'status'        => array('type' => 'VARCHAR', 'constraint' => 100),
 				'pre_score'     => array('type' => 'INT', 'constraint' => 11),
 				'coefficient'   => array('type' => 'VARCHAR', 'constraint' => 6),
-				'submit_count'  => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
 				'file_name'     => array('type' => 'VARCHAR', 'constraint' => 30),
 				'main_file_name'=> array('type' => 'VARCHAR', 'constraint' => 30),
 				'file_type'     => array('type' => 'VARCHAR', 'constraint' => 6),
 			);
 			$this->dbforge->add_field($fields);
 			$this->dbforge->add_key(array('assignment', 'submit_id'));
-			if ( ! $this->dbforge->create_table('all_submissions', TRUE))
-				show_error("Error creating database table ".$this->db->dbprefix('all_submissions'));
+			if ( ! $this->dbforge->create_table('submissions', TRUE))
+				show_error("Error creating database table ".$this->db->dbprefix('submissions'));
 
 
 
@@ -103,32 +106,9 @@ class Install extends CI_Controller
 				'moss_update'   => array('type' => 'VARCHAR', 'constraint' => 30, 'default' => 'Never'),
 			);
 			$this->dbforge->add_field($fields);
-			$this->dbforge->add_key('id', TRUE);
+			$this->dbforge->add_key('id', TRUE); // PRIMARY KEY
 			if ( ! $this->dbforge->create_table('assignments', TRUE))
 				show_error("Error creating database table ".$this->db->dbprefix('assignments'));
-
-
-
-			// create table 'final_submissions'
-			$fields = array(
-				'submit_id'     => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE),
-				'username'      => array('type' => 'VARCHAR', 'constraint' => 20),
-				'assignment'    => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
-				'problem'       => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
-				'time'          => array('type' => $DATETIME),
-				'status'        => array('type' => 'VARCHAR', 'constraint' => 100),
-				'pre_score'     => array('type' => 'INT', 'constraint' => 11),
-				'coefficient'   => array('type' => 'VARCHAR', 'constraint' => 6),
-				'submit_count'  => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
-				'file_name'     => array('type' => 'VARCHAR', 'constraint' => 30),
-				'main_file_name'=> array('type' => 'VARCHAR', 'constraint' => 30),
-				'file_type'     => array('type' => 'VARCHAR', 'constraint' => 6),
-			);
-			$this->dbforge->add_field($fields);
-			$this->dbforge->add_key(array('assignment', 'submit_id'));
-			if ( ! $this->dbforge->create_table('final_submissions', TRUE))
-				show_error("Error creating database table ".$this->db->dbprefix('final_submissions'));
-
 
 
 			// create table 'notifications'
@@ -139,7 +119,7 @@ class Install extends CI_Controller
 				'time'          => array('type' => $DATETIME),
 			);
 			$this->dbforge->add_field($fields);
-			$this->dbforge->add_key('id', TRUE);
+			$this->dbforge->add_key('id', TRUE); // PRIMARY KEY
 			if ( ! $this->dbforge->create_table('notifications', TRUE))
 				show_error("Error creating database table ".$this->db->dbprefix('notifications'));
 
@@ -169,15 +149,22 @@ class Install extends CI_Controller
 
 			// create table 'queue'
 			$fields = array(
+				'id'                => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE, 'auto_increment' => TRUE),
 				'submit_id'         => array('type' => 'INT', 'constraint' => 11, 'unsigned' => TRUE),
 				'username'          => array('type' => 'VARCHAR', 'constraint' => 20),
 				'assignment'        => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
 				'problem'           => array('type' => 'SMALLINT', 'constraint' => 4, 'unsigned' => TRUE),
 				'type'              => array('type' => 'VARCHAR', 'constraint' => 8),
 			);
+			$this->dbforge->add_key('id', TRUE); // PRIMARY KEY
 			$this->dbforge->add_field($fields);
 			if ( ! $this->dbforge->create_table('queue', TRUE))
 				show_error("Error creating database table ".$this->db->dbprefix('queue'));
+			//Add UNIQUE (submit_id, username, assignment, problem) constraint
+			$this->db->query(
+				'ALTER TABLE '.$this->db->dbprefix('queue').
+				' ADD CONSTRAINT suap_unique UNIQUE (submit_id, username, assignment, problem);'
+			);
 
 
 
@@ -254,7 +241,7 @@ class Install extends CI_Controller
 				'dashboard_widget_positions'   => array('type' => 'VARCHAR', 'constraint' => 500, 'default' => ''),
 			);
 			$this->dbforge->add_field($fields);
-			$this->dbforge->add_key('id', TRUE);
+			$this->dbforge->add_key('id', TRUE); // PRIMARY KEY
 			$this->dbforge->add_key('username'); // @todo is this needed?
 			if ( ! $this->dbforge->create_table('users', TRUE))
 				show_error("Error creating database table ".$this->db->dbprefix('users'));
@@ -279,12 +266,13 @@ class Install extends CI_Controller
 			else
 				$data['key_changed'] = TRUE;
 
-			$data['status'] = 'Installed';
+			$data['installed'] = TRUE;
+			$data['enc_key'] = $this->config->item('encryption_key');
+			$data['random_key'] = random_string('alnum', 32);
 		}
 
-		$this->load->view('templates/simple_header', array('title' => 'Installation'));
-		$this->load->view('pages/admin/install', $data);
-		$this->load->view('templates/footer');
+
+		$this->twig->display('pages/admin/install.twig', $data);
 
 	}
 }

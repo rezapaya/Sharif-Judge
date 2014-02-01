@@ -6,7 +6,8 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Shj_pagination {
+class Shj_pagination
+{
 
 	private $base_url;
 	private $cur_page;
@@ -51,22 +52,22 @@ class Shj_pagination {
 		if ($end_page == 1 || $end_page == 0)
 			return '';
 
-		// Generating Output
+		// Rendering Output
 
 		if ($this->cur_page != 1)
 		{
 			$output .= '<li><a href="'.$this->base_url.'">&lsaquo; First</a></li>';
-			$output .= '<li><a href="'.$this->base_url.'/page/'.($this->cur_page-1).'">&lt;</a></li>';
+			$output .= '<li><a href="'.$this->base_url.'/page/'.($this->cur_page-1).'">&lsaquo;</a></li>';
 		}
 
-		for ($i = $start_page; $i<=$end_page; $i++)
+		for ($i = $start_page; $i <= $end_page; $i++)
 		{
 			$output .= '<li'.($i==$this->cur_page?' class="current_page"':'').'><a href="'.$this->base_url.'/page/'.$i.'">'.$i.'</a></li>';
 		}
 
 		if ($this->cur_page != $this->total_pages)
 		{
-			$output .= '<li><a href="'.$this->base_url.'/page/'.($this->cur_page+1).'">&gt;</a></li>';
+			$output .= '<li><a href="'.$this->base_url.'/page/'.($this->cur_page+1).'">&rsaquo;</a></li>';
 			$output .= '<li><a href="'.$this->base_url.'/page/'.$this->total_pages.'">Last ('.$this->total_pages.') &rsaquo;</a></li>';
 		}
 

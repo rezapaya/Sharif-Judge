@@ -6,7 +6,8 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User_model extends CI_Model{
+class User_model extends CI_Model
+{
 
 	public function __construct()
 	{
@@ -119,6 +120,8 @@ class User_model extends CI_Model{
 	 */
 	public function add_user($username, $email, $password, $role)
 	{
+		if ( ! $this->form_validation->alpha_numeric($username) )
+			return 'Username may only contain alpha-numeric characters.';
 		if (strlen($username) < 3 OR strlen($username) > 20 OR strlen($password) < 6 OR strlen($password) > 200)
 			return 'Username or password length error.';
 		if ($this->have_user($username))
@@ -202,7 +205,7 @@ class User_model extends CI_Model{
 				'charset'   => 'iso-8859-1'
 			);
 			/*
-			// You can use gmail as smtp server
+			// You can use gmail's smtp server
 			$config = Array(
 				'protocol' => 'smtp',
 				'smtp_host' => 'ssl://smtp.googlemail.com',
@@ -261,8 +264,7 @@ class User_model extends CI_Model{
 		if ($username === FALSE)
 			return FALSE;
 		$this->db->delete('users', array('id'=>$user_id));
-		$this->db->delete('final_submissions', array('username' => $username));
-		$this->db->delete('all_submissions', array('username' => $username));
+		$this->db->delete('submissions', array('username' => $username));
 		// each time we delete a user, we should update all scoreboards
 		$this->load->model('scoreboard_model');
 		$this->scoreboard_model->update_scoreboards();
@@ -298,8 +300,7 @@ class User_model extends CI_Model{
 		if ($username === FALSE)
 			return FALSE;
 		// delete all submissions from database
-		$this->db->delete('final_submissions', array('username'=>$username));
-		$this->db->delete('all_submissions', array('username'=>$username));
+		$this->db->delete('submissions', array('username'=>$username));
 		// each time we delete a user's submissions, we should update all scoreboards
 		$this->load->model('scoreboard_model');
 		$this->scoreboard_model->update_scoreboards();
@@ -410,15 +411,16 @@ class User_model extends CI_Model{
 	 *
 	 * Returns name of the user with given username
 	 *
-	 * @param $username
-	 * @return bool
+	 * @return array
 	 */
-	public function get_display_name($username)
+	public function get_names()
 	{
-		$query = $this->db->select('display_name')->get_where('users', array('username'=>$username));
-		if ($query->num_rows() != 1)
-			return FALSE;
-		return $query->row()->display_name;
+		$query = $this->db->select('username, display_name')->get('users');
+		$tmp = $query->result_array();
+		$result = array();
+		foreach ($tmp as $row)
+			$result[$row['username']] = $row['display_name'];
+		return $result;
 	}
 
 
@@ -520,7 +522,7 @@ class User_model extends CI_Model{
 			'charset'   => 'iso-8859-1'
 		);
 		/*
-		// You can use gmail as smtp server
+		// You can use gmail's smtp server
 		$config = Array(
 			'protocol' => 'smtp',
 			'smtp_host' => 'ssl://smtp.googlemail.com',

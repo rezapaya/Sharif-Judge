@@ -297,7 +297,7 @@ $config['encryption_key'] = 'PLEASE_CHANGE_ME_TO_A_RANDOM_KEY';
 */
 $config['sess_driver']			= 'cookie';
 $config['sess_valid_drivers']	= array();
-$config['sess_cookie_name']		= 'shj_session';
+$config['sess_cookie_name']		= 'shjsession';
 $config['sess_expiration']		= 7200;
 $config['sess_expire_on_close']	= FALSE;
 $config['sess_encrypt_cookie']	= TRUE;
@@ -366,7 +366,7 @@ $config['global_xss_filtering'] = FALSE;
 */
 $config['csrf_protection'] = TRUE;
 $config['csrf_token_name'] = 'shj_csrf_token';
-$config['csrf_cookie_name'] = 'shj_csrf_token';
+$config['csrf_cookie_name'] = 'shjcsrftoken';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = FALSE;
 $config['csrf_exclude_uris'] = array();

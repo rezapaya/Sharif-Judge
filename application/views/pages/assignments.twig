@@ -1,0 +1,90 @@
+{#
+ # Sharif Judge
+ # file: assignments.twig
+ # author: Mohammad Javad Naderi <mjnaderi@gmail.com>
+ #}
+{% set selected = 'assignments' %}
+{% extends 'templates/base.twig' %}
+{% block icon %}fa-folder-open{% endblock %}
+{% block title %}Assignments{% endblock %}
+{% block head_title %}Assignments{% endblock %}
+
+
+
+{% block title_menu %}
+	{% if user_level >= 2 %}
+	<span class="title_menu_item"><a href="{{ site_url('assignments/add') }}"><i class="splashy-add_small"></i> Add</a></span>
+	{% endif %}
+{% endblock %}
+
+
+
+{% block main_content %}
+{% for success_message in success_messages %}
+	<p class="shj_ok">{{ success_message }}</p>
+{% endfor %}
+{% for error_message in error_messages %}
+	<p class="shj_error">{{ error_message }}</p>
+{% endfor %}
+
+{% if all_assignments|length == 0 %}
+	<p style="text-align: center;">Nothing to show...</p>
+{% endif %}
+<br/>
+<table class="sharif_table">
+<thead>
+<tr>
+	<th>Select</th>
+	<th>Name</th>
+	<th>Problems</th>
+	<th>Submissions</th>
+	<th>Coefficient</th>
+	<th>Start Time</th>
+	<th>Finish Time</th>
+	<th>Status</th>
+	<th>Actions</th>
+</tr>
+</thead>
+{% for item in all_assignments %}
+<tr>
+	<td><div class="select_assignment check {{ item.id == assignment.id ? 'checked' }} i{{ item.id }}" data-id="{{ item.id }}"></div></td>
+	<td dir="auto">{{ item.name }}</td>
+	<td><a href="{{ site_url('problems/'~item.id) }}">{{ item.problems }} problem{{ item.problems != 1 ? 's' }}</a></td>
+	<td>{{ item.total_submits }} submission{{ item.total_submits != 1 ? 's' }}</td>
+	<td>
+		{% if item.delay > item.extra_time %}
+			<span style="color: red;">Finished</span>
+		{% else %}
+			{{ item.coefficient }} %
+		{% endif %}
+	</td>
+	<td>{{ item.start_time }}</td>
+	<td>{{ item.finish_time }}</td>
+	<td>
+		{% if item.open %}
+			<span style="color: green;">Open</span>
+		{% else %}
+			<span style="color: red;">Close</span>
+		{% endif %}
+	</td>
+	<td>
+		{% if user_level >= 2 %}
+			<a href="{{ site_url('assignments/downloadtestsdesc/'~item.id) }}"><i title="Download Tests and Descriptions" class="splashy-folder_classic_down"></i></a>
+		{% endif %}
+		{% if user_level >= 1 %}
+			<a href="{{ site_url('assignments/download/'~item.id) }}"><i title="Download Final Codes" class="splashy-download"></i></a>
+		{% endif %}
+		{% if user_level >= 2 %}
+			<a href="{{ site_url('moss/'~item.id) }}"><i title="Detect Similar Codes" class="splashy-shield"></i></a>
+		{% endif %}
+		{% if user_level >= 2 %}
+			<a href="{{ site_url('assignments/edit/'~item.id) }}"><i title="Edit" class="splashy-pencil"></i></a>
+		{% endif %}
+		{% if user_level >= 2 %}
+			<a href="{{ site_url('assignments/delete/'~item.id) }}"><i title="Delete" class="splashy-remove_outline"></i></a>
+		{% endif %}
+	</td>
+</tr>
+{% endfor %}
+</table>
+{% endblock %} {# main_content #}

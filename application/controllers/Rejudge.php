@@ -58,16 +58,14 @@ class Rejudge extends CI_Controller
 			$data['msg'] = array('Rejudge in progress');
 		}
 
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/admin/rejudge', $data);
-		$this->load->view('templates/footer');
+		$this->twig->display('pages/admin/rejudge.twig', $data);
 	}
 
 
 	// ------------------------------------------------------------------------
 
 
-	public function rejudge_one()
+	public function rejudge_single()
 	{
 		if ( ! $this->input->is_ajax_request() )
 			show_404();
@@ -80,12 +78,14 @@ class Rejudge extends CI_Controller
 		if ($this->form_validation->run())
 		{
 			$this->load->model('queue_model');
-			$this->queue_model->rejudge_one(array(
-				'submit_id' => $this->input->post('submit_id'),
-				'username' => $this->input->post('username'),
-				'assignment' => $this->input->post('assignment'),
-				'problem' => $this->input->post('problem'),
-			));
+			$this->queue_model->rejudge_single(
+				array(
+					'submit_id' => $this->input->post('submit_id'),
+					'username' => $this->input->post('username'),
+					'assignment' => $this->input->post('assignment'),
+					'problem' => $this->input->post('problem'),
+				)
+			);
 			process_the_queue();
 			echo 'success';
 		}

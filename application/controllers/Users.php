@@ -46,13 +46,10 @@ class Users extends CI_Controller
 			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
-			'title' => 'Users',
 			'users' => $this->user_model->get_all_users()
 		);
 
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/admin/users', $data);
-		$this->load->view('templates/footer');
+		$this->twig->display('pages/admin/users.twig', $data);
 	}
 
 
@@ -70,18 +67,22 @@ class Users extends CI_Controller
 			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
-			'title' => 'Add Users',
 		);
 		$this->form_validation->set_rules('new_users', 'New Users', 'required');
-		if ($this->form_validation->run()) {
-			list($ok , $error) = $this->user_model->add_users($this->input->post('new_users'), $this->input->post('send_mail'), $this->input->post('delay'));
-			$this->load->view('pages/admin/add_user_result', array('ok'=>$ok, 'error'=>$error));
+		if ($this->form_validation->run())
+		{
+			if ( ! $this->input->is_ajax_request() )
+				exit;
+			list($ok, $error) = $this->user_model->add_users(
+				$this->input->post('new_users'),
+				$this->input->post('send_mail'),
+				$this->input->post('delay')
+			);
+			$this->twig->display('pages/admin/add_user_result.twig', array('ok' => $ok, 'error' => $error));
 		}
 		else
 		{
-			$this->load->view('templates/header', $data);
-			$this->load->view('pages/admin/add_user', $data);
-			$this->load->view('templates/footer');
+			$this->twig->display('pages/admin/add_user.twig', $data);
 		}
 	}
 

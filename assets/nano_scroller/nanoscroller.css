@@ -50,11 +50,12 @@
 }
 
 .scroll-wrapper > .pane:hover, .pane.active {
-	background-color: #DDD;
+	box-shadow: inset #bbb 0 0 7px;
 }
 
 .scroll-wrapper > .pane > .slider {
-	background-color: #888;
+	background-color: white;
+	box-shadow: inset #109100 0 0 20px -2px;
 	position: relative;
 	margin: 0;
 	-moz-border-radius    : 5px;

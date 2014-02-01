@@ -53,7 +53,7 @@ class Profile extends CI_Controller
 		if ($this->user_level <= 2 && $this->username != $this->edit_username) // permission denied
 			show_404();
 
-		$this->form_validation->set_rules('display_name', 'name', 'max_length[40]|xss_clean|strip_tags');
+		$this->form_validation->set_rules('display_name', 'name', 'max_length[40]');
 		$this->form_validation->set_rules('email', 'email address', 'required|max_length[40]|valid_email|callback__email_check', array('_email_check' => 'This %s already exists.'));
 		$this->form_validation->set_rules('password', 'password', 'callback__password_check', array('_password_check' => 'The %s field must be between 6 and 200 characters in length.'));
 		$this->form_validation->set_rules('password_again', 'password confirmation', 'callback__password_again_check', array('_password_again_check' => 'The %s field does not match the password field.'));
@@ -68,7 +68,6 @@ class Profile extends CI_Controller
 			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
 			'assignment' => $this->assignment,
-			'title' => 'Profile',
 			'id' => $user_id,
 			'edit_username' => $this->edit_username,
 			'email' => $user->email,
@@ -76,9 +75,8 @@ class Profile extends CI_Controller
 			'role' => $user->role,
 			'form_status' => $this->form_status,
 		);
-		$this->load->view('templates/header', $data);
-		$this->load->view('pages/profile', $data);
-		$this->load->view('templates/footer');
+
+		$this->twig->display('pages/profile.twig', $data);
 	}
 
 

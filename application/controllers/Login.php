@@ -43,15 +43,15 @@ class Login extends CI_Controller
 	{
 		if ($this->session->userdata('logged_in')) // if logged in
 			redirect('dashboard');
-		$this->form_validation->set_rules('username', 'Username', 'required|min_length[3]|max_length[20]|alpha_numeric');
+		$this->form_validation->set_rules('username', 'Username', 'required|min_length[3]|max_length[20]|alpha_numeric|lowercase');
 		$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]|max_length[200]');
 		$data = array(
-			'title' => 'Login',
-			'error' => FALSE
+			'error' => FALSE,
+			'registration_enabled' => $this->settings_model->get_setting('enable_registration'),
 		);
-		$this->load->view('templates/simple_header', $data);
+
 		if($this->form_validation->run()){
-			$username = $this->security->xss_clean($this->input->post('username'));
+			$username = $this->input->post('username');
 			$password = $this->input->post('password');
 			if($this->user_model->validate_user($username, $password)){
 				// setting the session and redirecting to dashboard:
@@ -67,8 +67,8 @@ class Login extends CI_Controller
 				// for displaying error message in 'pages/authentication/login' view
 				$data['error'] = TRUE;
 		}
-		$this->load->view('pages/authentication/login', $data);
-		$this->load->view('templates/footer');
+
+		$this->twig->display('pages/authentication/login.twig', $data);
 	}
 
 
@@ -90,7 +90,6 @@ class Login extends CI_Controller
 			'title' => 'Register',
 			'registration_code_required' => $this->settings_model->get_setting('registration_code')=='0'?FALSE:TRUE
 		);
-		$this->load->view('templates/simple_header', $data);
 		if ($this->form_validation->run()){
 			$this->user_model->add_user(
 				$this->input->post('username'),
@@ -98,12 +97,11 @@ class Login extends CI_Controller
 				$this->input->post('password'),
 				'student'
 			);
-			$this->load->view('pages/authentication/register_success');
+			$this->twig->display('pages/authentication/register_success.twig');
 		}
 		else
-			$this->load->view('pages/authentication/register', $data);
+			$this->twig->display('pages/authentication/register.twig', $data);
 
-		$this->load->view('templates/footer');
 	}
 
 
@@ -129,17 +127,15 @@ class Login extends CI_Controller
 			redirect('dashboard');
 		$this->form_validation->set_rules('email', 'email', 'required|max_length[40]|lowercase|valid_email');
 		$data = array(
-			'title' => 'Lost Password',
 			'sent' => FALSE
 		);
-		$this->load->view('templates/simple_header', $data);
 		if ($this->form_validation->run())
 		{
 			$this->user_model->send_password_reset_mail($this->input->post('email'));
 			$data['sent'] = TRUE;
 		}
-		$this->load->view('pages/authentication/lost', $data);
-		$this->load->view('templates/footer');
+
+		$this->twig->display('pages/authentication/lost.twig', $data);
 	}
 
 
@@ -156,18 +152,16 @@ class Login extends CI_Controller
 		$this->form_validation->set_rules('password', 'password', 'required|min_length[6]|max_length[200]');
 		$this->form_validation->set_rules('password_again', 'password confirmation', 'required|matches[password]');
 		$data = array(
-			'title' => 'Set New Password',
 			'key' => $passchange_key,
 			'result' => $result,
 			'reset' => FALSE
 		);
-		$this->load->view('templates/simple_header', $data);
 		if ($this->form_validation->run()){
 			$this->user_model->reset_password($passchange_key, $this->input->post('password'));
 			$data['reset'] = TRUE;
 		}
-		$this->load->view('pages/authentication/reset_password', $data);
-		$this->load->view('templates/footer');
+
+		$this->twig->display('pages/authentication/reset_password.twig', $data);
 	}
 
 

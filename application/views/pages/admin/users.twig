@@ -1,0 +1,59 @@
+{#
+ # Sharif Judge
+ # file: users.twig
+ # author: Mohammad Javad Naderi <mjnaderi@gmail.com>
+ #}
+{% set selected = 'users' %}
+{% extends 'templates/base.twig' %}
+{% block icon %}fa-users{% endblock %}
+{% block title %}Users{% endblock %}
+{% block head_title %}Users{% endblock %}
+
+
+{% block title_menu %}
+	<span class="title_menu_item"><a href="http://docs.sharifjudge.ir/users" target="_blank"><i class="splashy-help"></i> Help</a></span>
+	<span class="title_menu_item"><a href="{{ site_url('users/add') }}"><i class="splashy-group_blue_add"></i> Add Users</a></span>
+	<span class="title_menu_item"><a href="{{ site_url('users/list_excel') }}"><i class="splashy-document_small_download"></i> Excel</a></span>
+{% endblock %}
+
+{% block main_content %}
+{% if deleted_user %}
+	<p class="shj_ok">User deleted successfully.</p>
+{% endif %}
+{% if deleted_submissions %}
+	<p class="shj_ok">Submissions of selected user deleted successfully.</p>
+{% endif %}
+<div style="height:15px"></div>
+<table class="sharif_table">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>User ID</th>
+			<th>Username</th>
+			<th>Display Name</th>
+			<th>Email</th>
+			<th>Role</th>
+			<th>First Login</th>
+			<th>Last Login</th>
+			<th>Actions</th>
+		</tr>
+	</thead>
+	{% for user in users %}
+		<tr data-id="{{ user.id }}">
+			<td>{{ loop.index }}</td>
+			<td>{{ user.id }}</td>
+			<td id="un">{{ user.username }}</td>
+			<td dir="auto">{{ user.display_name }}</td>
+			<td>{{ user.email }}</td>
+			<td>{{ user.role }}</td>
+			<td>{{ user.first_login_time ? user.first_login_time : 'Never' }}</td>
+			<td>{{ user.last_login_time ? user.last_login_time : 'Never' }}</td>
+			<td>
+				<a title="Edit" href="{{ site_url('profile/'~user.id) }}"><i class="splashy-contact_blue_edit"></i></a>
+				<span title="Delete User" class="delete_user pointer"><i title="Delete User" class="splashy-contact_blue_remove"></i></span>
+				<span title="Delete Submissions" class="delete_submissions pointer"><i class="splashy-documents_remove"></i></span>
+			</td>
+		</tr>
+	{% endfor %}
+</table>
+{% endblock %}

@@ -6,7 +6,8 @@
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Assignment_model extends CI_Model{
+class Assignment_model extends CI_Model
+{
 
 	public function __construct()
 	{
@@ -33,7 +34,8 @@ class Assignment_model extends CI_Model{
 
 		$extra_items = explode('*', $this->input->post('extra_time'));
 		$extra_time = 1;
-		foreach($extra_items as $extra_item){
+		foreach($extra_items as $extra_item)
+		{
 			$extra_time *= $extra_item;
 		}
 		$assignment = array(
@@ -50,7 +52,8 @@ class Assignment_model extends CI_Model{
 			'late_rule' => $this->input->post('late_rule'),
 			'participants' => $this->input->post('participants')
 		);
-		if($edit){
+		if($edit)
+		{
 			$before = $this->db->get_where('assignments', array('id'=>$id))->row_array();
 			unset($assignment['total_submits']);
 			$this->db->where('id', $id)->update('assignments', $assignment);
@@ -79,7 +82,8 @@ class Assignment_model extends CI_Model{
 		$uo = $this->input->post('is_upload_only');
 		if ($uo === NULL)
 			$uo = array();
-		for ($i=1; $i<=$this->input->post('number_of_problems'); $i++){
+		for ($i=1; $i<=$this->input->post('number_of_problems'); $i++)
+		{
 			$items = explode(',', $ft[$i-1]);
 			$ft[$i-1] = '';
 			foreach ($items as $item){
@@ -149,8 +153,7 @@ class Assignment_model extends CI_Model{
 		// Phase 1: Delete this assignment and its submissions from database
 		$this->db->delete('assignments', array('id'=>$assignment_id));
 		$this->db->delete('problems', array('assignment'=>$assignment_id));
-		$this->db->delete('all_submissions', array('assignment'=>$assignment_id));
-		$this->db->delete('final_submissions', array('assignment'=>$assignment_id));
+		$this->db->delete('submissions', array('assignment'=>$assignment_id));
 
 		$this->db->trans_complete();
 
@@ -434,14 +437,11 @@ class Assignment_model extends CI_Model{
 	 */
 	private function _update_coefficients($assignment_id, $extra_time, $finish_time, $new_late_rule)
 	{
-		$all_submissions = $this->db->get_where('all_submissions', array('assignment'=>$assignment_id))->result_array();
-		$final_submissions = $this->db->get_where('final_submissions', array('assignment'=>$assignment_id))->result_array();
+		$submissions = $this->db->get_where('submissions', array('assignment'=>$assignment_id))->result_array();
 
 		$finish_time = strtotime($finish_time);
 
-
-		// Update Coefficients in table 'all_submissions'
-		foreach ($all_submissions as $i => $item) {
+		foreach ($submissions as $i => $item) {
 			$delay = strtotime($item['time'])-$finish_time;
 			ob_start();
 			if ( eval($new_late_rule) === FALSE )
@@ -449,18 +449,18 @@ class Assignment_model extends CI_Model{
 			if (!isset($coefficient))
 				$coefficient = "error";
 			ob_end_clean();
-			$all_submissions[$i]['coefficient'] = $coefficient;
+			$submissions[$i]['coefficient'] = $coefficient;
 		}
 		// For better performance, we update each 1000 rows in one SQL query
-		$size = count($all_submissions);
+		$size = count($submissions);
 		for ($i=0; $i<=($size-1)/1000; $i++) {
 			if ($this->db->dbdriver === 'postgre')
-				$query = 'UPDATE '.$this->db->dbprefix('all_submissions')." AS t SET coefficient = c.coeff FROM (values \n";
+				$query = 'UPDATE '.$this->db->dbprefix('submissions')." AS t SET coefficient = c.coeff FROM (values \n";
 			else
-				$query = 'UPDATE '.$this->db->dbprefix('all_submissions')." SET coefficient = CASE\n";
+				$query = 'UPDATE '.$this->db->dbprefix('submissions')." SET coefficient = CASE\n";
 
 			for ($j=1000*$i; $j<1000*($i+1) && $j<$size; $j++){
-				$item = $all_submissions[$j];
+				$item = $submissions[$j];
 				if ($this->db->dbdriver === 'postgre'){
 					$query.="($assignment_id, {$item['problem']}, '{$item['username']}', {$item['submit_id']}, '{$item['coefficient']}')";
 					if ($j+1<1000*($i+1) && $j+1<$size )
@@ -473,43 +473,6 @@ class Assignment_model extends CI_Model{
 			if ($this->db->dbdriver === 'postgre')
 				$query.=") AS c(assignment, problem, username, submit_id, coeff)\n"
 				."WHERE t.assignment=c.assignment AND t.problem=c.problem AND t.username=c.username AND t.submit_id=c.submit_id;";
-			else
-				$query.="END";
-			$this->db->query($query);
-		}
-
-
-		// Update Coefficients in table 'final_submissions'
-		foreach ($final_submissions as $i => $item) {
-			$delay = strtotime($item['time'])-$finish_time;
-			ob_start();
-			if ( eval($new_late_rule) === FALSE )
-				$coefficient = "error";
-			if (!isset($coefficient))
-				$coefficient = "error";
-			ob_end_clean();
-			$final_submissions[$i]['coefficient'] = $coefficient;
-		}
-		// For better performance, we update each 1000 rows in one SQL query
-		$size = count($final_submissions);
-		for ($i=0; $i<=($size-1)/1000; $i++) {
-			if ($this->db->dbdriver === 'postgre')
-				$query = 'UPDATE '.$this->db->dbprefix('final_submissions')." AS t SET coefficient = c.coeff FROM (values \n";
-			else
-				$query = 'UPDATE '.$this->db->dbprefix('final_submissions')." SET coefficient = CASE\n";
-			for ($j=1000*$i; $j<1000*($i+1) && $j<$size; $j++){
-				$item = $final_submissions[$j];
-				if ($this->db->dbdriver === 'postgre'){
-					$query.="($assignment_id, {$item['problem']}, '{$item['username']}', {$item['submit_id']}, '{$item['coefficient']}')";
-					if ($j+1<1000*($i+1) && $j+1<$size )
-						$query.=",\n";
-				}
-				else
-					$query.="WHEN assignment='".$assignment_id."' AND problem='".$item['problem']."' AND username='".$item['username']."' AND submit_id='".$item['submit_id']."' THEN ".$item['coefficient']."\n";
-			}
-			if ($this->db->dbdriver === 'postgre')
-				$query.=") AS c(assignment, problem, username, submit_id, coeff)\n"
-					."WHERE t.assignment=c.assignment AND t.problem=c.problem AND t.username=c.username AND t.submit_id=c.submit_id;";
 			else
 				$query.="END";
 			$this->db->query($query);
