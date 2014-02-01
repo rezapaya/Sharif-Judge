@@ -34,7 +34,7 @@ For running Sharif Judge, a Linux server with following requirements is needed:
 
   * Webserver running PHP version 5.3 or later with `mysqli` extension
   * PHP CLI (PHP command line interface, i.e. `php` shell command)
-  * MySql database
+  * MySql or PostgreSql database
   * PHP must have permission to run shell commands using [`shell_exec()`](http://www.php.net/manual/en/function.shell-exec.php) php function (specially `shell_exec("php");`)
   * Tools for compiling and running submitted codes (`gcc`, `g++`, `javac`, `java`, `python` and `python3` commands)
   * It is better to have `perl` installed for more precise time and memory limit and imposing size limit on output of submitted code.
@@ -43,7 +43,7 @@ For running Sharif Judge, a Linux server with following requirements is needed:
 
   1. Download the latest release from [download page](http://sharifjudge.ir/download) and unpack downloaded file in your public html directory.
   2. Create a MySql or PostgreSql database for Sharif Judge.
-  3. Set database connection settings in file `application/config/database.php`.
+  3. Set database connection settings in `application/config/database.php`.
   4. Make `application/cache/Twig` writable by php.
   5. Open the main page of Sharif Judge in a web browser and follow the installation process.
   6. Log in with your admin account.

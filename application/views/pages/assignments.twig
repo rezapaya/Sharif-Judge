@@ -45,7 +45,7 @@
 	<th>Actions</th>
 </tr>
 </thead>
-{% for item in all_assignments %}
+{% for item in all_assignments|reverse %}
 <tr>
 	<td><i class="pointer select_assignment fa {{ item.id == assignment.id ? 'fa-check-square-o' : 'fa-square-o' }} fa-2x" data-id="{{ item.id }}"></i></td>
 	<td dir="auto">{{ item.name }}</td>
