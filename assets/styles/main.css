@@ -1259,6 +1259,7 @@ div#right_sidebar {
 }
 
 div.problems_widget {
+	background-color: #FCFCFC;
 	border: 2px dashed #DDD;
 	box-shadow: 0 0 6px -2px #AAA;
 	-moz-box-shadow: 0 0 6px -2px #AAA;
