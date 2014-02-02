@@ -75,7 +75,7 @@ $(document).ready(function () {
 	<ul>
 		<li data-row="{{ wp[0] ? wp[0]['r'] : '1' }}" data-col="{{ wp[0] ? wp[0]['c'] : '1' }}" data-sizex="{{ wp[0] ? wp[0]['x'] : '1' }}" data-sizey="{{ wp[0] ? wp[0]['y'] : '1' }}">
 			<div class="shj_widget">
-				<div class="widget_title"><i class="fa fa-calendar-o fa-lg"></i> Calendar</div>
+				<div class="widget_title"><i class="fa fa-calendar-o fa-lg color10"></i> Calendar</div>
 				<div class="widget_scrollable scroll-wrapper">
 					<div class="scroll-content">
 						<div class="widget_contents_container" id='calendar'></div>
@@ -87,11 +87,11 @@ $(document).ready(function () {
 		<li data-row="{{ wp[1] ? wp[1]['r'] : '1' }}" data-col="{{ wp[1] ? wp[1]['c'] : '2' }}"
 		    data-sizex="{{ wp[1] ? wp[1]['x'] : '1' }}" data-sizey="{{ wp[1] ? wp[1]['y'] : '1' }}">
 			<div class="shj_widget">
-				<div class="widget_title"><i class="fa fa-bell-o fa-lg"></i>
+				<div class="widget_title"><i class="fa fa-bell-o fa-lg color2"></i>
 					Latest Notifications
 					{% if user_level >= 2 %}
 						<a title="New Notification" href="{{ site_url('notifications/add') }}" class="pull-right">
-							<i class="fa fa-plus"></i>
+							<i class="fa fa-plus color11"></i>
 						</a>
 					{% endif %}
 				</div>

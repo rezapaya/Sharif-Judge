@@ -25,18 +25,18 @@
 
 {% block title_menu %}
 	<span class="title_menu_item">
-		<a href="{{ excel_link }}"><i class="splashy-document_small_download"></i> Excel</a>
+		<a href="{{ excel_link }}"><i class="fa fa-download color2"></i> Excel</a>
 	</span>
 	{% if filter_user %}
 	<span class="title_menu_item">
 		<a href="{{ site_url('submissions/'~view~(filter_problem ? '/problem/'~filter_problem)) }}">
-		<i class="splashy-tag_remove"></i> Remove Username Filter</a>
+		<i class="fa fa-filter color1"></i> Remove Username Filter</a>
 	</span>
 	{% endif %}
 	{% if filter_problem %}
 	<span class="title_menu_item">
 		<a href="{{ site_url('submissions/'~view~(filter_user?'/user/'~filter_user)) }}">
-		<i class="splashy-tag_remove"></i> Remove Problem Filter</a>
+		<i class="fa fa-filter color4"></i> Remove Problem Filter</a>
 	</span>
 	{% endif %}
 {% endblock %} {# title_menu #}
@@ -48,7 +48,7 @@
 
 <p>{{ view|title }} Submissions of <span dir="auto">{{ assignment.name }}</span></p>
 {%  if view == 'all' %}
-<p><i class="splashy-warning_triangle"></i> You cannot change your final submissions after assignment finishes.</p>
+<p><i class="fa fa-warning color3"></i> You cannot change your final submissions after assignment finishes.</p>
 {% endif %}
 <table class="sharif_table">
 	<thead>
@@ -110,7 +110,7 @@
 		<tr data-u="{{ submission.username }}" data-a="{{ submission.assignment }}" data-p="{{ submission.problem }}" data-s="{{ submission.submit_id }}" {% if view == 'final' and j is even %}class="hl"{% endif %}>
 		{% if view == 'all' %}
 			<td>
-				<i class="pointer set_final fa {{ submission.is_final ? 'fa-check-circle-o' : 'fa-circle-o' }} fa-2x"></i>
+				<i class="pointer set_final fa {{ submission.is_final ? 'fa-check-circle-o color11' : 'fa-circle-o' }} fa-2x"></i>
 			</td>
 		{% endif %}
 		{% if user_level > 0 %}
@@ -177,7 +177,7 @@
 			{% endif %}
 			{% if user_level >= 2 %}
 				<td>
-					<a href="#" class="shj_rejudge"><i class="splashy-refresh"></i></a>
+					<a href="#" class="shj_rejudge"><i class="fa fa-refresh fa-lg color10"></i></a>
 				</td>
 			{% endif %}
 		</tr>

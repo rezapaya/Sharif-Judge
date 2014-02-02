@@ -13,7 +13,7 @@
 
 {% block title_menu %}
 {% if user_level >= 2 %}
-<span class="title_menu_item"><a href="{{ site_url('assignments/add') }}"><i class="splashy-add_small"></i> Add</a></span>
+<span class="title_menu_item"><a href="{{ site_url('assignments/add') }}"><i class="fa fa-plus color8"></i> Add</a></span>
 {% endif %}
 {% endblock %}
 
@@ -47,7 +47,7 @@
 </thead>
 {% for item in all_assignments|reverse %}
 <tr>
-	<td><i class="pointer select_assignment fa {{ item.id == assignment.id ? 'fa-check-square-o' : 'fa-square-o' }} fa-2x" data-id="{{ item.id }}"></i></td>
+	<td><i class="pointer select_assignment fa {{ item.id == assignment.id ? 'fa-check-square-o color6' : 'fa-square-o' }} fa-2x" data-id="{{ item.id }}"></i></td>
 	<td dir="auto">{{ item.name }}</td>
 	<td><a href="{{ site_url('problems/'~item.id) }}">{{ item.problems }} problem{{ item.problems != 1 ? 's' }}</a></td>
 	<td>{{ item.total_submits }} submission{{ item.total_submits != 1 ? 's' }}</td>
@@ -69,19 +69,19 @@
 	</td>
 	<td>
 		{% if user_level >= 2 %}
-			<a href="{{ site_url('assignments/downloadtestsdesc/'~item.id) }}"><i title="Download Tests and Descriptions" class="splashy-folder_classic_down"></i></a>
+			<a href="{{ site_url('assignments/downloadtestsdesc/'~item.id) }}"><i title="Download Tests and Descriptions" class="fa fa-cloud-download fa-lg color11"></i></a>
 		{% endif %}
 		{% if user_level >= 1 %}
-			<a href="{{ site_url('assignments/download/'~item.id) }}"><i title="Download Final Codes" class="splashy-download"></i></a>
+			<a href="{{ site_url('assignments/download/'~item.id) }}"><i title="Download Final Codes" class="fa fa-download fa-lg color12"></i></a>
 		{% endif %}
 		{% if user_level >= 2 %}
-			<a href="{{ site_url('moss/'~item.id) }}"><i title="Detect Similar Codes" class="splashy-shield"></i></a>
+			<a href="{{ site_url('moss/'~item.id) }}"><i title="Detect Similar Codes" class="fa fa-shield fa-lg color7"></i></a>
 		{% endif %}
 		{% if user_level >= 2 %}
-			<a href="{{ site_url('assignments/edit/'~item.id) }}"><i title="Edit" class="splashy-pencil"></i></a>
+			<a href="{{ site_url('assignments/edit/'~item.id) }}"><i title="Edit" class="fa fa-pencil fa-lg color3"></i></a>
 		{% endif %}
 		{% if user_level >= 2 %}
-			<a href="{{ site_url('assignments/delete/'~item.id) }}"><i title="Delete" class="splashy-remove_outline"></i></a>
+			<a href="{{ site_url('assignments/delete/'~item.id) }}"><i title="Delete" class="fa fa-times fa-lg color1"></i></a>
 		{% endif %}
 	</td>
 </tr>

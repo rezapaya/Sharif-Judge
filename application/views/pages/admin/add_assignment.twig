@@ -31,7 +31,7 @@
 	<td><input type="text" name="languages[]" class="sharif_input short2" value="C,C++,Python 2,Python 3,Java"/></td>\
 	<td><input type="text" name="diff_cmd[]" class="sharif_input tiny" value="diff"/></td>\
 	<td><input type="text" name="diff_arg[]" class="sharif_input tiny" value="-bB"/></td>\
-	<td><input type="checkbox" name="is_upload_only[]" class="check" value="PID"/><td><i class="splashy-gem_remove delete_problem pointer"></i></td></td>\
+	<td><input type="checkbox" name="is_upload_only[]" class="check" value="PID"/><td><i class="fa fa-times-circle fa-lg color1 delete_problem pointer"></i></td></td>\
 </tr>';
 	$(document).ready(function(){
 		$("#add").click(function(){
@@ -62,7 +62,7 @@
 
 {% block title_menu %}
 <span class="title_menu_item">
-	<a href="http://docs.sharifjudge.ir/add_assignment" target="_blank"><i class="splashy-help"></i> Help</a>
+	<a href="http://docs.sharifjudge.ir/add_assignment" target="_blank"><i class="fa fa-question-circle color1"></i> Help</a>
 </span>
 {% endblock %}
 
@@ -78,7 +78,7 @@
 
 {% if edit %}
 <p>
-	<i class="splashy-information"></i> If you don't want to change tests, just do not upload any file.
+	<i class="fa fa-info-circle fa-lg color8"></i> If you don't want to change tests, just do not upload any file.
 </p>
 {% endif %}
 
@@ -148,7 +148,7 @@
 		{{ form_error('late_rule', '<div class="shj_error">', '</div>') }}
 	</p>
 </div>
-<p class="input_p" id="add_problems">Problems <i class="splashy-add pointer" id="add"></i>
+<p class="input_p" id="add_problems">Problems <i class="fa fa-plus-circle fa-lg color11 pointer" id="add"></i>
 <table id="problems_table">
 	<thead>
 	<tr>
@@ -181,7 +181,7 @@
 			<td><input type="text" name="diff_cmd[]" class="sharif_input tiny" value="{{ problem.diff_cmd }}"/></td>
 			<td><input type="text" name="diff_arg[]" class="sharif_input tiny" value="{{ problem.diff_arg }}"/></td>
 			<td><input type="checkbox" name="is_upload_only[]" class="check" value="{{ problem.id }}" {{ problem.is_upload_only ? 'checked' }}/></td>
-			<td><i class="splashy-gem_remove delete_problem pointer"></i></td>
+			<td><i class="fa fa-times-circle fa-lg color1 delete_problem pointer"></i></td>
 		</tr>
 	{% endfor %}
 	</tbody>

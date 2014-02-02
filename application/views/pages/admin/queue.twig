@@ -34,16 +34,16 @@
 {% block main_content %}
 <p>
 	{% if working %}
-		<i class="splashy-media_controls_dark_play"></i> Queue is working
+		<i class="fa fa-play fa-lg color6"></i> Queue is working
 	{% else %}
-		<i class="splashy-media_controls_dark_pause"></i> Queue is not working
+		<i class="fa fa-pause fa-lg color10"></i> Queue is not working
 	{% endif %}
 	| Total submissions in queue: {{ queue|length }}
 </p>
 <p>
-	<a href="#" class="shj_act" id="pause"><i class="splashy-media_controls_pause_small"></i> Pause</a> |
-	<a href="#" class="shj_act" id="resume"><i class="splashy-media_controls_play_small"></i> Resume</a> |
-	<a href="#" class="shj_act" id="empty_queue"><i class="splashy-close"></i> Empty Queue</a>
+	<a href="#" class="shj_act" id="pause"><i class="fa fa-pause"></i> Pause</a> |
+	<a href="#" class="shj_act" id="resume"><i class="fa fa-play"></i> Resume</a> |
+	<a href="#" class="shj_act" id="empty_queue"><i class="fa fa-times-circle"></i> Empty Queue</a>
 </p>
 <table class="sharif_table">
 	<thead>

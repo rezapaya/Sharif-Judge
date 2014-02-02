@@ -12,9 +12,9 @@
 
 
 {% block title_menu %}
-	<span class="title_menu_item"><a href="http://docs.sharifjudge.ir/users" target="_blank"><i class="splashy-help"></i> Help</a></span>
-	<span class="title_menu_item"><a href="{{ site_url('users/add') }}"><i class="splashy-group_blue_add"></i> Add Users</a></span>
-	<span class="title_menu_item"><a href="{{ site_url('users/list_excel') }}"><i class="splashy-document_small_download"></i> Excel</a></span>
+	<span class="title_menu_item"><a href="http://docs.sharifjudge.ir/users" target="_blank"><i class="fa fa-question-circle color6"></i> Help</a></span>
+	<span class="title_menu_item"><a href="{{ site_url('users/add') }}"><i class="fa fa-plus color11"></i> Add Users</a></span>
+	<span class="title_menu_item"><a href="{{ site_url('users/list_excel') }}"><i class="fa fa-download color9"></i> Excel</a></span>
 {% endblock %}
 
 
@@ -52,9 +52,9 @@
 			<td>{{ user.first_login_time ? user.first_login_time : 'Never' }}</td>
 			<td>{{ user.last_login_time ? user.last_login_time : 'Never' }}</td>
 			<td>
-				<a title="Edit" href="{{ site_url('profile/'~user.id) }}"><i class="splashy-contact_blue_edit"></i></a>
-				<span title="Delete User" class="delete_user pointer"><i title="Delete User" class="splashy-contact_blue_remove"></i></span>
-				<span title="Delete Submissions" class="delete_submissions pointer"><i class="splashy-documents_remove"></i></span>
+				<a title="Edit" href="{{ site_url('profile/'~user.id) }}"><i class="fa fa-pencil fa-lg color3"></i></a>
+				<span title="Delete User" class="delete_user pointer"><i title="Delete User" class="fa fa-times fa-lg color2"></i></span>
+				<span title="Delete Submissions" class="delete_submissions pointer"><i class="fa fa-times-circle fa-lg color1"></i></span>
 			</td>
 		</tr>
 	{% endfor %}

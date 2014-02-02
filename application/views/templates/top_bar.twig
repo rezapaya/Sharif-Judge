@@ -60,7 +60,7 @@
 		<ul class="top_menu" id="select_assignment_menu">
 			{% for assignment_item in all_assignments|reverse[:5] %}
 				<li class="assignment_block select_assignment">
-					<i class="fa {{ assignment_item.id == assignment.id ? 'fa-check-square-o' : 'fa-square-o' }}" data-id="{{ assignment_item.id }}"></i>
+					<i class="fa {{ assignment_item.id == assignment.id ? 'fa-check-square-o color6' : 'fa-square-o' }}" data-id="{{ assignment_item.id }}"></i>
 					<span class="assignment_item" dir="auto">{{ assignment_item.name }}</span>
 				</li>
 			{% endfor %}
