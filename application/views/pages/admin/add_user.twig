@@ -9,9 +9,13 @@
 {% block title %}Add Users{% endblock %}
 {% block head_title %}Add Users{% endblock %}
 
+
+
 {% block title_menu %}
 	<span class="title_menu_item"><a href="http://docs.sharifjudge.ir/users#add_users" target="_blank"><i class="splashy-help"></i> Help</a></span>
 {% endblock %}
+
+
 
 {% block other_assets %}
 <script type='text/javascript' src="{{ base_url('assets/js/taboverride.min.js') }}"></script>
@@ -68,4 +72,4 @@
 </p>
 <input type="submit" class="sharif_input" id="add_users_button" value="Add Users"/>
 <span id="loading" style="display: none;"><img src="{{ base_url('assets/images/loading.gif') }}" /> Adding users... Please wait</span>
-{% endblock %}
+{% endblock %}  {# main_content #}

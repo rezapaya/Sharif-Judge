@@ -10,60 +10,56 @@
 {% block head_title %}Dashboard{% endblock %}
 
 
+
 {% block other_assets %}
 <link rel='stylesheet' type='text/css' href='{{ base_url('assets/fullcalendar/fullcalendar.css') }}'/>
 <script type='text/javascript' src="{{ base_url('assets/fullcalendar/fullcalendar.min.js') }}"></script>
 <link rel='stylesheet' type='text/css' href='{{ base_url('assets/gridster/jquery.gridster.css') }}'/>
 <script type='text/javascript' src="{{ base_url('assets/gridster/jquery.gridster.min.js') }}"></script>
 <script type='text/javascript' src="{{ base_url('assets/js/jquery.autoellipsis-1.0.10.min.js') }}"></script>
-
 <script>
-	$(document).ready(function () {
-
-		$('#calendar').fullCalendar({
-			timeFormat: 'HH:mm { - HH:mm}',
-			editable: false,
-			height: 280,
-			firstDay: {{ week_start }},
-			events: [
-				{% set colors = ['#812C8C','#FF750D','#2C578C','#013440','#A6222C','#42758C','#02A300','#BA6900'] %}
-				{% for assignment in all_assignments %}
-					{id:{{ assignment.id }},title:'{{ assignment.name|e('js') }}', start:'{{ assignment.start_time }}', end:' {{ assignment.finish_time }}',
-					allDay:false,color:'{{ colors[(loop.index0)%colors|length] }}'}
-				{% if not loop.last %},{% endif %}
-				{% endfor %}
-			]
-		});
-
-		var gridster = $(".gridster ul").gridster({
-			widget_margins: [10, 10],
-			widget_base_dimensions: [350, 350],
-			serialize_params: function ($w, wgd) {
-				return {
-					r: wgd.row,
-					c: wgd.col,
-					x: wgd.size_x,
-					y: wgd.size_y
-				}
-			},
-			draggable: {
-				handle: '.widget_title',
-				stop: function (event, ui) { // send widget positions to server for saving in database
-					var positions = JSON.stringify(gridster.serialize());
-					$.post(
-						"{{ site_url('dashboard/widget_positions') }}",
-						{
-							positions: positions,
-							shj_csrf_token: shj.csrf_token
-						}
-					);
-				}
-			}
-		}).data('gridster');
-
-		$('.notif_text').ellipsis();
-
+$(document).ready(function () {
+	$('#calendar').fullCalendar({
+		timeFormat: 'HH:mm { - HH:mm}',
+		editable: false,
+		height: 280,
+		firstDay: {{ week_start }},
+		events: [
+			{% set colors = ['#812C8C','#FF750D','#2C578C','#013440','#A6222C','#42758C','#02A300','#BA6900'] %}
+			{% for assignment in all_assignments %}
+				{id:{{ assignment.id }},title:'{{ assignment.name|e('js') }}', start:'{{ assignment.start_time }}', end:' {{ assignment.finish_time }}',
+				allDay:false,color:'{{ colors[(loop.index0)%colors|length] }}'}
+			{% if not loop.last %},{% endif %}
+			{% endfor %}
+		]
 	});
+	var gridster = $(".gridster ul").gridster({
+		widget_margins: [10, 10],
+		widget_base_dimensions: [350, 350],
+		serialize_params: function ($w, wgd) {
+			return {
+				r: wgd.row,
+				c: wgd.col,
+				x: wgd.size_x,
+				y: wgd.size_y
+			}
+		},
+		draggable: {
+			handle: '.widget_title',
+			stop: function (event, ui) { // send widget positions to server for saving in database
+				var positions = JSON.stringify(gridster.serialize());
+				$.post(
+					"{{ site_url('dashboard/widget_positions') }}",
+					{
+						positions: positions,
+						shj_csrf_token: shj.csrf_token
+					}
+				);
+			}
+		}
+	}).data('gridster');
+	$('.notif_text').ellipsis();
+});
 </script>
 {% endblock %}
 

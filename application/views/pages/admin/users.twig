@@ -10,11 +10,14 @@
 {% block head_title %}Users{% endblock %}
 
 
+
 {% block title_menu %}
 	<span class="title_menu_item"><a href="http://docs.sharifjudge.ir/users" target="_blank"><i class="splashy-help"></i> Help</a></span>
 	<span class="title_menu_item"><a href="{{ site_url('users/add') }}"><i class="splashy-group_blue_add"></i> Add Users</a></span>
 	<span class="title_menu_item"><a href="{{ site_url('users/list_excel') }}"><i class="splashy-document_small_download"></i> Excel</a></span>
 {% endblock %}
+
+
 
 {% block main_content %}
 {% if deleted_user %}
@@ -56,4 +59,4 @@
 		</tr>
 	{% endfor %}
 </table>
-{% endblock %}
+{% endblock %}  {# main_content #}

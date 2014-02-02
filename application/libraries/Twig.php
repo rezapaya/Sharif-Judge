@@ -70,7 +70,6 @@ class Twig
 			'cache' => $this->cache_dir,
 			'auto_reload' => TRUE
 		));
-		$this->twig->addGlobal('SHJ_VERSION', SHJ_VERSION);
 		$this->ci_function_init();
 	}
 
@@ -127,6 +126,9 @@ class Twig
 	 */
 	public function ci_function_init()
 	{
+		$this->twig->addGlobal('SHJ_VERSION', SHJ_VERSION);
+
+		/* Functions */
 		$this->twig->addFunction('base_url', new Twig_Function_Function('base_url', array('is_safe' => array('html'))));
 		$this->twig->addFunction('site_url', new Twig_Function_Function('site_url', array('is_safe' => array('html'))));
 		$this->twig->addFunction('anchor', new Twig_Function_Function('anchor'));
@@ -164,6 +166,7 @@ class Twig
 		$this->twig->addFunction('set_checkbox', new Twig_Function_Function('set_checkbox'));
 		$this->twig->addFunction('set_radio', new Twig_Function_Function('set_radio'));*/
 
+		// This filter is used in add_assignment.twig
 		$this->twig->addFilter(
 			new Twig_SimpleFilter(
 				'extra_time_formatter',

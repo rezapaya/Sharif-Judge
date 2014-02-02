@@ -9,6 +9,8 @@
 {% block title %}Settings{% endblock %}
 {% block head_title %}Settings{% endblock %}
 
+
+
 {% block other_assets %}
 <script type='text/javascript' src="{{ base_url('assets/js/taboverride.min.js') }}"></script>
 <script>
@@ -19,11 +21,13 @@ $(document).ready(function(){
 {% endblock %}
 
 
+
 {% block title_menu %}
 <span class="title_menu_item">
 	<a href="http://docs.sharifjudge.ir/settings" target="_blank"><i class="splashy-help"></i> Help</a>
 </span>
 {% endblock %}
+
 
 
 {% block main_content %}
@@ -213,4 +217,4 @@ $(document).ready(function(){
 		<input type="submit" value="Save Changes" class="sharif_input"/>
 	</p>
 </form>
-{% endblock %}
+{% endblock %}  {# main_content #}
