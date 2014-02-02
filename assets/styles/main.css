@@ -1161,6 +1161,7 @@ ul.shj_pagination li>a, ul.shj_pagination li>span {
 
 
 .widget_title {
+	cursor: default;
 	line-height: 30px;
 	padding: 0 6px 0 10px;
 	border-bottom: 1px solid #e3e3e3;
@@ -1177,7 +1178,7 @@ ul.shj_pagination li>a, ul.shj_pagination li>span {
 
 .widget_title i {
 	vertical-align: 0;
-	margin-right: 2px;
+	margin-right: 4px;
 }
 
 .gridster>ul>li {

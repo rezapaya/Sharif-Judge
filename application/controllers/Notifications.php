@@ -108,11 +108,17 @@ class Notifications extends CI_Controller
 		if ( ! $this->input->is_ajax_request() )
 			show_404();
 		if ($this->user_level <= 1) // permission denied
-			exit('error');
-		if ($this->input->post('id') === NULL)
-			exit('error');
-		$this->notifications_model->delete_notification($this->input->post('id'));
-		exit('deleted');
+			$json_result = array('done' => 0, 'message' => 'Permission Denied');
+		elseif ($this->input->post('id') === NULL)
+			$json_result = array('done' => 0, 'message' => 'Input Error');
+		else
+		{
+			$this->notifications_model->delete_notification($this->input->post('id'));
+			$json_result = array('done' => 1);
+		}
+
+		$this->output->set_header('Content-Type: application/json; charset=utf-8');
+		echo json_encode($json_result);
 	}
 
 

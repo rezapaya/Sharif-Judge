@@ -12,9 +12,9 @@
 
 
 {% block title_menu %}
-	{% if user_level >= 2 %}
-	<span class="title_menu_item"><a href="{{ site_url('assignments/add') }}"><i class="splashy-add_small"></i> Add</a></span>
-	{% endif %}
+{% if user_level >= 2 %}
+<span class="title_menu_item"><a href="{{ site_url('assignments/add') }}"><i class="splashy-add_small"></i> Add</a></span>
+{% endif %}
 {% endblock %}
 
 

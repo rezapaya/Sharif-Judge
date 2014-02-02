@@ -38,16 +38,47 @@ shj.supports_local_storage = function() {
 	}
 }
 
+shj.loading_start = function()
+{
+	$('#top_bar .shj-spinner').css('display', 'block');
+}
+
+shj.loading_finish = function()
+{
+	$('#top_bar .shj-spinner').css('display', 'none');
+}
+
+shj.loading_error = function()
+{
+	noty({
+		text: 'An error encountered while processing your request. Check your network connection.',
+		layout: 'bottomRight',
+		type: 'error',
+		timeout: 3500
+	});
+}
+
+shj.loading_failed = function(message)
+{
+	noty({
+		text: 'Request failed. Server says: ' + message,
+		layout: 'bottomRight',
+		type: 'error',
+		timeout: 3500
+	});
+}
+
 shj.sync_server_time = function () {
-	$.post(
-		shj.site_url + 'server_time',
-		{
+	$.ajax({
+		type: 'POST',
+		url: shj.site_url + 'server_time',
+		data: {
 			shj_csrf_token: shj.csrf_token
 		},
-		function (data) {
-			shj.offset = moment(data).diff(moment());
+		success: function (response) {
+			shj.offset = moment(response).diff(moment());
 		}
-	);
+	});
 }
 
 shj.update_clock = function(){
@@ -157,13 +188,14 @@ shj.notif_check_time = null;
 shj.check_notifs = function () {
 	if (shj.notif_check_time == null)
 		shj.notif_check_time = moment().add('milliseconds', shj.offset - (shj.notif_check_delay * 1000));
-	$.post(
-		shj.site_url+'notifications/check',
-		{
+	$.ajax({
+		type: 'POST',
+		url: shj.site_url+'notifications/check',
+		data: {
 			time: shj.notif_check_time.format('YYYY-MM-DD HH:mm:ss'),
 			shj_csrf_token: shj.csrf_token
 		},
-		function (data) {
+		success: function (data) {
 			if (data == "new_notification") {
 				noty({
 					text: 'New Notification',
@@ -180,7 +212,7 @@ shj.check_notifs = function () {
 				alert("New Notification");
 			}
 		}
-	);
+	});
 	shj.notif_check_time = moment().add('milliseconds', shj.offset);
 }
 
@@ -215,21 +247,27 @@ $(document).ready(function () {
 			buttons: [
 				{addClass: 'btn shj-red', text: 'Yes, Delete', onClick: function ($noty) {
 					$noty.close();
-					$.post(
-						shj.site_url + 'notifications/delete',
-						{
+					$.ajax({
+						type: 'POST',
+						url: shj.site_url + 'notifications/delete',
+						data: {
 							id: id,
 							shj_csrf_token: shj.csrf_token
 						},
-						function (response) {
-							if (response == 'deleted') {
+						beforeSend: shj.loading_start,
+						complete: shj.loading_finish,
+						error: shj.loading_error,
+						success: function (response) {
+							if (response.done) {
 								notif.animate({backgroundColor: '#FF7676'}, 1000, function () {
 									notif.remove();
 								});
 								noty({text: 'Notification deleted', layout: 'bottomRight', type: 'success', timeout: 5000});
 							}
+							else
+								shj.loading_failed(response.message);
 						}
-					);
+					});
 				}
 				},
 				{addClass: 'btn shj-blue', text: 'No, Don\'t Delete', onClick: function ($noty) {
@@ -317,24 +355,31 @@ $(document).ready(function () {
 	$(".select_assignment").click(
 		function () {
 			var id = $(this).children('i').addBack('i').data('id');
-			$.post(
-				shj.site_url + 'assignments/select',
-				{
+			$.ajax({
+				type: 'POST',
+				url: shj.site_url + 'assignments/select',
+				data: {
 					assignment_select: id,
 					shj_csrf_token: shj.csrf_token
 				},
-				function (response) {
-					if (response != "shj_failed") {
+				beforeSend: shj.loading_start,
+				complete: shj.loading_finish,
+				error: shj.loading_error,
+				success: function (response) {
+					if (response.done)
+					{
 						var checkboxes = $(".select_assignment").children('i').addBack('i');
 						checkboxes.removeClass('fa-check-square-o').addClass('fa-square-o');
 						checkboxes.filter("[data-id='" + id + "']").removeClass('fa-square-o').addClass('fa-check-square-o');
 						$(".assignment_name").html($('.top_object [data-id="' + id + '"]').parents('.assignment_block').children('.assignment_item').html());
-						shj.finish_time = moment(response.split(',')[0]);
-						shj.extra_time  = moment.duration(parseInt(response.split(',')[1], 10), 'seconds');
+						shj.finish_time = moment(response.finish_time);
+						shj.extra_time  = moment.duration(parseInt(response.extra_time, 10), 'seconds');
 						shj.update_clock();
 					}
+					else
+						shj.loading_failed(response.message);
 				}
-			);
+			});
 		}
 	);
 });
@@ -364,21 +409,26 @@ $(document).ready(function(){
 			buttons: [
 				{addClass: 'btn shj-red', text: 'Yes, Delete', onClick: function($noty) {
 					$noty.close();
-					$.post(
-						shj.site_url+'users/delete',
-					{
-						user_id: user_id,
-						shj_csrf_token: shj.csrf_token
-					},
-						function(response){
-							if (response == 'success'){
+					$.ajax({
+						type: 'POST',
+						url: shj.site_url+'users/delete',
+						data: {
+							user_id: user_id,
+							shj_csrf_token: shj.csrf_token
+						},
+						beforeSend: shj.loading_start,
+						complete: shj.loading_finish,
+						error: shj.loading_error,
+						success: function(response){
+							if (response.done)
+							{
 								row.animate({backgroundColor: '#FF7676'},1000, function(){row.remove();});
 								noty({text: 'User '+username+' deleted.', layout:'bottomRight', type: 'success', timeout: 5000});
 							}
-							else if (response == 'failed')
-								noty({text: 'Deleting user failed.', layout:'bottomRight', type: 'error', timeout: 3000});
+							else
+								shj.loading_failed(response.message);
 						}
-					);
+					});
 				}
 				},
 				{addClass: 'btn shj-blue', text: 'No, Don\'t Delete', onClick: function($noty){$noty.close();}}
@@ -402,19 +452,23 @@ $(document).ready(function(){
 			buttons: [
 				{addClass: 'btn shj-red', text: 'Yes, Delete', onClick: function($noty) {
 					$noty.close();
-					$.post(
-						shj.site_url+'users/delete_submissions',
-					{
-						user_id: user_id,
-						shj_csrf_token: shj.csrf_token
-					},
-						function(response){
-							if (response == 'success')
+					$.ajax({
+						type: 'POST',
+						url: shj.site_url+'users/delete_submissions',
+						data: {
+							user_id: user_id,
+							shj_csrf_token: shj.csrf_token
+						},
+						beforeSend: shj.loading_start,
+						complete: shj.loading_finish,
+						error: shj.loading_error,
+						success: function(response){
+							if (response.done)
 								noty({text: 'Submissions of user '+username+' deleted successfully.', layout:'bottomRight', type: 'success', timeout: 5000});
-							if (response == 'failed')
-								noty({text: 'Error deleting submissions.', layout:'bottomRight', type: 'error', timeout: 3000});
+							else
+								shj.loading_failed(response.message);
 						}
-					);
+					});
 				}
 				},
 				{addClass: 'btn shj-blue', text: 'No, Don\'t Delete', onClick: function($noty){$noty.close();}}

@@ -93,10 +93,17 @@ class Assignments extends CI_Controller
 		{
 			$this->user_model->select_assignment($this->username, $this->input->post('assignment_select'));
 			$this->assignment = $this->assignment_model->assignment_info($this->input->post('assignment_select'));
-			echo $this->assignment['finish_time'].",".$this->assignment['extra_time'];
+			$json_result = array(
+				'done' => 1,
+				'finish_time' => $this->assignment['finish_time'],
+				'extra_time' => $this->assignment['extra_time'],
+			);
 		}
 		else
-			echo 'shj_failed';
+			$json_result = array('done' => 0, 'message' => 'Input Error');
+
+		$this->output->set_header('Content-Type: application/json; charset=utf-8');
+		echo json_encode($json_result);
 	}
 
 

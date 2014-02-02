@@ -90,8 +90,9 @@ $(document).ready(function () {
 				<div class="widget_title"><i class="fa fa-bell-o fa-lg"></i>
 					Latest Notifications
 					{% if user_level >= 2 %}
-						<a title="New Notification" href="{{ site_url('notifications/add') }}" class="pull-right"><i
-									class="splashy-add_small"></i></a>
+						<a title="New Notification" href="{{ site_url('notifications/add') }}" class="pull-right">
+							<i class="fa fa-plus"></i>
+						</a>
 					{% endif %}
 				</div>
 				<div class="widget_scrollable scroll-wrapper">

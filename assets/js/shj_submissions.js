@@ -64,22 +64,28 @@ $(document).ready(function () {
 	$(".shj_rejudge").attr('title', 'Rejudge');
 	$(".shj_rejudge").click(function () {
 		var row = $(this).parents('tr');
-		$.post(
-			shj.site_url + 'rejudge/rejudge_single',
-			{
+		$.ajax({
+			type: 'POST',
+			url: shj.site_url + 'rejudge/rejudge_single',
+			data: {
 				username: row.data('u'),
 				assignment: row.data('a'),
 				problem: row.data('p'),
 				submit_id: row.data('s'),
 				shj_csrf_token: shj.csrf_token
 			},
-			function (data) {
-				if (data == 'success') {
+			beforeSend: shj.loading_start,
+			complete: shj.loading_finish,
+			error: shj.loading_error,
+			success: function (response) {
+				if (response.done) {
 					row.children('.status').html('<div class="btn pending" data-code="0">PENDING</div>');
 					noty({text: 'Rejudge in progress', layout: 'bottomRight', type: 'success', timeout: 2500});
 				}
+				else
+					shj.loading_failed(response.message);
 			}
-		);
+		});
 	});
 	$(".set_final").click(
 		function () {
@@ -87,36 +93,27 @@ $(document).ready(function () {
 			var submit_id = row.data('s');
 			var problem = row.data('p');
 			var username = row.data('u');
-			$.post(
-				shj.site_url + 'submissions/select',
-				{
+			$.ajax({
+				type: 'POST',
+				url: shj.site_url + 'submissions/select',
+				data: {
 					submit_id: submit_id,
 					problem: problem,
 					username: username,
 					shj_csrf_token: shj.csrf_token
 				},
-				function (response) {
-					if (response == "shj_success") {
+				beforeSend: shj.loading_start,
+				complete: shj.loading_finish,
+				error: shj.loading_error,
+				success: function (response) {
+					if (response.done) {
 						$("tr[data-u='" + username + "'][data-p='" + problem + "'] i.set_final").removeClass('fa-check-circle-o').addClass('fa-circle-o');
 						$("tr[data-u='" + username + "'][data-p='" + problem + "'][data-s='" + submit_id + "'] i.set_final").removeClass('fa-circle-o').addClass('fa-check-circle-o');
 					}
-					else if (response == "shj_finished") {
-						noty({
-							text: 'This assignment is finished. You cannot change your final submissions.',
-							layout: 'bottomRight',
-							type: 'warning',
-							timeout: 5000,
-							closeWith: ['click', 'button'],
-							animation: {
-								open: {height: 'toggle'},
-								close: {height: 'toggle'},
-								easing: 'swing',
-								speed: 300
-							}
-						});
-					}
+					else
+						shj.loading_failed(response.message);
 				}
-			);
+			});
 		}
 	);
 });

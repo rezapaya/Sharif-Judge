@@ -400,7 +400,15 @@ class Submissions extends CI_Controller
 		// Students cannot change their final submission after finish_time + extra_time
 		if ($this->user_level === 0)
 			if ( shj_now() > strtotime($this->assignment['finish_time'])+$this->assignment['extra_time'])
-				exit('shj_finished');
+			{
+				$json_result = array(
+					'done' => 0,
+					'message' => 'This assignment is finished. You cannot change your final submissions.'
+				);
+				$this->output->set_header('Content-Type: application/json; charset=utf-8');
+				echo json_encode($json_result);
+				return;
+			}
 
 		$this->form_validation->set_rules('submit_id', 'Submit ID', 'integer|greater_than[0]');
 		$this->form_validation->set_rules('problem', 'problem', 'integer|greater_than[0]');
@@ -419,14 +427,20 @@ class Submissions extends CI_Controller
 				$this->input->post('submit_id')
 			);
 
-			echo ($res?'shj_success':'shj_failed');
-
 			if ($res) {
 				// each time a user changes final submission, we should update scoreboard of that assignment
 				$this->load->model('scoreboard_model');
 				$this->scoreboard_model->update_scoreboard($this->assignment['id']);
+				$json_result = array('done' => 1);
 			}
+			else
+				$json_result = array('done' => 0, 'message' => 'Selecting Final Submission Failed');
 		}
+		else
+			$json_result = array('done' => 0, 'message' => 'Input Error');
+
+		$this->output->set_header('Content-Type: application/json; charset=utf-8');
+		echo json_encode($json_result);
 	}
 
 

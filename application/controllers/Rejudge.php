@@ -86,10 +86,13 @@ class Rejudge extends CI_Controller
 				)
 			);
 			process_the_queue();
-			echo 'success';
+			$json_result = array('done' => 1);
 		}
 		else
-			echo 'failed';
+			$json_result = array('done' => 0, 'message' => 'Input Error');
+
+		$this->output->set_header('Content-Type: application/json; charset=utf-8');
+		echo json_encode($json_result);
 	}
 
 }
