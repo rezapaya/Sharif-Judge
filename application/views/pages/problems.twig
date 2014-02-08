@@ -21,6 +21,14 @@ $(document).ready(function(){
 	$('.problem_description').resize(function(){
 		$('.scroll-wrapper').nanoScroller();
 	});
+	// Fix text directions for rtl text
+	$.each($('.problem_description [dir="auto"]'), function(i, element){
+		if (getComputedStyle(element).direction == 'rtl')
+		{
+			$(element).css('direction', 'rtl');
+			$(element).parent('ul, ol').css('direction', 'rtl');
+		}
+	});
 	// Syntax highlighting
 	$('pre code.language-c').parent().snippet('c', {style: shj.color_scheme});
 	$('pre code.language-cpp').parent().snippet('cpp', {style: shj.color_scheme});

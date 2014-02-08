@@ -1291,10 +1291,18 @@ div.problems_widget table td{
 	height: 30px;
 }
 
-div#main_container .problem_description  {
+div#main_container .problem_description {
 	position: absolute;
 	right: 245px;
 	left: 20px;
+	text-align: justify;
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.problem_description pre {
+	font-size: 12px;
+	line-height: normal;
 }
 
 div#md_div {
