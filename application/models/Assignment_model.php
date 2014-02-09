@@ -467,14 +467,14 @@ class Assignment_model extends CI_Model
 						$query.=",\n";
 				}
 				else
-					$query.="WHEN assignment='".$assignment_id."' AND problem='".$item['problem']."' AND username='".$item['username']."' AND submit_id='".$item['submit_id']."' THEN ".$item['coefficient']."\n";
+					$query.="WHEN assignment='$assignment_id' AND problem='{$item['problem']}' AND username='{$item['username']}' AND submit_id='{$item['submit_id']}' THEN {$item['coefficient']}\n";
 			}
 
 			if ($this->db->dbdriver === 'postgre')
 				$query.=") AS c(assignment, problem, username, submit_id, coeff)\n"
 				."WHERE t.assignment=c.assignment AND t.problem=c.problem AND t.username=c.username AND t.submit_id=c.submit_id;";
 			else
-				$query.="END";
+				$query.="ELSE coefficient \n END \n WHERE assignment='$assignment_id';";
 			$this->db->query($query);
 		}
 	}
