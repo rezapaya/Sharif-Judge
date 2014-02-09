@@ -29,7 +29,7 @@
 
 {% if all_assignments|length == 0 %}
 	<p style="text-align: center;">Nothing to show...</p>
-{% endif %}
+{% else %}
 <br/>
 <table class="sharif_table">
 <thead>
@@ -87,4 +87,5 @@
 </tr>
 {% endfor %}
 </table>
+{% endif %}
 {% endblock %}  {# main_content #}
