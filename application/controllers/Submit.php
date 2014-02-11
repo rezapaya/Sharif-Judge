@@ -168,7 +168,7 @@ class Submit extends CI_Controller
 		$this->file_name = basename($_FILES['userfile']['name'], ".{$this->ext}"); // uploaded file name without extension
 		if ( $this->queue_model->in_queue($this->user->username,$this->user->selected_assignment['id'], $this->problem['id']) )
 			show_error('You have already submitted for this problem. Your last submission is still in queue.');
-		if ($this->user_model->get_user_level($this->user->username)==0 && !$this->user->selected_assignment['open'])
+		if ($this->user->level==0 && !$this->user->selected_assignment['open'])
 			show_error('Selected assignment has been closed.');
 		if ($now < strtotime($this->user->selected_assignment['start_time']))
 			show_error('Selected assignment has not started.');
