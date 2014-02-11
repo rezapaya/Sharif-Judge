@@ -35,7 +35,7 @@
 {% if error != 'none' %}
 <p>{{ error }}</p>
 {% else %}
-	<p>Selected assignment: <span dir="auto">{{ assignment.name }}</span></p>
+	<p>Selected assignment: <span dir="auto">{{ user.selected_assignment.name }}</span></p>
 	<p>Coefficient: {{ coefficient }}%</p>
 	{{ form_open_multipart('submit') }}
 	<p class="input_p">

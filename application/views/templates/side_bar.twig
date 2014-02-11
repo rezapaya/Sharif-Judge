@@ -11,7 +11,7 @@
 				<span class="sidebar_text">Dashboard</span>
 			</a>
 		</li>
-		{% if user_level == 3 %}
+		{% if user.level == 3 %}
 		<li class="color-settings{{ selected=='settings' ? ' selected' }}">
 			<a href="{{ site_url('settings') }}">
 				<i class="fa fa-gear fa-lg"></i>

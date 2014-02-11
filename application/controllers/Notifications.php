@@ -9,9 +9,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Notifications extends CI_Controller
 {
 
-	private $username;
-	private $assignment;
-	private $user_level;
 	private $notif_edit;
 
 
@@ -21,12 +18,8 @@ class Notifications extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->driver('session');
 		if ( ! $this->session->userdata('logged_in')) // if not logged in
 			redirect('login');
-		$this->username = $this->session->userdata('username');
-		$this->assignment = $this->assignment_model->assignment_info($this->user_model->selected_assignment($this->username));
-		$this->user_level = $this->user_model->get_user_level($this->username);
 		$this->load->model('notifications_model');
 		$this->notif_edit = FALSE;
 	}
@@ -38,10 +31,7 @@ class Notifications extends CI_Controller
 	public function index()
 	{
 		$data = array(
-			'username' => $this->username,
-			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
-			'assignment' => $this->assignment,
 			'notifications' => $this->notifications_model->get_all_notifications()
 		);
 
@@ -55,7 +45,7 @@ class Notifications extends CI_Controller
 
 	public function add()
 	{
-		if ( $this->user_level <=1) // permission denied
+		if ( $this->user->level <=1) // permission denied
 			show_404();
 
 		$this->form_validation->set_rules('title', 'title', 'trim');
@@ -70,10 +60,7 @@ class Notifications extends CI_Controller
 		}
 
 		$data = array(
-			'username' => $this->username,
-			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
-			'assignment' => $this->assignment,
 			'notif_edit' => $this->notif_edit
 		);
 
@@ -91,7 +78,7 @@ class Notifications extends CI_Controller
 
 	public function edit($notif_id = FALSE)
 	{
-		if ($this->user_level <= 1) // permission denied
+		if ($this->user->level <= 1) // permission denied
 			show_404();
 		if ($notif_id === FALSE || ! is_numeric($notif_id))
 			show_404();
@@ -107,7 +94,7 @@ class Notifications extends CI_Controller
 	{
 		if ( ! $this->input->is_ajax_request() )
 			show_404();
-		if ($this->user_level <= 1) // permission denied
+		if ($this->user->level <= 1) // permission denied
 			$json_result = array('done' => 0, 'message' => 'Permission Denied');
 		elseif ($this->input->post('id') === NULL)
 			$json_result = array('done' => 0, 'message' => 'Input Error');

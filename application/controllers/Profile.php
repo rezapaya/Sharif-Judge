@@ -9,9 +9,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Profile extends CI_Controller
 {
 
-	private $username;
-	private $assignment;
-	private $user_level;
 	private $form_status;
 	private $edit_username;
 
@@ -22,12 +19,8 @@ class Profile extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->driver('session');
 		if ( ! $this->session->userdata('logged_in')) // if not logged in
 			redirect('login');
-		$this->username = $this->session->userdata('username');
-		$this->assignment = $this->assignment_model->assignment_info($this->user_model->selected_assignment($this->username));
-		$this->user_level = $this->user_model->get_user_level($this->username);
 		$this->form_status = '';
 	}
 
@@ -38,7 +31,7 @@ class Profile extends CI_Controller
 	public function index($user_id = FALSE)
 	{
 		if ($user_id === FALSE)
-			$user_id = $this->user_model->username_to_user_id($this->username);
+			$user_id = $this->user_model->username_to_user_id($this->user->username);
 
 		if ( ! is_numeric($user_id))
 			show_404();
@@ -50,7 +43,7 @@ class Profile extends CI_Controller
 		$this->edit_username = $user->username;
 
 		//Non-admins are not able to update others' profile
-		if ($this->user_level <= 2 && $this->username != $this->edit_username) // permission denied
+		if ($this->user->level <= 2 && $this->user->username != $this->edit_username) // permission denied
 			show_404();
 
 		$this->form_validation->set_rules('display_name', 'name', 'max_length[40]');
@@ -64,10 +57,7 @@ class Profile extends CI_Controller
 			$this->form_status = 'ok';
 		}
 		$data = array(
-			'username' => $this->username,
-			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
-			'assignment' => $this->assignment,
 			'id' => $user_id,
 			'edit_username' => $this->edit_username,
 			'email' => $user->email,
@@ -113,7 +103,7 @@ class Profile extends CI_Controller
 	public function _role_check($role)
 	{
 		// Non-admin users should not be able to change user role:
-		if ($this->user_level <= 2)
+		if ($this->user->level <= 2)
 			if($role == '')
 				return TRUE;
 			else

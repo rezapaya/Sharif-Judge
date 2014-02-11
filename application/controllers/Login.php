@@ -12,7 +12,6 @@ class Login extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->driver('session');
 	}
 
 
@@ -60,7 +59,7 @@ class Login extends CI_Controller
 					'logged_in' => TRUE
 				);
 				$this->session->set_userdata($login_data);
-				$this->user_model->update_login_time($username);
+				$this->user->update_login_time();
 				redirect('/');
 			}
 			else

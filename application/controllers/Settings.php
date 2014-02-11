@@ -9,9 +9,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Settings extends CI_Controller
 {
 
-	private $username;
-	private $assignment;
-	private $user_level;
 	private $form_status;
 	private $errors;
 
@@ -22,13 +19,9 @@ class Settings extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->driver('session');
 		if ( ! $this->session->userdata('logged_in')) // if not logged in
 			redirect('login');
-		$this->username = $this->session->userdata('username');
-		$this->assignment = $this->assignment_model->assignment_info($this->user_model->selected_assignment($this->username));
-		$this->user_level = $this->user_model->get_user_level($this->username);
-		if ( $this->user_level <= 2) // permission denied
+		if ( $this->user->level <= 2) // permission denied
 			show_404();
 		$this->form_status = '';
 		$this->errors = array();
@@ -43,10 +36,7 @@ class Settings extends CI_Controller
 		$settings = $this->settings_model->get_all_settings();
 		$data = array_merge($settings,
 			array(
-				'username' => $this->username,
-				'user_level' => $this->user_level,
 				'all_assignments' => $this->assignment_model->all_assignments(),
-				'assignment' => $this->assignment,
 				'sandbox_built' => file_exists(rtrim($settings['tester_path'], '/').'/easysandbox/EasySandbox.so'),
 				'form_status' => $this->form_status,
 				'errors' => $this->errors

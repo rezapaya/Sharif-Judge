@@ -89,7 +89,7 @@ $(document).ready(function () {
 			<div class="shj_widget">
 				<div class="widget_title"><i class="fa fa-bell-o fa-lg color2"></i>
 					Latest Notifications
-					{% if user_level >= 2 %}
+					{% if user.level >= 2 %}
 						<a title="New Notification" href="{{ site_url('notifications/add') }}" class="pull-right">
 							<i class="fa fa-plus color11"></i>
 						</a>
@@ -107,7 +107,7 @@ $(document).ready(function () {
 										<span class="anchor ttl_n">{{ notification.title }}</span>
 										<span class="notif_meta" dir="ltr">
 										{{ notification.time }}
-											{% if user_level >= 2 %}
+											{% if user.level >= 2 %}
 												<span class="anchor edt_n">Edit</span>
 												<span class="anchor del_n">Delete</span>
 											{% endif %}

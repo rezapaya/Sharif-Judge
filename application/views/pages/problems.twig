@@ -41,7 +41,7 @@ $(document).ready(function(){
 
 
 {% block title_menu %}
-{% if user_level >= 2 %}
+{% if user.level >= 2 %}
 <span class="title_menu_item"><a href="{{ site_url("problems/edit/md/#{description_assignment.id}/#{problem.id}") }}"><i class="fa fa-pencil color2"></i> Edit Markdown</a></span>
 <span class="title_menu_item"><a href="{{ site_url("problems/edit/html/#{description_assignment.id}/#{problem.id}") }}"><i class="fa fa-pencil color10"></i> Edit HTML</a></span>
 <span class="title_menu_item"><a href="{{ site_url("problems/edit/plain/#{description_assignment.id}/#{problem.id}") }}"><i class="fa fa-pencil color8"></i> Edit Plain HTML</a></span>

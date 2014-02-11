@@ -95,7 +95,7 @@ $autoload['libraries'] = array('database', 'form_validation', 'twig');
 |	$autoload['drivers'] = array('session', 'cache');
 */
 
-$autoload['drivers'] = array();
+$autoload['drivers'] = array('session');
 
 
 /*
@@ -156,7 +156,7 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('first_model' => 'first');
 */
 
-$autoload['model'] = array('settings_model','user_model','assignment_model');
+$autoload['model'] = array('user', 'settings_model', 'user_model', 'assignment_model');
 
 
 /* End of file autoload.php */

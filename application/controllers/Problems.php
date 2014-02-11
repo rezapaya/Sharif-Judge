@@ -9,10 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Problems extends CI_Controller
 {
 
-	private $username;
 	private $all_assignments;
-	private $assignment;
-	private $user_level;
 
 
 	// ------------------------------------------------------------------------
@@ -21,16 +18,10 @@ class Problems extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->driver('session');
 		if ( ! $this->session->userdata('logged_in')) // if not logged in
 			redirect('login');
 
-		$this->username = $this->session->userdata('username');
 		$this->all_assignments = $this->assignment_model->all_assignments();
-		$selected_assignment = $this->user_model->selected_assignment($this->username);
-		if ($selected_assignment != 0)
-			$this->assignment = $this->all_assignments[$this->user_model->selected_assignment($this->username)];
-		$this->user_level = $this->user_model->get_user_level($this->username);
 	}
 
 
@@ -48,16 +39,13 @@ class Problems extends CI_Controller
 
 		// If no assignment is given, use selected assignment
 		if ($assignment_id === NULL)
-			$assignment_id = $this->assignment['id'];
+			$assignment_id = $this->user->selected_assignment['id'];
 		if ($assignment_id == 0)
 			show_error('No assignment selected.');
 
 		$data = array(
-			'username' => $this->username,
-			'user_level' => $this->user_level,
 			'all_assignments' => $this->all_assignments,
 			'all_problems' => $this->assignment_model->all_problems($assignment_id),
-			'assignment' => $this->assignment,
 			'description_assignment' => $this->assignment_model->assignment_info($assignment_id),
 		);
 
@@ -76,7 +64,7 @@ class Problems extends CI_Controller
 		if (file_exists($path))
 			$data['problem']['description'] = file_get_contents($path);
 
-		if (shj_now() > strtotime($this->assignment['finish_time'])+$this->assignment['extra_time']) // deadline = finish_time + extra_time
+		if (shj_now() > strtotime($this->user->selected_assignment['finish_time'])+$this->user->selected_assignment['extra_time']) // deadline = finish_time + extra_time
 			$data['finished'] = TRUE;
 
 		$this->twig->display('pages/problems.twig', $data);
@@ -100,7 +88,7 @@ class Problems extends CI_Controller
 		if ($type !== 'html' && $type !== 'md' && $type !== 'plain')
 			show_404();
 
-		if ($this->user_level <= 1)
+		if ($this->user->level <= 1)
 			show_404();
 
 		switch($type)
@@ -114,15 +102,12 @@ class Problems extends CI_Controller
 		}
 
 		if ($assignment_id === NULL)
-			$assignment_id = $this->assignment['id'];
+			$assignment_id = $this->user->selected_assignment['id'];
 		if ($assignment_id == 0)
 			show_error('No assignment selected.');
 
 		$data = array(
-			'username' => $this->username,
-			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
-			'assignment' => $this->assignment,
 			'description_assignment' => $this->assignment_model->assignment_info($assignment_id),
 		);
 

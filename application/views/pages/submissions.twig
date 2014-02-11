@@ -46,7 +46,7 @@
 
 {% block main_content %}
 
-<p>{{ view|title }} Submissions of <span dir="auto">{{ assignment.name }}</span></p>
+<p>{{ view|title }} Submissions of <span dir="auto">{{ user.selected_assignment.name }}</span></p>
 {%  if view == 'all' %}
 <p><i class="fa fa-warning color3"></i> You cannot change your final submissions after assignment finishes.</p>
 {% endif %}
@@ -56,7 +56,7 @@
 		{% if view == 'all' %}
 			<th width="1%" rowspan="2">Final</th>
 		{% endif %}
-		{% if user_level > 0 %}
+		{% if user.level > 0 %}
 				{% if view == 'all' %}
 				<th width="3%" rowspan="2">ID</th>
 				{% else %}
@@ -74,7 +74,7 @@
 				{% if view == 'final' %}
 				<th width="6%" rowspan="2">Log</th>
 				{% endif %}
-				{% if user_level >= 2 %}
+				{% if user.level >= 2 %}
 				<th width="1%" rowspan="2">Actions</th>
 				{% endif %}
 			</tr>
@@ -113,7 +113,7 @@
 				<i class="pointer set_final fa {{ submission.is_final ? 'fa-check-circle-o color11' : 'fa-circle-o' }} fa-2x"></i>
 			</td>
 		{% endif %}
-		{% if user_level > 0 %}
+		{% if user.level > 0 %}
 			{% if view == 'all' %}
 				<td>{{ submission.submit_id }}</td>
 			{% else %}
@@ -166,7 +166,7 @@
 					<div class="btn shj-orange" data-type="code" >Code</div>
 				{% endif %}
 			</td>
-			{% if view == 'final' and user_level > 0 %}
+			{% if view == 'final' and user.level > 0 %}
 			<td>
 				{% if submission.status == 'Uploaded' %}
 					---
@@ -175,7 +175,7 @@
 				{% endif %}
 			</td>
 			{% endif %}
-			{% if user_level >= 2 %}
+			{% if user.level >= 2 %}
 				<td>
 					<a href="#" class="shj_rejudge"><i class="fa fa-refresh fa-lg color10"></i></a>
 				</td>

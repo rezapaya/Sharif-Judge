@@ -181,6 +181,9 @@ class Twig
 			)
 		);
 
+		$this->_ci->load->model('user');
+		$this->twig->addGlobal('user', $this->_ci->user);
+
 	}
 }
 

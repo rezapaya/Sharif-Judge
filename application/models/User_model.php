@@ -347,28 +347,6 @@ class User_model extends CI_Model
 
 
 	/**
-	 * Update Login Time
-	 *
-	 * Updates First Login Time and Last Login Time for given username
-	 *
-	 * @param $username
-	 */
-	public function update_login_time($username)
-	{
-		$now = shj_now_str();
-
-		$first_login = $this->db->select('first_login_time')->get_where('users', array('username'=>$username))->row()->first_login_time;
-		if ($first_login === NULL)
-			$this->db->where('username', $username)->update('users', array('first_login_time'=>$now));
-
-		$this->db->where('username', $username)->update('users', array('last_login_time'=>$now));
-	}
-
-
-	// ------------------------------------------------------------------------
-
-
-	/**
 	 * Selected Assignment
 	 *
 	 * Returns selected assignment by given username
@@ -390,23 +368,6 @@ class User_model extends CI_Model
 
 
 	/**
-	 * Select Assignment
-	 *
-	 * Sets selected assignment for $username
-	 *
-	 * @param $username
-	 * @param $assignment_id
-	 */
-	public function select_assignment($username, $assignment_id)
-	{
-		$this->db->where('username', $username)->update('users', array('selected_assignment'=>$assignment_id));
-	}
-
-
-	// ------------------------------------------------------------------------
-
-
-	/**
 	 * Get Display Name
 	 *
 	 * Returns name of the user with given username
@@ -421,33 +382,6 @@ class User_model extends CI_Model
 		foreach ($tmp as $row)
 			$result[$row['username']] = $row['display_name'];
 		return $result;
-	}
-
-
-	// ------------------------------------------------------------------------
-
-
-	/**
-	 * Get User Level
-	 *
-	 * Returns permission level of given user
-	 * admin            -> 3
-	 * head_instructor  -> 2
-	 * instructor       -> 1
-	 * student          -> 0
-	 *
-	 * @param $username
-	 * @return int
-	 */
-	public function get_user_level($username)
-	{
-		$role = $this->db->select('role')->get_where('users', array('username'=>$username))->row()->role;
-		switch ($role){
-			case 'admin': return 3;
-			case 'head_instructor': return 2;
-			case 'instructor': return 1;
-			case 'student': return 0;
-		}
 	}
 
 
@@ -630,44 +564,5 @@ class User_model extends CI_Model
 		return $query->row();
 	}
 
-
-	// ------------------------------------------------------------------------
-
-
-	/**
-	 * Save Widget Positions
-	 *
-	 * Updates position of dashboard widgets in database
-	 *
-	 * @param $username
-	 * @param $positions
-	 */
-	public function save_widget_positions($username, $positions)
-	{
-		$this->db->where('username', $username)->update('users', array('dashboard_widget_positions'=>$positions));
-	}
-
-
-	// ------------------------------------------------------------------------
-
-
-	/**
-	 * Get Widget Positions
-	 *
-	 * Returns positions of dashboard widgets from database
-	 *
-	 * @param $username
-	 * @return mixed
-	 */
-	public function get_widget_positions($username)
-	{
-		return json_decode(
-			$this->db->select('dashboard_widget_positions')
-			->get_where('users', array('username'=>$username))
-			->row()
-			->dashboard_widget_positions,
-			TRUE
-		);
-	}
 
 }

@@ -10,9 +10,6 @@ class Submit extends CI_Controller
 {
 
 	private $data; //data sent to view
-	private $username;
-	private $user_level;
-	private $assignment;
 	private $assignment_root;
 	private $problems;
 	private $problem;//submitted problem id
@@ -28,20 +25,16 @@ class Submit extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->driver('session');
 		if ( ! $this->session->userdata('logged_in')) // if not logged in
 			redirect('login');
 		$this->load->library('upload')->model('queue_model');
-		$this->username = $this->session->userdata('username');
-		$this->user_level = $this->user_model->get_user_level($this->username);
-		$this->assignment = $this->assignment_model->assignment_info($this->user_model->selected_assignment($this->username));
 		$this->assignment_root = $this->settings_model->get_setting('assignments_root');
-		$this->problems = $this->assignment_model->all_problems($this->assignment['id']);
+		$this->problems = $this->assignment_model->all_problems($this->user->selected_assignment['id']);
 
-		$extra_time = $this->assignment['extra_time'];
-		$delay = shj_now()-strtotime($this->assignment['finish_time']);;
+		$extra_time = $this->user->selected_assignment['extra_time'];
+		$delay = shj_now()-strtotime($this->user->selected_assignment['finish_time']);;
 		ob_start();
-		if ( eval($this->assignment['late_rule']) === FALSE )
+		if ( eval($this->user->selected_assignment['late_rule']) === FALSE )
 			$coefficient = "error";
 		if (!isset($coefficient))
 			$coefficient = "error";
@@ -117,10 +110,7 @@ class Submit extends CI_Controller
 		}
 
 		$this->data = array(
-			'username' => $this->username,
-			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
-			'assignment' => $this->assignment,
 			'problems' => $this->problems,
 			'in_queue' => FALSE,
 			'coefficient' => $this->coefficient,
@@ -139,16 +129,16 @@ class Submit extends CI_Controller
 			$items = substr($items,0,strlen($items)-1);
 			$this->data['problems_js'] .= "shj.p[{$problem['id']}]=[{$items}]; ";
 		}
-		if ($this->assignment['id'] == 0)
+		if ($this->user->selected_assignment['id'] == 0)
 			$this->data['error']='Please select an assignment first.';
-		elseif ($this->user_model->get_user_level($this->username) == 0 && ! $this->assignment['open'])
+		elseif ($this->user->level == 0 && ! $this->user->selected_assignment['open'])
 			// if assignment is closed, non-student users (admin, instructors) still can submit
 			$this->data['error'] = 'Selected assignment is closed.';
-		elseif (shj_now() < strtotime($this->assignment['start_time']))
+		elseif (shj_now() < strtotime($this->user->selected_assignment['start_time']))
 			$this->data['error'] = 'Selected assignment has not started.';
-		elseif (shj_now() > strtotime($this->assignment['finish_time'])+$this->assignment['extra_time']) // deadline = finish_time + extra_time
+		elseif (shj_now() > strtotime($this->user->selected_assignment['finish_time'])+$this->user->selected_assignment['extra_time']) // deadline = finish_time + extra_time
 			$this->data['error'] = 'Selected assignment has finished.';
-		elseif ( ! $this->assignment_model->is_participant($this->assignment['participants'],$this->username) )
+		elseif ( ! $this->assignment_model->is_participant($this->user->selected_assignment['participants'],$this->user->username) )
 			$this->data['error'] = 'You are not registered for submitting.';
 		else
 			$this->data['error'] = 'none';
@@ -176,15 +166,15 @@ class Submit extends CI_Controller
 		$this->filetype = $this->_language_to_type(strtolower(trim($this->input->post('language'))));
 		$this->ext = substr(strrchr($_FILES['userfile']['name'],'.'),1); // uploaded file extension
 		$this->file_name = basename($_FILES['userfile']['name'], ".{$this->ext}"); // uploaded file name without extension
-		if ( $this->queue_model->in_queue($this->username,$this->assignment['id'], $this->problem['id']) )
+		if ( $this->queue_model->in_queue($this->user->username,$this->user->selected_assignment['id'], $this->problem['id']) )
 			show_error('You have already submitted for this problem. Your last submission is still in queue.');
-		if ($this->user_model->get_user_level($this->username)==0 && !$this->assignment['open'])
+		if ($this->user_model->get_user_level($this->user->username)==0 && !$this->user->selected_assignment['open'])
 			show_error('Selected assignment has been closed.');
-		if ($now < strtotime($this->assignment['start_time']))
+		if ($now < strtotime($this->user->selected_assignment['start_time']))
 			show_error('Selected assignment has not started.');
-		if ($now > strtotime($this->assignment['finish_time'])+$this->assignment['extra_time'])
+		if ($now > strtotime($this->user->selected_assignment['finish_time'])+$this->user->selected_assignment['extra_time'])
 			show_error('Selected assignment has finished.');
-		if ( ! $this->assignment_model->is_participant($this->assignment['participants'],$this->username) )
+		if ( ! $this->assignment_model->is_participant($this->user->selected_assignment['participants'],$this->user->username) )
 			show_error('You are not registered for submitting.');
 		$filetypes = explode(",",$this->problem['allowed_languages']);
 		foreach ($filetypes as &$filetype)
@@ -200,14 +190,14 @@ class Submit extends CI_Controller
 		if ( ! preg_match('/^[a-zA-Z0-9_\-()]+$/', $this->file_name) )
 			show_error('Invalid characters in file name.');
 
-		$user_dir = rtrim($this->assignment_root, '/').'/assignment_'.$this->assignment['id'].'/p'.$this->problem['id'].'/'.$this->username;
+		$user_dir = rtrim($this->assignment_root, '/').'/assignment_'.$this->user->selected_assignment['id'].'/p'.$this->problem['id'].'/'.$this->user->username;
 		if ( ! file_exists($user_dir))
 			mkdir($user_dir, 0700);
 
 		$config['upload_path'] = $user_dir;
 		$config['allowed_types'] = '*';
 		$config['max_size']	= $this->settings_model->get_setting('file_size_limit');
-		$config['file_name'] = $this->file_name."-".($this->assignment['total_submits']+1).".".$this->ext;
+		$config['file_name'] = $this->file_name."-".($this->user->selected_assignment['total_submits']+1).".".$this->ext;
 		$config['max_file_name'] = 20;
 		$config['remove_spaces'] = TRUE;
 		$this->upload->initialize($config);
@@ -218,9 +208,9 @@ class Submit extends CI_Controller
 			$this->load->model('submit_model');
 
 			$submit_info = array(
-				'submit_id' => $this->assignment_model->increase_total_submits($this->assignment['id']),
-				'username' => $this->username,
-				'assignment' => $this->assignment['id'],
+				'submit_id' => $this->assignment_model->increase_total_submits($this->user->selected_assignment['id']),
+				'username' => $this->user->username,
+				'assignment' => $this->user->selected_assignment['id'],
 				'problem' => $this->problem['id'],
 				'file_name' => $result['raw_name'],
 				'main_file_name' => $this->file_name,

@@ -9,10 +9,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Assignments extends CI_Controller
 {
 
-	private $username;
-	private $assignment;
-	private $user_level;
-
 	private $error_messages;
 	private $success_messages;
 	private $edit_assignment;
@@ -25,13 +21,8 @@ class Assignments extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->driver('session');
 		if ( ! $this->session->userdata('logged_in')) // if not logged in
 			redirect('login');
-
-		$this->username = $this->session->userdata('username');
-		$this->assignment = $this->assignment_model->assignment_info($this->user_model->selected_assignment($this->username));
-		$this->user_level = $this->user_model->get_user_level($this->username);
 
 		$this->error_messages = array();
 		$this->success_messages = array();
@@ -46,10 +37,7 @@ class Assignments extends CI_Controller
 	public function index()
 	{
 		$data = array(
-			'username' => $this->username,
-			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
-			'assignment' => $this->assignment,
 			'success_messages' => $this->success_messages,
 			'error_messages' => $this->error_messages
 		);
@@ -91,7 +79,7 @@ class Assignments extends CI_Controller
 
 		if ($this->form_validation->run())
 		{
-			$this->user_model->select_assignment($this->username, $this->input->post('assignment_select'));
+			$this->user->select_assignment($this->input->post('assignment_select'));
 			$this->assignment = $this->assignment_model->assignment_info($this->input->post('assignment_select'));
 			$json_result = array(
 				'done' => 1,
@@ -117,7 +105,7 @@ class Assignments extends CI_Controller
 	{
 		if ($assignment_id === FALSE)
 			show_404();
-		if ( $this->user_level <= 1) // permission denied
+		if ( $this->user->level <= 1) // permission denied
 			show_404();
 
 		$this->load->library('zip');
@@ -164,11 +152,11 @@ class Assignments extends CI_Controller
 	{
 		if ($assignment_id === FALSE)
 			show_404();
-		if ( $this->user_level == 0) // permission denied
+		if ( $this->user->level == 0) // permission denied
 			show_404();
 
 		$this->load->model('submit_model');
-		$items = $this->submit_model->get_final_submissions($assignment_id, $this->user_level, $this->username);
+		$items = $this->submit_model->get_final_submissions($assignment_id, $this->user->level, $this->user->username);
 
 		$this->load->library('zip');
 
@@ -197,7 +185,7 @@ class Assignments extends CI_Controller
 	{
 		if ($assignment_id === FALSE)
 			show_404();
-		if ($this->user_level <= 1) // permission denied
+		if ($this->user->level <= 1) // permission denied
 			show_404();
 
 		$assignment = $this->assignment_model->assignment_info($assignment_id);
@@ -212,10 +200,7 @@ class Assignments extends CI_Controller
 		}
 
 		$data = array(
-			'username' => $this->username,
-			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
-			'assignment' => $this->assignment,
 			'id' => $assignment_id,
 			'name' => $assignment['name']
 		);
@@ -235,7 +220,7 @@ class Assignments extends CI_Controller
 	public function add()
 	{
 
-		if ($this->user_level <= 1) // permission denied
+		if ($this->user->level <= 1) // permission denied
 			show_404();
 
 		$this->load->library('upload');
@@ -251,10 +236,7 @@ class Assignments extends CI_Controller
 			}
 
 		$data = array(
-			'username' => $this->username,
-			'user_level' => $this->user_level,
 			'all_assignments' => $this->assignment_model->all_assignments(),
-			'assignment' => $this->assignment,
 			'error_messages' => $this->error_messages,
 			'success_messages' => $this->success_messages,
 			'edit' => $this->edit,
@@ -334,7 +316,7 @@ class Assignments extends CI_Controller
 	private function _add()
 	{
 
-		if ($this->user_level <= 1) // permission denied
+		if ($this->user->level <= 1) // permission denied
 			show_404();
 
 		$this->form_validation->set_rules('assignment_name', 'assignment name', 'required|max_length[50]');
@@ -470,7 +452,7 @@ class Assignments extends CI_Controller
 	public function edit($assignment_id)
 	{
 
-		if ($this->user_level <= 1) // permission denied
+		if ($this->user->level <= 1) // permission denied
 			show_404();
 
 		$this->edit_assignment = $assignment_id;

@@ -48,7 +48,7 @@
 	<input id="form_password_2" type="password" name="password_again" class="sharif_input medium"/>
 	{{ form_error('password_again', '<div class="shj_error">', '</div>') }}
 </p>
-{% if user_level == 3 %}
+{% if user.level == 3 %}
 <p class="input_p clear">
 	<label for="form_role" class="short2">User Role:</label>
 	<select id="form_role" name="role" class="sharif_input">
