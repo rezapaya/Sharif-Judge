@@ -64,7 +64,7 @@ class Problems extends CI_Controller
 		if (file_exists($path))
 			$data['problem']['description'] = file_get_contents($path);
 
-		if (shj_now() > strtotime($this->user->selected_assignment['finish_time'])+$this->user->selected_assignment['extra_time']) // deadline = finish_time + extra_time
+		if ( ! $this->user->selected_assignment['open'] OR shj_now() > strtotime($this->user->selected_assignment['finish_time'])+$this->user->selected_assignment['extra_time']) // deadline = finish_time + extra_time
 			$data['finished'] = TRUE;
 
 		$this->twig->display('pages/problems.twig', $data);
