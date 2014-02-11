@@ -59,7 +59,7 @@ class Login extends CI_Controller
 					'logged_in' => TRUE
 				);
 				$this->session->set_userdata($login_data);
-				$this->user->update_login_time();
+				$this->user_model->update_login_time($username);
 				redirect('/');
 			}
 			else

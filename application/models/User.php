@@ -55,27 +55,6 @@ class User extends CI_Model
 
 
 	/**
-	 * Update Login Time
-	 *
-	 * Updates First Login Time and Last Login Time for given username
-	 *
-	 */
-	public function update_login_time()
-	{
-		$now = shj_now_str();
-
-		$first_login = $this->db->select('first_login_time')->get_where('users', array('username'=>$this->username))->row()->first_login_time;
-		if ($first_login === NULL)
-			$this->db->where('username', $this->username)->update('users', array('first_login_time'=>$now));
-
-		$this->db->where('username', $this->username)->update('users', array('last_login_time'=>$now));
-	}
-
-
-	// ------------------------------------------------------------------------
-
-
-	/**
 	 * Select Assignment
 	 *
 	 * Sets selected assignment for $username
