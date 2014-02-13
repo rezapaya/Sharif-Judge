@@ -8,7 +8,7 @@
  *
  */
 
-define('SHJ_VERSION','2.0.0-alpha');
+define('SHJ_VERSION','1.4');
 
 /**
  * CodeIgniter

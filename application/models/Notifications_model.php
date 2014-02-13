@@ -46,6 +46,7 @@ class Notifications_model extends CI_Model
 		foreach($result as &$item)
 		{
 			$item['text'] = substr(trim(strip_tags($item['text'])), 0, 300);
+			$item['text'] = str_replace('&zwnj;', "\xE2\x80\x8c", $item['text']);
 			$item['text'] = html_entity_decode($item['text']);
 			$item['text'] = preg_replace('/\r?\n|\n?\r/', ' ', $item['text']);
 		}
